@@ -1,0 +1,1442 @@
+[
+  {
+    "nom": "Bonaparte",
+    "prenom": "Napoléon",
+    "date_naissance": "1769-08-15",
+    "date_deces": "1821-05-05",
+    "grade": "Empereur (Général en chef)",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Gaulle",
+    "prenom": "Charles",
+    "date_naissance": "1890-11-22",
+    "date_deces": "1970-11-09",
+    "grade": "Général de brigade",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Foch",
+    "prenom": "Ferdinand",
+    "date_naissance": "1851-10-02",
+    "date_deces": "1929-03-20",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Leclerc de Hauteclocque",
+    "prenom": "Philippe",
+    "date_naissance": "1902-11-22",
+    "date_deces": "1947-11-28",
+    "grade": "Maréchal de France (à titre posthume)",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Joffre",
+    "prenom": "Joseph",
+    "date_naissance": "1852-01-12",
+    "date_deces": "1931-01-03",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Pétain",
+    "prenom": "Philippe",
+    "date_naissance": "1856-04-24",
+    "date_deces": "1951-07-23",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Juin",
+    "prenom": "Alphonse",
+    "date_naissance": "1888-12-16",
+    "date_deces": "1967-01-27",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Lattre de Tassigny",
+    "prenom": "Jean",
+    "date_naissance": "1889-02-02",
+    "date_deces": "1952-01-11",
+    "grade": "Maréchal de France (à titre posthume)",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Ney",
+    "prenom": "Michel",
+    "date_naissance": "1769-01-10",
+    "date_deces": "1815-12-07",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Davout",
+    "prenom": "Louis-Nicolas",
+    "date_naissance": "1770-05-10",
+    "date_deces": "1823-06-01",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Murat",
+    "prenom": "Joachim",
+    "date_naissance": "1767-03-25",
+    "date_deces": "1815-10-13",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Lannes",
+    "prenom": "Jean",
+    "date_naissance": "1769-04-10",
+    "date_deces": "1809-05-31",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Soult",
+    "prenom": "Jean-de-Dieu",
+    "date_naissance": "1769-03-29",
+    "date_deces": "1851-11-26",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Masséna",
+    "prenom": "André",
+    "date_naissance": "1758-05-06",
+    "date_deces": "1817-04-04",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Gallieni",
+    "prenom": "Joseph",
+    "date_naissance": "1849-04-24",
+    "date_deces": "1916-05-27",
+    "grade": "Maréchal de France (à titre posthume)",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Lyautey",
+    "prenom": "Hubert",
+    "date_naissance": "1854-11-17",
+    "date_deces": "1934-07-27",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Franchet d'Espèrey",
+    "prenom": "Louis",
+    "date_naissance": "1856-05-25",
+    "date_deces": "1942-07-08",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Gamelin",
+    "prenom": "Maurice",
+    "date_naissance": "1872-09-20",
+    "date_deces": "1958-04-18",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Weygand",
+    "prenom": "Maxime",
+    "date_naissance": "1867-01-21",
+    "date_deces": "1965-01-28",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Koenig",
+    "prenom": "Marie-Pierre",
+    "date_naissance": "1898-10-10",
+    "date_deces": "1970-09-02",
+    "grade": "Maréchal de France (à titre posthume)",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Burkhard",
+    "prenom": "Thierry",
+    "date_naissance": "1964-07-30",
+    "date_deces": null,
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Vandier",
+    "prenom": "Pierre",
+    "date_naissance": "1967-10-26",
+    "date_deces": null,
+    "grade": "Amiral",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Mille",
+    "prenom": "Stéphane",
+    "date_naissance": "1965-01-01",
+    "date_deces": null,
+    "grade": "Général d'armée aérienne",
+    "armee": "Armée de l'Air et de l'Espace"
+  },
+  {
+    "nom": "Rodriguez",
+    "prenom": "Christian",
+    "date_naissance": "1960-01-11",
+    "date_deces": null,
+    "grade": "Général d'armée",
+    "armee": "Gendarmerie Nationale"
+  },
+  {
+    "nom": "Bigeard",
+    "prenom": "Marcel",
+    "date_naissance": "1916-02-14",
+    "date_deces": "2010-06-18",
+    "grade": "Général de corps d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Massu",
+    "prenom": "Jacques",
+    "date_naissance": "1908-05-05",
+    "date_deces": "2002-10-26",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Salan",
+    "prenom": "Raoul",
+    "date_naissance": "1899-06-10",
+    "date_deces": "1984-07-03",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Villiers",
+    "prenom": "Pierre",
+    "date_naissance": "1956-07-26",
+    "date_deces": null,
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Lecointre",
+    "prenom": "François",
+    "date_naissance": "1962-02-06",
+    "date_deces": null,
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Darlan",
+    "prenom": "François",
+    "date_naissance": "1881-08-07",
+    "date_deces": "1942-12-24",
+    "grade": "Amiral de la flotte",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "de Grasse",
+    "prenom": "François Joseph Paul",
+    "date_naissance": "1722-09-13",
+    "date_deces": "1788-01-11",
+    "grade": "Lieutenant-général des armées navales",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Tourville",
+    "prenom": "Anne Hilarion de Costentin de",
+    "date_naissance": "1642-11-24",
+    "date_deces": "1701-05-23",
+    "grade": "Maréchal de France et Vice-amiral",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Duquesne",
+    "prenom": "Abraham",
+    "date_naissance": "1610-01-01",
+    "date_deces": "1688-02-02",
+    "grade": "Lieutenant-général des armées navales",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Suffren",
+    "prenom": "Pierre André de",
+    "date_naissance": "1729-07-17",
+    "date_deces": "1788-12-08",
+    "grade": "Vice-amiral de France",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Villeneuve",
+    "prenom": "Pierre-Charles",
+    "date_naissance": "1763-12-31",
+    "date_deces": "1806-04-22",
+    "grade": "Vice-amiral",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Rochambeau",
+    "prenom": "Jean-Baptiste Donatien de Vimeur de",
+    "date_naissance": "1725-07-01",
+    "date_deces": "1807-05-10",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "La Fayette",
+    "prenom": "Gilbert du Motier de",
+    "date_naissance": "1757-09-06",
+    "date_deces": "1834-05-20",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Kellermann",
+    "prenom": "François Christophe",
+    "date_naissance": "1735-05-28",
+    "date_deces": "1820-09-13",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Jourdan",
+    "prenom": "Jean-Baptiste",
+    "date_naissance": "1762-04-29",
+    "date_deces": "1833-11-23",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Mac Mahon",
+    "prenom": "Patrice de",
+    "date_naissance": "1808-06-13",
+    "date_deces": "1893-10-17",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Canrobert",
+    "prenom": "François Certain",
+    "date_naissance": "1809-06-27",
+    "date_deces": "1895-01-28",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Bazaine",
+    "prenom": "François Achille",
+    "date_naissance": "1811-02-13",
+    "date_deces": "1888-09-23",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Nivelle",
+    "prenom": "Robert",
+    "date_naissance": "1856-10-15",
+    "date_deces": "1924-03-22",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Mangin",
+    "prenom": "Charles",
+    "date_naissance": "1866-07-06",
+    "date_deces": "1925-05-12",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Gouraud",
+    "prenom": "Henri",
+    "date_naissance": "1867-11-17",
+    "date_deces": "1946-09-16",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Giraud",
+    "prenom": "Henri",
+    "date_naissance": "1879-01-18",
+    "date_deces": "1949-03-11",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Lanrezac",
+    "prenom": "Charles",
+    "date_naissance": "1852-07-31",
+    "date_deces": "1925-01-18",
+    "grade": "Général",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Castelnau",
+    "prenom": "Édouard de",
+    "date_naissance": "1851-12-24",
+    "date_deces": "1944-03-19",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Sarrail",
+    "prenom": "Maurice",
+    "date_naissance": "1856-04-06",
+    "date_deces": "1929-03-23",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Pétain",
+    "prenom": "Henri Philippe",
+    "date_naissance": "1856-04-24",
+    "date_deces": "1951-07-23",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Castries",
+    "prenom": "Christian",
+    "date_naissance": "1902-08-11",
+    "date_deces": "1991-07-29",
+    "grade": "Général de brigade",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Ailleret",
+    "prenom": "Charles",
+    "date_naissance": "1907-03-26",
+    "date_deces": "1968-03-09",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Fourquet",
+    "prenom": "Michel",
+    "date_naissance": "1914-06-09",
+    "date_deces": "1992-01-20",
+    "grade": "Général d'armée aérienne",
+    "armee": "Armée de l'Air"
+  },
+  {
+    "nom": "Mitterrand",
+    "prenom": "Jacques",
+    "date_naissance": "1918-05-21",
+    "date_deces": "2009-07-21",
+    "grade": "Général d'armée aérienne",
+    "armee": "Armée de l'Air"
+  },
+  {
+    "nom": "Douin",
+    "prenom": "Philippe",
+    "date_naissance": "1940-06-08",
+    "date_deces": null,
+    "grade": "Général d'armée aérienne",
+    "armee": "Armée de l'Air"
+  },
+  {
+    "nom": "Lanata",
+    "prenom": "Jean-Paul",
+    "date_naissance": "1961-06-13",
+    "date_deces": null,
+    "grade": "Général d'armée aérienne",
+    "armee": "Armée de l'Air et de l'Espace"
+  },
+  {
+    "nom": "Prazuck",
+    "prenom": "Christophe",
+    "date_naissance": "1960-10-11",
+    "date_deces": null,
+    "grade": "Amiral",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Rogel",
+    "prenom": "Bernard",
+    "date_naissance": "1956-01-05",
+    "date_deces": null,
+    "grade": "Amiral",
+    "armee": "Marine Nationale"
+  },
+  {
+    "nom": "Favier",
+    "prenom": "Denis",
+    "date_naissance": "1959-05-18",
+    "date_deces": null,
+    "grade": "Général d'armée",
+    "armee": "Gendarmerie Nationale"
+  },
+  {
+    "nom": "Lizurey",
+    "prenom": "Richard",
+    "date_naissance": "1958-11-05",
+    "date_deces": null,
+    "grade": "Général d'armée",
+    "armee": "Gendarmerie Nationale"
+  },
+  {
+    "nom": "Moncey",
+    "prenom": "Bon-Adrien Jeannot de",
+    "date_naissance": "1754-07-31",
+    "date_deces": "1842-04-20",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Bernadotte",
+    "prenom": "Jean-Baptiste",
+    "date_naissance": "1763-01-26",
+    "date_deces": "1844-03-08",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Augereau",
+    "prenom": "Pierre",
+    "date_naissance": "1757-10-21",
+    "date_deces": "1816-06-12",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Brune",
+    "prenom": "Guillaume",
+    "date_naissance": "1763-03-13",
+    "date_deces": "1815-08-02",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Mortier",
+    "prenom": "Édouard",
+    "date_naissance": "1768-02-13",
+    "date_deces": "1835-07-28",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Bessières",
+    "prenom": "Jean-Baptiste",
+    "date_naissance": "1768-08-06",
+    "date_deces": "1813-05-01",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Pérignon",
+    "prenom": "Catherine-Dominique de",
+    "date_naissance": "1754-05-31",
+    "date_deces": "1818-12-25",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Sérurier",
+    "prenom": "Jean-Mathieu-Philibert",
+    "date_naissance": "1742-12-08",
+    "date_deces": "1819-12-21",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Victor",
+    "prenom": "Claude-Victor Perrin",
+    "date_naissance": "1764-12-07",
+    "date_deces": "1841-03-01",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Macdonald",
+    "prenom": "Étienne",
+    "date_naissance": "1765-11-17",
+    "date_deces": "1840-09-25",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Oudinot",
+    "prenom": "Nicolas-Charles",
+    "date_naissance": "1767-04-25",
+    "date_deces": "1847-09-13",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Marmont",
+    "prenom": "Auguste de",
+    "date_naissance": "1774-07-20",
+    "date_deces": "1852-03-03",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Suchet",
+    "prenom": "Louis-Gabriel",
+    "date_naissance": "1770-03-02",
+    "date_deces": "1826-01-03",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Gouvion-Saint-Cyr",
+    "prenom": "Laurent de",
+    "date_naissance": "1764-04-13",
+    "date_deces": "1830-03-17",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Poniatowski",
+    "prenom": "Józef",
+    "date_naissance": "1763-05-07",
+    "date_deces": "1813-10-19",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Grouchy",
+    "prenom": "Emmanuel de",
+    "date_naissance": "1766-10-23",
+    "date_deces": "1847-05-29",
+    "grade": "Maréchal d'Empire",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Turenne",
+    "prenom": "Henri de La Tour d'Auvergne",
+    "date_naissance": "1611-09-11",
+    "date_deces": "1675-07-27",
+    "grade": "Maréchal général des camps et armées du roi",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Condé",
+    "prenom": "Louis II de Bourbon",
+    "date_naissance": "1621-09-08",
+    "date_deces": "1686-12-11",
+    "grade": "Généralissime",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Vauban",
+    "prenom": "Sébastien Le Prestre de",
+    "date_naissance": "1633-05-15",
+    "date_deces": "1707-03-30",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre (Génie)"
+  },
+  {
+    "nom": "Villars",
+    "prenom": "Claude Louis Hector de",
+    "date_naissance": "1653-05-08",
+    "date_deces": "1734-06-17",
+    "grade": "Maréchal général des camps et armées du roi",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Saxe",
+    "prenom": "Maurice de",
+    "date_naissance": "1696-10-28",
+    "date_deces": "1750-11-30",
+    "grade": "Maréchal général des camps et armées du roi",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Catinat",
+    "prenom": "Nicolas",
+    "date_naissance": "1637-09-01",
+    "date_deces": "1712-02-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Berwick",
+    "prenom": "James FitzJames",
+    "date_naissance": "1670-08-21",
+    "date_deces": "1734-06-12",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Boufflers",
+    "prenom": "Louis François de",
+    "date_naissance": "1644-01-10",
+    "date_deces": "1711-08-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Vendôme",
+    "prenom": "Louis Joseph de",
+    "date_naissance": "1654-07-01",
+    "date_deces": "1712-06-11",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Hoche",
+    "prenom": "Lazare",
+    "date_naissance": "1768-06-24",
+    "date_deces": "1797-09-19",
+    "grade": "Général en chef",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Kléber",
+    "prenom": "Jean-Baptiste",
+    "date_naissance": "1753-03-09",
+    "date_deces": "1800-06-14",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Desaix",
+    "prenom": "Louis Charles Antoine",
+    "date_naissance": "1768-08-17",
+    "date_deces": "1800-06-14",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Moreau",
+    "prenom": "Jean Victor Marie",
+    "date_naissance": "1763-02-14",
+    "date_deces": "1813-09-02",
+    "grade": "Général en chef",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Pichegru",
+    "prenom": "Charles",
+    "date_naissance": "1761-02-16",
+    "date_deces": "1804-04-05",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Carnot",
+    "prenom": "Lazare",
+    "date_naissance": "1753-05-13",
+    "date_deces": "1823-08-02",
+    "grade": "Général de division",
+    "armee": "Armée de Terre (Génie)"
+  },
+  {
+    "nom": "Drouot",
+    "prenom": "Antoine",
+    "date_naissance": "1774-01-11",
+    "date_deces": "1847-03-24",
+    "grade": "Général de division",
+    "armee": "Armée de Terre (Artillerie)"
+  },
+  {
+    "nom": "Cambronne",
+    "prenom": "Pierre",
+    "date_naissance": "1770-12-26",
+    "date_deces": "1842-01-29",
+    "grade": "Général de brigade",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Exelmans",
+    "prenom": "Rémy Joseph Isidore",
+    "date_naissance": "1775-11-13",
+    "date_deces": "1852-07-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Clauzel",
+    "prenom": "Bertrand",
+    "date_naissance": "1772-12-12",
+    "date_deces": "1842-04-21",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Gérard",
+    "prenom": "Étienne Maurice",
+    "date_naissance": "1773-04-04",
+    "date_deces": "1852-04-17",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Valée",
+    "prenom": "Sylvain Charles",
+    "date_naissance": "1773-12-17",
+    "date_deces": "1846-08-16",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre (Artillerie)"
+  },
+  {
+    "nom": "Molitor",
+    "prenom": "Gabriel Jean Joseph",
+    "date_naissance": "1770-03-07",
+    "date_deces": "1849-07-28",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Bugeaud",
+    "prenom": "Thomas Robert",
+    "date_naissance": "1784-10-15",
+    "date_deces": "1849-06-10",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Reille",
+    "prenom": "Honoré Charles",
+    "date_naissance": "1775-09-01",
+    "date_deces": "1860-03-04",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "d'Ornano",
+    "prenom": "Philippe Antoine",
+    "date_naissance": "1784-01-17",
+    "date_deces": "1863-10-13",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Castellane",
+    "prenom": "Esprit Victor",
+    "date_naissance": "1788-03-21",
+    "date_deces": "1862-09-16",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Bosquet",
+    "prenom": "Pierre",
+    "date_naissance": "1810-11-08",
+    "date_deces": "1861-02-05",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Pélissier",
+    "prenom": "Aimable-Jean-Jacques",
+    "date_naissance": "1794-11-06",
+    "date_deces": "1864-05-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Niel",
+    "prenom": "Adolphe",
+    "date_naissance": "1802-10-04",
+    "date_deces": "1869-08-13",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre (Génie)"
+  },
+  {
+    "nom": "Le Bœuf",
+    "prenom": "Edmond",
+    "date_naissance": "1809-12-05",
+    "date_deces": "1888-06-07",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre (Artillerie)"
+  },
+  {
+    "nom": "Chanzy",
+    "prenom": "Antoine-Eugène-Alfred",
+    "date_naissance": "1823-03-18",
+    "date_deces": "1883-01-05",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Faidherbe",
+    "prenom": "Louis",
+    "date_naissance": "1818-06-03",
+    "date_deces": "1889-09-28",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "d'Aurelle de Paladines",
+    "prenom": "Louis",
+    "date_naissance": "1804-01-09",
+    "date_deces": "1877-12-17",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Bourbaki",
+    "prenom": "Charles-Denis",
+    "date_naissance": "1816-04-22",
+    "date_deces": "1897-09-22",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Clinchant",
+    "prenom": "Justin",
+    "date_naissance": "1820-12-24",
+    "date_deces": "1881-03-20",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Billotte",
+    "prenom": "Gaston",
+    "date_naissance": "1875-02-10",
+    "date_deces": "1940-05-23",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Georges",
+    "prenom": "Alphonse-Joseph",
+    "date_naissance": "1875-08-19",
+    "date_deces": "1951-04-24",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Huntziger",
+    "prenom": "Charles",
+    "date_naissance": "1880-06-25",
+    "date_deces": "1941-11-12",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Corap",
+    "prenom": "André-Georges",
+    "date_naissance": "1878-01-15",
+    "date_deces": "1953-08-15",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Prioux",
+    "prenom": "René-Jacques-Adolphe",
+    "date_naissance": "1879-04-11",
+    "date_deces": "1953-06-16",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Blanchard",
+    "prenom": "Georges",
+    "date_naissance": "1877-12-09",
+    "date_deces": "1954-11-23",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Béthouart",
+    "prenom": "Émile",
+    "date_naissance": "1889-12-17",
+    "date_deces": "1982-10-07",
+    "grade": "Général de corps d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Monsabert",
+    "prenom": "Joseph de Goislard",
+    "date_naissance": "1887-09-30",
+    "date_deces": "1981-06-13",
+    "grade": "Général d'armée",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Vallin",
+    "prenom": "Charles",
+    "date_naissance": "1903-07-07",
+    "date_deces": "1948-04-13",
+    "grade": "Général de brigade",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Gentile",
+    "prenom": "Don",
+    "date_naissance": "1920-04-06",
+    "date_deces": "1951-01-28",
+    "grade": "Colonel (assimilé Général)",
+    "armee": "Armée de l'Air (Forces Aériennes Françaises Libres)"
+  },
+  {
+    "nom": "Coty",
+    "prenom": "René",
+    "date_naissance": "1882-03-20",
+    "date_deces": "1962-11-22",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Auriol",
+    "prenom": "Vincent",
+    "date_naissance": "1884-08-27",
+    "date_deces": "1966-01-01",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Lebrun",
+    "prenom": "Albert",
+    "date_naissance": "1871-08-29",
+    "date_deces": "1950-03-06",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Doumergue",
+    "prenom": "Gaston",
+    "date_naissance": "1863-08-01",
+    "date_deces": "1937-06-18",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Millerand",
+    "prenom": "Alexandre",
+    "date_naissance": "1859-02-10",
+    "date_deces": "1943-04-06",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Deschanel",
+    "prenom": "Paul",
+    "date_naissance": "1855-02-13",
+    "date_deces": "1922-04-28",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Poincaré",
+    "prenom": "Raymond",
+    "date_naissance": "1860-08-20",
+    "date_deces": "1934-10-15",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Fallières",
+    "prenom": "Armand",
+    "date_naissance": "1841-11-06",
+    "date_deces": "1931-06-22",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Loubet",
+    "prenom": "Émile",
+    "date_naissance": "1838-12-30",
+    "date_deces": "1929-12-20",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Faure",
+    "prenom": "Félix",
+    "date_naissance": "1841-01-30",
+    "date_deces": "1899-02-16",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Casimir-Perier",
+    "prenom": "Jean",
+    "date_naissance": "1847-11-08",
+    "date_deces": "1907-03-11",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Carnot",
+    "prenom": "Sadi",
+    "date_naissance": "1837-08-11",
+    "date_deces": "1894-06-25",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Grévy",
+    "prenom": "Jules",
+    "date_naissance": "1807-08-15",
+    "date_deces": "1891-09-09",
+    "grade": "Président (Chef des armées)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Thiers",
+    "prenom": "Adolphe",
+    "date_naissance": "1797-04-15",
+    "date_deces": "1877-09-03",
+    "grade": "Président (Chef du pouvoir exécutif)",
+    "armee": "Toutes"
+  },
+  {
+    "nom": "Cavaignac",
+    "prenom": "Louis-Eugène",
+    "date_naissance": "1802-10-15",
+    "date_deces": "1857-10-28",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Lamoricière",
+    "prenom": "Christophe",
+    "date_naissance": "1806-02-05",
+    "date_deces": "1865-09-11",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Changarnier",
+    "prenom": "Nicolas",
+    "date_naissance": "1793-04-26",
+    "date_deces": "1877-02-14",
+    "grade": "Général de division",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Saint-Arnaud",
+    "prenom": "Armand-Jacques-Achille Leroy de",
+    "date_naissance": "1798-08-20",
+    "date_deces": "1854-09-29",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Magnan",
+    "prenom": "Bernard Pierre",
+    "date_naissance": "1791-12-07",
+    "date_deces": "1865-05-29",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Vaillant",
+    "prenom": "Jean-Baptiste Philibert",
+    "date_naissance": "1790-12-06",
+    "date_deces": "1872-06-04",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre (Génie)"
+  },
+  {
+    "nom": "Randon",
+    "prenom": "Jacques Louis",
+    "date_naissance": "1795-03-25",
+    "date_deces": "1871-01-13",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Forey",
+    "prenom": "Élie Frédéric",
+    "date_naissance": "1804-01-10",
+    "date_deces": "1872-06-20",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "Baraguey d'Hilliers",
+    "prenom": "Achille",
+    "date_naissance": "1795-09-06",
+    "date_deces": "1878-06-06",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "d'Harcourt",
+    "prenom": "François-Henri",
+    "date_naissance": "1726-01-12",
+    "date_deces": "1802-02-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Broglie",
+    "prenom": "Victor-François",
+    "date_naissance": "1718-10-19",
+    "date_deces": "1804-03-30",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Contades",
+    "prenom": "Louis Georges Érasme",
+    "date_naissance": "1704-10-02",
+    "date_deces": "1795-01-19",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Soubise",
+    "prenom": "Charles de Rohan",
+    "date_naissance": "1715-07-16",
+    "date_deces": "1787-07-04",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "d'Estrées",
+    "prenom": "Louis Charles César Le Tellier",
+    "date_naissance": "1695-07-02",
+    "date_deces": "1771-01-02",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Richelieu",
+    "prenom": "Louis François Armand du Plessis",
+    "date_naissance": "1696-03-13",
+    "date_deces": "1788-08-08",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Noailles",
+    "prenom": "Adrien-Maurice",
+    "date_naissance": "1678-09-29",
+    "date_deces": "1766-06-24",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Coigny",
+    "prenom": "François de Franquetot",
+    "date_naissance": "1670-03-16",
+    "date_deces": "1759-12-18",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Belle-Isle",
+    "prenom": "Charles-Louis-Auguste Fouquet",
+    "date_naissance": "1684-09-22",
+    "date_deces": "1761-01-26",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Maillebois",
+    "prenom": "Jean-Baptiste Desmarets",
+    "date_naissance": "1682-05-03",
+    "date_deces": "1762-02-07",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Montmorency-Luxembourg",
+    "prenom": "Christian-Louis",
+    "date_naissance": "1675-02-09",
+    "date_deces": "1746-11-23",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Villeroi",
+    "prenom": "François de Neufville",
+    "date_naissance": "1644-04-07",
+    "date_deces": "1730-07-18",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Choiseul-Stainville",
+    "prenom": "Étienne-François",
+    "date_naissance": "1719-06-28",
+    "date_deces": "1785-05-08",
+    "grade": "Lieutenant-général",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Ségur",
+    "prenom": "Philippe-Henri",
+    "date_naissance": "1724-01-20",
+    "date_deces": "1801-10-03",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Castries",
+    "prenom": "Charles Eugène Gabriel de La Croix",
+    "date_naissance": "1727-02-25",
+    "date_deces": "1801-01-11",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Puységur",
+    "prenom": "Jacques François de Chastenet",
+    "date_naissance": "1656-08-13",
+    "date_deces": "1743-08-15",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Montesquiou-Fezensac",
+    "prenom": "Pierre de",
+    "date_naissance": "1640-09-30",
+    "date_deces": "1725-08-12",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Chamilly",
+    "prenom": "Noël Bouton",
+    "date_naissance": "1636-04-06",
+    "date_deces": "1715-01-08",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Tour d'Auvergne",
+    "prenom": "Frédéric-Maurice de La",
+    "date_naissance": "1605-10-22",
+    "date_deces": "1652-08-09",
+    "grade": "Général",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Créquy",
+    "prenom": "François de",
+    "date_naissance": "1625-01-01",
+    "date_deces": "1687-02-03",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "d'Humières",
+    "prenom": "Louis de Crevant",
+    "date_naissance": "1628-01-01",
+    "date_deces": "1694-08-30",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Luxembourg",
+    "prenom": "François-Henri de Montmorency-Bouteville",
+    "date_naissance": "1628-01-08",
+    "date_deces": "1695-01-04",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Schomberg",
+    "prenom": "Charles de",
+    "date_naissance": "1601-02-16",
+    "date_deces": "1656-06-06",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de La Meilleraye",
+    "prenom": "Charles de La Porte",
+    "date_naissance": "1602-01-01",
+    "date_deces": "1664-02-08",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Guébriant",
+    "prenom": "Jean-Baptiste Budes",
+    "date_naissance": "1602-01-22",
+    "date_deces": "1643-11-24",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Gassion",
+    "prenom": "Jean de",
+    "date_naissance": "1609-08-20",
+    "date_deces": "1647-10-02",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Rantzau",
+    "prenom": "Josias",
+    "date_naissance": "1609-10-18",
+    "date_deces": "1650-09-14",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de La Ferté-Senneterre",
+    "prenom": "Henri de",
+    "date_naissance": "1599-01-01",
+    "date_deces": "1681-09-27",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "d'Aumont",
+    "prenom": "Antoine",
+    "date_naissance": "1601-01-01",
+    "date_deces": "1669-01-11",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Grancey",
+    "prenom": "Jacques Rouxel",
+    "date_naissance": "1603-01-30",
+    "date_deces": "1680-01-01",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Clérambault",
+    "prenom": "Philippe de",
+    "date_naissance": "1606-01-01",
+    "date_deces": "1665-07-24",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Bellefonds",
+    "prenom": "Bernardin Gigault",
+    "date_naissance": "1630-06-20",
+    "date_deces": "1694-12-04",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Lorges",
+    "prenom": "Guy Aldonce de Durfort",
+    "date_naissance": "1630-11-22",
+    "date_deces": "1702-10-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Joyeuse",
+    "prenom": "Jean-Armand",
+    "date_naissance": "1631-01-01",
+    "date_deces": "1710-07-01",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Noailles",
+    "prenom": "Anne-Jules",
+    "date_naissance": "1650-02-05",
+    "date_deces": "1708-10-02",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  },
+  {
+    "nom": "de Boufflers",
+    "prenom": "Louis François",
+    "date_naissance": "1644-01-10",
+    "date_deces": "1711-08-22",
+    "grade": "Maréchal de France",
+    "armee": "Armée de Terre"
+  }
+]

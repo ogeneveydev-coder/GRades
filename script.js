@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cible le conteneur où le tableau sera inséré
     const container = document.getElementById('table-container');
 
-    // Utilise l'API Fetch pour lire le fichier JSON local
+    // Utilise l'API Fetch pour lire le fichier JSON local.
     fetch('generaux.json')
         .then(response => {
             if (!response.ok) {

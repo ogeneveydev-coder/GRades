@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // seed     = "node prisma/seed.js" // Cette ligne sera ajoutée par la commande suivante
 }
 
 datasource db {
@@ -17,9 +17,12 @@ datasource db {
 // Modèle pour la table des Généraux
 model General {
   id        Int      @id @default(autoincrement())
-  name      String
+  lastName  String
+  firstName String
   grade     String
-  specialty String
+  army      String
+  birthDate DateTime
+  deathDate DateTime? // Le '?' indique que ce champ peut être nul (pour les généraux encore en vie)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

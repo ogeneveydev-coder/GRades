@@ -3,3 +3,4 @@
 
 # Fichiers d'environnement (contient les secrets)
 .env
+/generated/prisma

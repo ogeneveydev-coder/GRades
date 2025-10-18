@@ -5,7 +5,8 @@
     "date_naissance": "1769-08-15",
     "date_deces": "1821-05-05",
     "grade": "Empereur (Général en chef)",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg/200px-Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg"
   },
   {
     "nom": "de Gaulle",
@@ -13,7 +14,8 @@
     "date_naissance": "1890-11-22",
     "date_deces": "1970-11-09",
     "grade": "Général de brigade",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Charles_de_Gaulle_en_1942.jpg/200px-Charles_de_Gaulle_en_1942.jpg"
   },
   {
     "nom": "Foch",
@@ -21,7 +23,8 @@
     "date_naissance": "1851-10-02",
     "date_deces": "1929-03-20",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Ferdinand_Foch_1921.jpg/200px-Ferdinand_Foch_1921.jpg"
   },
   {
     "nom": "Leclerc de Hauteclocque",
@@ -29,7 +32,8 @@
     "date_naissance": "1902-11-22",
     "date_deces": "1947-11-28",
     "grade": "Maréchal de France (à titre posthume)",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Philippe_Leclerc.jpg/200px-Philippe_Leclerc.jpg"
   },
   {
     "nom": "Joffre",
@@ -37,7 +41,8 @@
     "date_naissance": "1852-01-12",
     "date_deces": "1931-01-03",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Joffre.jpg/200px-Joffre.jpg"
   },
   {
     "nom": "Pétain",
@@ -45,7 +50,8 @@
     "date_naissance": "1856-04-24",
     "date_deces": "1951-07-23",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Philippe_P%C3%A9tain_1942.jpg/200px-Philippe_P%C3%A9tain_1942.jpg"
   },
   {
     "nom": "Juin",
@@ -53,7 +59,8 @@
     "date_naissance": "1888-12-16",
     "date_deces": "1967-01-27",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Alphonse_Juin.jpg/200px-Alphonse_Juin.jpg"
   },
   {
     "nom": "de Lattre de Tassigny",
@@ -61,7 +68,8 @@
     "date_naissance": "1889-02-02",
     "date_deces": "1952-01-11",
     "grade": "Maréchal de France (à titre posthume)",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/DeLattre.jpg/200px-DeLattre.jpg"
   },
   {
     "nom": "Ney",
@@ -69,7 +77,8 @@
     "date_naissance": "1769-01-10",
     "date_deces": "1815-12-07",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Fran%C3%A7ois_G%C3%A9rard_-_Michel_Ney%2C_duc_d%27Elchingen.jpg/200px-Fran%C3%A7ois_G%C3%A9rard_-_Michel_Ney%2C_duc_d%27Elchingen.jpg"
   },
   {
     "nom": "Davout",
@@ -77,7 +86,8 @@
     "date_naissance": "1770-05-10",
     "date_deces": "1823-06-01",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Davout.jpg/200px-Davout.jpg"
   },
   {
     "nom": "Murat",
@@ -85,7 +95,8 @@
     "date_naissance": "1767-03-25",
     "date_deces": "1815-10-13",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Gros_-_Joachim_Murat.jpg/200px-Gros_-_Joachim_Murat.jpg"
   },
   {
     "nom": "Lannes",
@@ -93,7 +104,8 @@
     "date_naissance": "1769-04-10",
     "date_deces": "1809-05-31",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Jean_Lannes%2C_duc_de_Montebello.jpg/200px-Jean_Lannes%2C_duc_de_Montebello.jpg"
   },
   {
     "nom": "Soult",
@@ -101,7 +113,8 @@
     "date_naissance": "1769-03-29",
     "date_deces": "1851-11-26",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Soult.jpg/200px-Soult.jpg"
   },
   {
     "nom": "Masséna",
@@ -109,7 +122,8 @@
     "date_naissance": "1758-05-06",
     "date_deces": "1817-04-04",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Massena.jpg/200px-Massena.jpg"
   },
   {
     "nom": "Gallieni",
@@ -117,7 +131,8 @@
     "date_naissance": "1849-04-24",
     "date_deces": "1916-05-27",
     "grade": "Maréchal de France (à titre posthume)",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Joseph_Gallieni_1.jpg/200px-Joseph_Gallieni_1.jpg"
   },
   {
     "nom": "Lyautey",
@@ -125,7 +140,8 @@
     "date_naissance": "1854-11-17",
     "date_deces": "1934-07-27",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Lyautey.jpg/200px-Lyautey.jpg"
   },
   {
     "nom": "Franchet d'Espèrey",
@@ -133,7 +149,8 @@
     "date_naissance": "1856-05-25",
     "date_deces": "1942-07-08",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Franchet_d%27Esperey.jpg/200px-Franchet_d%27Esperey.jpg"
   },
   {
     "nom": "Gamelin",
@@ -141,7 +158,8 @@
     "date_naissance": "1872-09-20",
     "date_deces": "1958-04-18",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Gamelin_in_1939.jpg/200px-Gamelin_in_1939.jpg"
   },
   {
     "nom": "Weygand",
@@ -149,7 +167,8 @@
     "date_naissance": "1867-01-21",
     "date_deces": "1965-01-28",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Maxime_Weygand_1932.jpg/200px-Maxime_Weygand_1932.jpg"
   },
   {
     "nom": "Koenig",
@@ -157,7 +176,8 @@
     "date_naissance": "1898-10-10",
     "date_deces": "1970-09-02",
     "grade": "Maréchal de France (à titre posthume)",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Marie-Pierre_Koenig.jpg/200px-Marie-Pierre_Koenig.jpg"
   },
   {
     "nom": "Burkhard",
@@ -165,7 +185,8 @@
     "date_naissance": "1964-07-30",
     "date_deces": null,
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Le_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Thierry_Burkhard%2C_chef_d%E2%80%99%C3%A9tat-major_des_arm%C3%A9es_%28CEMA%29.jpg/200px-Le_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Thierry_Burkhard%2C_chef_d%E2%80%99%C3%A9tat-major_des_arm%C3%A9es_%28CEMA%29.jpg"
   },
   {
     "nom": "Vandier",
@@ -173,7 +194,8 @@
     "date_naissance": "1967-10-26",
     "date_deces": null,
     "grade": "Amiral",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Amiral_Pierre_Vandier.jpg/200px-Amiral_Pierre_Vandier.jpg"
   },
   {
     "nom": "Mille",
@@ -181,7 +203,8 @@
     "date_naissance": "1965-01-01",
     "date_deces": null,
     "grade": "Général d'armée aérienne",
-    "armee": "Armée de l'Air et de l'Espace"
+    "armee": "Armée de l'Air et de l'Espace",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Le_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_a%C3%A9rienne_St%C3%A9phane_Mille%2C_chef_d%27%C3%A9tat-major_de_l%27arm%C3%A9e_de_l%27Air_et_de_l%27Espace_%28CEMAAE%29.jpg/200px-Le_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_a%C3%A9rienne_St%C3%A9phane_Mille%2C_chef_d%27%C3%A9tat-major_de_l%27arm%C3%A9e_de_l%27Air_et_de_l%27Espace_%28CEMAAE%29.jpg"
   },
   {
     "nom": "Rodriguez",
@@ -189,7 +212,8 @@
     "date_naissance": "1960-01-11",
     "date_deces": null,
     "grade": "Général d'armée",
-    "armee": "Gendarmerie Nationale"
+    "armee": "Gendarmerie Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Christian_Rodriguez_2022.jpg/200px-Christian_Rodriguez_2022.jpg"
   },
   {
     "nom": "Bigeard",
@@ -197,7 +221,8 @@
     "date_naissance": "1916-02-14",
     "date_deces": "2010-06-18",
     "grade": "Général de corps d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Marcel_Bigeard_1958.jpg/200px-Marcel_Bigeard_1958.jpg"
   },
   {
     "nom": "Massu",
@@ -205,7 +230,8 @@
     "date_naissance": "1908-05-05",
     "date_deces": "2002-10-26",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jacques_Massu_1968.jpg/200px-Jacques_Massu_1968.jpg"
   },
   {
     "nom": "Salan",
@@ -213,7 +239,8 @@
     "date_naissance": "1899-06-10",
     "date_deces": "1984-07-03",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Raoul_Salan_1958.jpg/200px-Raoul_Salan_1958.jpg"
   },
   {
     "nom": "de Villiers",
@@ -221,7 +248,8 @@
     "date_naissance": "1956-07-26",
     "date_deces": null,
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Pierre_de_Villiers_CEMA_le_15_f%C3%A9vrier_2014.jpg/200px-Pierre_de_Villiers_CEMA_le_15_f%C3%A9vrier_2014.jpg"
   },
   {
     "nom": "Lecointre",
@@ -229,7 +257,8 @@
     "date_naissance": "1962-02-06",
     "date_deces": null,
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Le_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Fran%C3%A7ois_Lecointre%2C_chef_d%E2%80%99%C3%A9tat-major_des_arm%C3%A9es.jpg/200px-Le_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Fran%C3%A7ois_Lecointre%2C_chef_d%E2%80%99%C3%A9tat-major_des_arm%C3%A9es.jpg"
   },
   {
     "nom": "Darlan",
@@ -237,7 +266,8 @@
     "date_naissance": "1881-08-07",
     "date_deces": "1942-12-24",
     "grade": "Amiral de la flotte",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Darlan1941.jpg/200px-Darlan1941.jpg"
   },
   {
     "nom": "de Grasse",
@@ -245,7 +275,8 @@
     "date_naissance": "1722-09-13",
     "date_deces": "1788-01-11",
     "grade": "Lieutenant-général des armées navales",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Comte_de_Grasse.jpg/200px-Comte_de_Grasse.jpg"
   },
   {
     "nom": "Tourville",
@@ -253,7 +284,8 @@
     "date_naissance": "1642-11-24",
     "date_deces": "1701-05-23",
     "grade": "Maréchal de France et Vice-amiral",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Tourville_mg_9341.jpg/200px-Tourville_mg_9341.jpg"
   },
   {
     "nom": "Duquesne",
@@ -261,7 +293,8 @@
     "date_naissance": "1610-01-01",
     "date_deces": "1688-02-02",
     "grade": "Lieutenant-général des armées navales",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Abraham_Duquesne.PNG/200px-Abraham_Duquesne.PNG"
   },
   {
     "nom": "Suffren",
@@ -269,7 +302,8 @@
     "date_naissance": "1729-07-17",
     "date_deces": "1788-12-08",
     "grade": "Vice-amiral de France",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Suffren.jpg/200px-Suffren.jpg"
   },
   {
     "nom": "Villeneuve",
@@ -277,7 +311,8 @@
     "date_naissance": "1763-12-31",
     "date_deces": "1806-04-22",
     "grade": "Vice-amiral",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Pierre-Charles-Jean-Baptiste-Silvestre_de_Villeneuve.jpg/200px-Pierre-Charles-Jean-Baptiste-Silvestre_de_Villeneuve.jpg"
   },
   {
     "nom": "Rochambeau",
@@ -285,7 +320,8 @@
     "date_naissance": "1725-07-01",
     "date_deces": "1807-05-10",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Rochambeau_by_Duplessis.jpeg/200px-Rochambeau_by_Duplessis.jpeg"
   },
   {
     "nom": "La Fayette",
@@ -293,7 +329,8 @@
     "date_naissance": "1757-09-06",
     "date_deces": "1834-05-20",
     "grade": "Général de division",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Gilbert_du_Motier_Marquis_de_Lafayette.jpg/200px-Gilbert_du_Motier_Marquis_de_Lafayette.jpg"
   },
   {
     "nom": "Kellermann",
@@ -301,7 +338,8 @@
     "date_naissance": "1735-05-28",
     "date_deces": "1820-09-13",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Fran%C3%A7ois_Christophe_de_Kellermann.jpg/200px-Fran%C3%A7ois_Christophe_de_Kellermann.jpg"
   },
   {
     "nom": "Jourdan",
@@ -309,7 +347,8 @@
     "date_naissance": "1762-04-29",
     "date_deces": "1833-11-23",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Jean-Baptiste_Jourdan_1.jpg/200px-Jean-Baptiste_Jourdan_1.jpg"
   },
   {
     "nom": "Mac Mahon",
@@ -317,7 +356,8 @@
     "date_naissance": "1808-06-13",
     "date_deces": "1893-10-17",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Patrice_de_Mac-Mahon%2C_duc_de_Magenta.jpg/200px-Patrice_de_Mac-Mahon%2C_duc_de_Magenta.jpg"
   },
   {
     "nom": "Canrobert",
@@ -325,7 +365,8 @@
     "date_naissance": "1809-06-27",
     "date_deces": "1895-01-28",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Canrobert.jpg/200px-Canrobert.jpg"
   },
   {
     "nom": "Bazaine",
@@ -333,7 +374,8 @@
     "date_naissance": "1811-02-13",
     "date_deces": "1888-09-23",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Fran%C3%A7ois_Achille_Bazaine_by_Goupil_%26_Cie.jpg/200px-Fran%C3%A7ois_Achille_Bazaine_by_Goupil_%26_Cie.jpg"
   },
   {
     "nom": "Nivelle",
@@ -341,7 +383,8 @@
     "date_naissance": "1856-10-15",
     "date_deces": "1924-03-22",
     "grade": "Général de division",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/General_Nivelle_LOC_22377.jpg/200px-General_Nivelle_LOC_22377.jpg"
   },
   {
     "nom": "Mangin",
@@ -349,7 +392,8 @@
     "date_naissance": "1866-07-06",
     "date_deces": "1925-05-12",
     "grade": "Général de division",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Charles_Mangin.jpg/200px-Charles_Mangin.jpg"
   },
   {
     "nom": "Gouraud",
@@ -357,7 +401,8 @@
     "date_naissance": "1867-11-17",
     "date_deces": "1946-09-16",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Henri_Gouraud_1923.jpg/200px-Henri_Gouraud_1923.jpg"
   },
   {
     "nom": "Giraud",
@@ -365,7 +410,8 @@
     "date_naissance": "1879-01-18",
     "date_deces": "1949-03-11",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Henri_Giraud.jpg/200px-Henri_Giraud.jpg"
   },
   {
     "nom": "Lanrezac",
@@ -373,7 +419,8 @@
     "date_naissance": "1852-07-31",
     "date_deces": "1925-01-18",
     "grade": "Général",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Charles_Lanrezac_-_photo.jpg/200px-Charles_Lanrezac_-_photo.jpg"
   },
   {
     "nom": "Castelnau",
@@ -381,7 +428,8 @@
     "date_naissance": "1851-12-24",
     "date_deces": "1944-03-19",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Castelnau_1916.jpg/200px-Castelnau_1916.jpg"
   },
   {
     "nom": "Sarrail",
@@ -389,7 +437,8 @@
     "date_naissance": "1856-04-06",
     "date_deces": "1929-03-23",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sarrail.jpg/200px-Sarrail.jpg"
   },
   {
     "nom": "Pétain",
@@ -397,7 +446,8 @@
     "date_naissance": "1856-04-24",
     "date_deces": "1951-07-23",
     "grade": "Maréchal de France",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Philippe_P%C3%A9tain_1942.jpg/200px-Philippe_P%C3%A9tain_1942.jpg"
   },
   {
     "nom": "de Castries",
@@ -405,7 +455,8 @@
     "date_naissance": "1902-08-11",
     "date_deces": "1991-07-29",
     "grade": "Général de brigade",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Christian_de_Castries.jpg/200px-Christian_de_Castries.jpg"
   },
   {
     "nom": "Ailleret",
@@ -413,7 +464,8 @@
     "date_naissance": "1907-03-26",
     "date_deces": "1968-03-09",
     "grade": "Général d'armée",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Charles_Ailleret_1967.jpg/200px-Charles_Ailleret_1967.jpg"
   },
   {
     "nom": "Fourquet",
@@ -421,7 +473,8 @@
     "date_naissance": "1914-06-09",
     "date_deces": "1992-01-20",
     "grade": "Général d'armée aérienne",
-    "armee": "Armée de l'Air"
+    "armee": "Armée de l'Air",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Michel_Fourquet_1967.jpg/200px-Michel_Fourquet_1967.jpg"
   },
   {
     "nom": "Mitterrand",
@@ -429,7 +482,8 @@
     "date_naissance": "1918-05-21",
     "date_deces": "2009-07-21",
     "grade": "Général d'armée aérienne",
-    "armee": "Armée de l'Air"
+    "armee": "Armée de l'Air",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Jacques_Mitterrand_1975.jpg/200px-Jacques_Mitterrand_1975.jpg"
   },
   {
     "nom": "Douin",
@@ -437,7 +491,8 @@
     "date_naissance": "1940-06-08",
     "date_deces": null,
     "grade": "Général d'armée aérienne",
-    "armee": "Armée de l'Air"
+    "armee": "Armée de l'Air",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/General_Philippe_Douin.jpg/200px-General_Philippe_Douin.jpg"
   },
   {
     "nom": "Lanata",
@@ -445,7 +500,8 @@
     "date_naissance": "1961-06-13",
     "date_deces": null,
     "grade": "Général d'armée aérienne",
-    "armee": "Armée de l'Air et de l'Espace"
+    "armee": "Armée de l'Air et de l'Espace",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Portrait_officiel_du_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_a%C3%A9rienne_Andr%C3%A9_Lanata.jpg/200px-Portrait_officiel_du_g%C3%A9n%C3%A9ral_d%27arm%C3%A9e_a%C3%A9rienne_Andr%C3%A9_Lanata.jpg"
   },
   {
     "nom": "Prazuck",
@@ -453,7 +509,8 @@
     "date_naissance": "1960-10-11",
     "date_deces": null,
     "grade": "Amiral",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Amiral_Christophe_Prazuck.jpg/200px-Amiral_Christophe_Prazuck.jpg"
   },
   {
     "nom": "Rogel",
@@ -461,7 +518,8 @@
     "date_naissance": "1956-01-05",
     "date_deces": null,
     "grade": "Amiral",
-    "armee": "Marine Nationale"
+    "armee": "Marine Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Amiral_Bernard_Rogel.jpg/200px-Amiral_Bernard_Rogel.jpg"
   },
   {
     "nom": "Favier",
@@ -469,7 +527,8 @@
     "date_naissance": "1959-05-18",
     "date_deces": null,
     "grade": "Général d'armée",
-    "armee": "Gendarmerie Nationale"
+    "armee": "Gendarmerie Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/G%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Denis_Favier_2015.jpg/200px-G%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Denis_Favier_2015.jpg"
   },
   {
     "nom": "Lizurey",
@@ -477,7 +536,8 @@
     "date_naissance": "1958-11-05",
     "date_deces": null,
     "grade": "Général d'armée",
-    "armee": "Gendarmerie Nationale"
+    "armee": "Gendarmerie Nationale",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/G%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Richard_Lizurey.jpg/200px-G%C3%A9n%C3%A9ral_d%27arm%C3%A9e_Richard_Lizurey.jpg"
   },
   {
     "nom": "Moncey",
@@ -485,7 +545,8 @@
     "date_naissance": "1754-07-31",
     "date_deces": "1842-04-20",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Bon-Adrien-Jeannot_de_Moncey.jpg/200px-Bon-Adrien-Jeannot_de_Moncey.jpg"
   },
   {
     "nom": "Bernadotte",
@@ -493,7 +554,8 @@
     "date_naissance": "1763-01-26",
     "date_deces": "1844-03-08",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bernadotte_by_Kinson_1804.jpg/200px-Bernadotte_by_Kinson_1804.jpg"
   },
   {
     "nom": "Augereau",
@@ -501,7 +563,8 @@
     "date_naissance": "1757-10-21",
     "date_deces": "1816-06-12",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Augereau.jpg/200px-Augereau.jpg"
   },
   {
     "nom": "Brune",
@@ -509,7 +572,8 @@
     "date_naissance": "1763-03-13",
     "date_deces": "1815-08-02",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Guillaume_Brune.jpg/200px-Guillaume_Brune.jpg"
   },
   {
     "nom": "Mortier",
@@ -517,7 +581,8 @@
     "date_naissance": "1768-02-13",
     "date_deces": "1835-07-28",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/%C3%89douard_Mortier%2C_duc_de_Tr%C3%A9vise.jpg/200px-%C3%89douard_Mortier%2C_duc_de_Tr%C3%A9vise.jpg"
   },
   {
     "nom": "Bessières",
@@ -525,7 +590,8 @@
     "date_naissance": "1768-08-06",
     "date_deces": "1813-05-01",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Jean-Baptiste_Bessi%C3%A8res.jpg/200px-Jean-Baptiste_Bessi%C3%A8res.jpg"
   },
   {
     "nom": "Pérignon",
@@ -533,7 +599,8 @@
     "date_naissance": "1754-05-31",
     "date_deces": "1818-12-25",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Perignon.jpg/200px-Perignon.jpg"
   },
   {
     "nom": "Sérurier",
@@ -541,7 +608,8 @@
     "date_naissance": "1742-12-08",
     "date_deces": "1819-12-21",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Jean-Mathieu-Philibert_S%C3%A9rurier.jpg/200px-Jean-Mathieu-Philibert_S%C3%A9rurier.jpg"
   },
   {
     "nom": "Victor",
@@ -549,7 +617,8 @@
     "date_naissance": "1764-12-07",
     "date_deces": "1841-03-01",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Claude_Victor-Perrin.jpg/200px-Claude_Victor-Perrin.jpg"
   },
   {
     "nom": "Macdonald",
@@ -557,7 +626,8 @@
     "date_naissance": "1765-11-17",
     "date_deces": "1840-09-25",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Jacques_Macdonald.jpg/200px-Jacques_Macdonald.jpg"
   },
   {
     "nom": "Oudinot",
@@ -565,7 +635,8 @@
     "date_naissance": "1767-04-25",
     "date_deces": "1847-09-13",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Oudinot_-_Nicolas-Charles_-_duc_de_Reggio.jpg/200px-Oudinot_-_Nicolas-Charles_-_duc_de_Reggio.jpg"
   },
   {
     "nom": "Marmont",
@@ -573,7 +644,8 @@
     "date_naissance": "1774-07-20",
     "date_deces": "1852-03-03",
     "grade": "Maréchal d'Empire",
-    "armee": "Armée de Terre"
+    "armee": "Armée de Terre",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Auguste_de_Marmont.jpg/200px-Auguste_de_Marmont.jpg"
   },
   {
     "nom": "Suchet",

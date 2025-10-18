@@ -23,6 +23,7 @@ model General {
   army      String
   birthDate DateTime
   deathDate DateTime? // Le '?' indique que ce champ peut être nul (pour les généraux encore en vie)
+  photo     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

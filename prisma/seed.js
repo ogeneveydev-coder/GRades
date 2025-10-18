@@ -26,6 +26,7 @@ async function main() {
         birthDate: new Date(general.date_naissance),
         // Si la date de décès est null, on insère null, sinon on crée une date
         deathDate: general.date_deces ? new Date(general.date_deces) : null,
+        photo: general.photo
       },
     });
   }

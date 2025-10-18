@@ -1,6 +1,7 @@
 // 1. Import des librairies
 const express = require('express');
 const http = require('http');
+const fetch = require('node-fetch'); // Utiliser node-fetch
 const { PrismaClient } = require('@prisma/client');
 
 // 2. Initialisation

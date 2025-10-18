@@ -15,21 +15,22 @@ async function main() {
   await prisma.general.deleteMany({});
   console.log('🗑️ Table "General" vidée.');
 
-  // 3. Itérer sur chaque général et l'insérer dans la base de données
-  for (const general of generauxData) {
-    await prisma.general.create({
-      data: {
-        lastName: general.nom,
-        firstName: general.prenom,
-        grade: general.grade,
-        army: general.armee,
-        birthDate: new Date(general.date_naissance),
-        // Si la date de décès est null, on insère null, sinon on crée une date
-        deathDate: general.date_deces ? new Date(general.date_deces) : null,
-        photo: general.photo
-      },
-    });
-  }
+  // 3. Préparer les données pour l'insertion en masse
+  const generalsToCreate = generauxData.map(general => ({
+    lastName: general.nom,
+    firstName: general.prenom,
+    grade: general.grade,
+    army: general.armee,
+    birthDate: new Date(general.date_naissance),
+    // Si la date de décès est null, on insère null, sinon on crée une date
+    deathDate: general.date_deces ? new Date(general.date_deces) : null,
+    photo: general.photo || null
+  }));
+
+  // 4. Insérer les données en une seule fois
+  await prisma.general.createMany({
+    data: generalsToCreate,
+  });
   console.log(`✅ Seeding terminé : ${generauxData.length} généraux ont été insérés.`);
 }
 

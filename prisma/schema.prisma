@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  // seed     = "node prisma/seed.js" // Cette ligne sera ajoutée par la commande suivante
+  seed     = "node prisma/seed.js"
 }
 
 datasource db {

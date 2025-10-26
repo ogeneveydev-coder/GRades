@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Généraux</title>
+    <title>Grades de l'Armée</title>
     <style>
         body { font-family: sans-serif; margin: 2em; }
         table { border-collapse: collapse; width: 100%; }
@@ -17,7 +17,17 @@
     </style>
 </head>
 <body>
-    <h1>Généraux de France</h1>
+    <h1>Grades de l'Armée Française</h1>
+    <a href="/admin.html">Ajouter un grade (Admin)</a>
+    <hr>
+
+    <h2>Pictogrammes des Grades</h2>
+    <div id="icon-container" style="margin-bottom: 2em; display: flex; flex-wrap: wrap; gap: 10px;">Chargement des icônes...</div>
+    
+    <h2>Liste des Grades</h2>
+    <div id="grades-list-container" style="margin-bottom: 2em;">Chargement des grades...</div>
+
+    <h2>Liste des Généraux (Exemple)</h2>
     <div id="table-container">Chargement des données...</div>
     <script src="app.js"></script>
 </body>

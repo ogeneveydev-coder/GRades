@@ -1,0 +1,20 @@
+{
+  "Maréchal de France": { "ordre": 1, "codeOtan": "OF-10" },
+  "Général d'armée": { "ordre": 2, "codeOtan": "OF-9" },
+  "Général de corps d'armée": { "ordre": 3, "codeOtan": "OF-8" },
+  "Général de division": { "ordre": 4, "codeOtan": "OF-7" },
+  "Général de brigade": { "ordre": 5, "codeOtan": "OF-6" },
+  "Colonel": { "ordre": 6, "codeOtan": "OF-5" },
+  "Lieutenant-colonel": { "ordre": 7, "codeOtan": "OF-4" },
+  "Commandant": { "ordre": 8, "codeOtan": "OF-3" },
+  "Capitaine": { "ordre": 9, "codeOtan": "OF-2" },
+  "Lieutenant": { "ordre": 10, "codeOtan": "OF-1" },
+  "Major": { "ordre": 11, "codeOtan": "OR-9" },
+  "Adjudant": { "ordre": 12, "codeOtan": "OR-8" },
+  "Sergent-chef": { "ordre": 13, "codeOtan": "OR-6" },
+  "Sergent": { "ordre": 14, "codeOtan": "OR-5" },
+  "Caporal-chef": { "ordre": 15, "codeOtan": "OR-4" },
+  "Caporal": { "ordre": 16, "codeOtan": "OR-3" },
+  "Soldat de 1ère classe": { "ordre": 17, "codeOtan": "OR-2" },
+  "Soldat": { "ordre": 18, "codeOtan": "OR-1" }
+}

@@ -24,6 +24,21 @@ model General {
   birthDate DateTime
   deathDate DateTime? // Le '?' indique que ce champ peut être nul (pour les généraux encore en vie)
   photo     String?
+  pays      String?   // Ex: FR, UK, US
+  codeOtan  String?   // Code OTAN: OF-9, OF-8, etc.
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Modèle pour la table des Grades
+model Grade {
+  id          Int      @id @default(autoincrement())
+  nom         String   @unique
+  pictogramme String?
+  ordre       Int? // Pour trier les grades par ordre hiérarchique
+  armee       String? // Ex: Armée de Terre, Marine, etc.
+  pays        String?   // Ex: FR, UK, US
+  codeOtan    String?   // Code OTAN: OF-9, OF-8, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "prisma:seed": "node prisma/seed.js",
+    "prisma:seed:grades": "node prisma/seed-grades.js",
     "download-images": "node scripts/download-images.js",
-    "scrape": "node scripts/scrape-leonore.js"
+    "scrape": "node scripts/scrape-gallica.js"
   },
   "repository": {
     "type": "git",

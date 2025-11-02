@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "prisma:seed": "node prisma/seed.js",
-    "prisma:seed:grades": "node prisma/seed-grades.js",
+    "seed:generals": "node prisma/seed.js",
+    "seed:grades": "node prisma/seed-grades.js",
+    "seed": "npm run seed:generals && npm run seed:grades",
     "download-images": "node scripts/download-images.js",
     "scrape": "node scripts/scrape-gallica.js"
   },

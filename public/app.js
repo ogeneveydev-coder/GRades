@@ -35,9 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
             grades.forEach(grade => {
                 const li = createAndAppend(ul, 'li');
                 li.style.marginBottom = '5px';
-                const pictogramme = grade.pictogramme ? `<img src="${grade.pictogramme}" style="height: 12px; vertical-align: middle; margin-right: 8px;">` : '';
+                // Correction pour afficher l'image du galon
+                const pictogramme = grade.pictogramme ? `<img src="${grade.pictogramme}" style="height: 15px; vertical-align: middle; margin-right: 8px; image-rendering: pixelated;">` : `<span style="display: inline-block; width: 28px;"></span>`;
                 
-                li.innerHTML = `${pictogramme} <b>${grade.nom}</b> (OTAN: ${grade.codeOtan || 'N/A'})`;
+                li.innerHTML = `${pictogramme}<b>${grade.nom}</b> (OTAN: ${grade.codeOtan || 'N/A'})`;
             });
 
         } catch (error) {
@@ -81,7 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
             iconSet.forEach(picoUrl => {
                 const img = createAndAppend(iconContainer, 'img');
                 img.src = picoUrl;
-                img.style.height = '20px';
+                // Appliquer un style cohérent pour les images de galons
+                img.style.height = '15px'; // Hauteur similaire à la liste des grades
+                img.style.verticalAlign = 'middle';
                 img.style.border = '1px solid #eee';
             });
         } catch (error) {

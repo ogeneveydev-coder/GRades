@@ -3,7 +3,7 @@
   "commandant": {
     "grade": "Général d'armée",
     "nom": "Chef d'État-Major de l'Armée de Terre",
-    "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z M65 5h15v10H65z M85 5h15v10H85z'/%3E%3C/svg%3E"
+    "pictogramme": "/images/galons/Army-FRA-OF-09.webp"
   },
   "unites": [
     {
@@ -12,7 +12,7 @@
       "commandant": {
         "grade": "Général de corps d'armée",
         "nom": "Nom du Général",
-        "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z M65 5h15v10H65z'/%3E%3C/svg%3E"
+        "pictogramme": "/images/galons/Army-FRA-OF-08.webp"
       },
       "unites_subordonnees": [
         {
@@ -21,7 +21,7 @@
           "commandant": {
             "grade": "Général de division",
             "nom": "Nom du Général",
-            "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z'/%3E%3C/svg%3E"
+            "pictogramme": "/images/galons/Army-FRA-OF-07.webp"
           },
           "personnel_total": "environ 25 000",
           "unites_subordonnees": [
@@ -31,7 +31,7 @@
               "commandant": {
                 "grade": "Général de brigade",
                 "nom": "Nom du Général",
-                "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5h15v10H5z M25 5h15v10H25z'/%3E%3C/svg%3E"
+                "pictogramme": "/images/galons/Army-FRA-OF-06.webp"
               },
               "personnel_total": "environ 8 000",
               "unites_subordonnees": [
@@ -41,7 +41,7 @@
                   "commandant": {
                     "grade": "Colonel",
                     "nom": "Nom du Colonel",
-                    "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23C0C0C0' d='M5 5h15v10H5z M25 5h15v10H25z'/%3E%3Cpath fill='%23D4AF37' d='M45 5h15v10H45z M65 5h15v10H65z M85 5h15v10H85z'/%3E%3C/svg%3E"
+                    "pictogramme": "/images/galons/Army-FRA-OF-05.webp"
                   },
                   "personnel_total": "environ 1 200",
                   "unites_subordonnees": [
@@ -51,7 +51,7 @@
                       "commandant": {
                         "grade": "Commandant",
                         "nom": "Nom du Commandant",
-                        "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23C0C0C0' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z'/%3E%3C/svg%3E"
+                        "pictogramme": "/images/galons/Army-FRA-OF-03.webp"
                       },
                       "personnel_total": "environ 400",
                       "unites_subordonnees": [
@@ -61,11 +61,11 @@
                           "commandant": {
                             "grade": "Capitaine",
                             "nom": "Nom du Capitaine",
-                            "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z'/%3E%3C/svg%3E"
+                            "pictogramme": "/images/galons/Army-FRA-OF-02.webp"
                           },
                           "personnel": [
-                            { "grade": "Major", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5 l15 5 l-15 5z'/%3E%3Cpath fill='%23C0C0C0' d='M25 5 l15 5 l-15 5z'/%3E%3Cpath fill='%23D4AF37' d='M45 5 l15 5 l-15 5z'/%3E%3C/svg%3E" },
-                            { "grade": "Adjudant", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5 l15 5 l-15 5z'/%3E%3Cpath fill='%23C0C0C0' d='M25 5 l15 5 l-15 5z'/%3E%3C/svg%3E" }
+                            { "grade": "Major", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-09.webp" },
+                            { "grade": "Adjudant", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-08.webp" }
                           ],
                           "personnel_total": "environ 120",
                           "unites_subordonnees": [
@@ -75,7 +75,7 @@
                               "commandant": {
                                 "grade": "Lieutenant",
                                 "nom": "Nom du Lieutenant",
-                                "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23C0C0C0' d='M5 5h15v10H5z M25 5h15v10H25z'/%3E%3C/svg%3E"
+                                "pictogramme": "/images/galons/Army-FRA-OF-01.webp"
                               },
                               "personnel_total": "environ 30",
                               "unites_subordonnees": [
@@ -85,15 +85,15 @@
                                   "commandant": {
                                     "grade": "Sergent",
                                     "nom": "Nom du Sergent",
-                                    "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5 l15 5 l-15 5z'/%3E%3Cpath fill='%23C0C0C0' d='M25 5 l15 5 l-15 5z'/%3E%3C/svg%3E"
+                                    "pictogramme": "/images/galons/Army-FRA-OR-05.webp"
                                   },
                                   "personnel_total": 10,
                                   "personnel": [
-                                    { "grade": "Sergent-chef", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5 l15 5 l-15 5z M25 5 l15 5 l-15 5z'/%3E%3Cpath fill='%23C0C0C0' d='M45 5 l15 5 l-15 5z'/%3E%3C/svg%3E" },
-                                    { "grade": "Caporal-chef", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5 l15 5 l-15 5z M25 5 l15 5 l-15 5z'/%3E%3C/svg%3E" },
-                                    { "grade": "Caporal", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23CF536A' d='M5 5 l15 5 l-15 5z M25 5 l15 5 l-15 5z'/%3E%3C/svg%3E" },
-                                    { "grade": "Soldat de 1ère classe", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23CF536A' d='M5 5 l15 5 l-15 5z'/%3E%3C/svg%3E" },
-                                    { "grade": "Soldat", "nom": "Nom", "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3C/svg%3E" }
+                                    { "grade": "Sergent-chef", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-06.webp" },
+                                    { "grade": "Caporal-chef", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-04.webp" },
+                                    { "grade": "Caporal", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-03.webp" },
+                                    { "grade": "Soldat de 1ère classe", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-02.webp" },
+                                    { "grade": "Soldat", "nom": "Nom", "pictogramme": "/images/galons/Army-FRA-OR-01.webp" }
                                   ]
                                 }
                               ]
@@ -108,7 +108,7 @@
                       "commandant": {
                         "grade": "Lieutenant-colonel",
                         "nom": "Nom du Lieutenant-colonel",
-                        "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23C0C0C0' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z M65 5h15v10H65z'/%3E%3C/svg%3E"
+                        "pictogramme": "/images/galons/Army-FRA-OF-04.webp"
                       },
                       "personnel_total": "environ 400"
                     }
@@ -126,7 +126,7 @@
       "commandant": {
         "grade": "Maréchal de France",
         "nom": "Titre honorifique",
-        "pictogramme": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' d='M5 5h15v10H5z M25 5h15v10H25z M45 5h15v10H45z M65 5h15v10H65z M85 5h15v10H85z'/%3E%3Cpath fill='%230000FF' d='M105 5h15v10H105z M125 5h15v10H125z'/%3E%3C/svg%3E"
+        "pictogramme": "/images/galons/Army-FRA-OF-10.webp"
       }
     }
   ]

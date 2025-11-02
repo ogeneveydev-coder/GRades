@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
         allGrades.forEach(grade => {
             const li = document.createElement('li');
             li.dataset.gradeId = grade.id;
-            li.textContent = grade.nom;
+            
+            // Ajout de l'image du galon dans la liste
+            const pictogramme = grade.pictogramme ? `<img src="${grade.pictogramme}" style="height: 12px; vertical-align: middle; margin-right: 8px;">` : `<span style="display: inline-block; width: 28px;"></span>`;
+            li.innerHTML = `${pictogramme}${grade.nom}`;
+
             if (grade.id === selectedGradeId) {
                 li.classList.add('selected');
             }

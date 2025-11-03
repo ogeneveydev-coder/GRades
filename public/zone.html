@@ -81,19 +81,49 @@
         /* --- Zone C (Bas) --- */
         .zone-c {
             display: flex;
-            height: 80px; /* Hauteur alignée sur le carré C2 */
+            height: 80px; /* Hauteur alignée sur le carré C2 de 80px */
             flex-shrink: 0; /* Empêche la zone de rétrécir */
             background-color: transparent; /* Pas de couleur de fond pour le conteneur */
-            padding: 5px; /* Espacement extérieur réduit */
-            gap: 5px; /* Espacement intérieur réduit */
+            padding: 5px; /* Espacement autour de la zone C */
+            gap: 5px; /* Espacement entre C1, C2, C3 */
         }
 
         .zone-c1 {
             flex-grow: 1; /* Prend l'espace disponible */
+            flex-basis: 0; /* Permet une distribution égale de l'espace */
+            margin-right: auto; /* Pousse C2 vers le centre */
+            /* On réinitialise le style pour un affichage de type log */
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
+            padding: 10px;
+            font-size: 0.7em; /* Texte plus petit pour le log */
+            font-weight: normal;
         }
 
-        .zone-c11, .zone-c12, .zone-c31, .zone-c32 {
-            flex-grow: 1;
+        /* On supprime les marges par défaut des paragraphes dans la zone de log */
+        .zone-c1 p {
+            margin: 2px 0;
+            line-height: 1.3;
+            max-width: 100%; /* Empêche le texte de dépasser */
+            word-wrap: break-word; /* Force le retour à la ligne pour les longs mots */
+        }
+
+        /* Style de la barre de défilement pour Webkit (Chrome, Safari, etc.) */
+        .zone-c1::-webkit-scrollbar {
+            width: 6px; /* Largeur de la barre */
+        }
+
+        .zone-c1::-webkit-scrollbar-track {
+            background: transparent; /* Fond de la piste invisible */
+        }
+
+        .zone-c1::-webkit-scrollbar-thumb {
+            background-color: #00e5ff; /* Couleur du curseur */
+            border-radius: 6px; /* Entièrement arrondi */
+            box-shadow: 0 0 3px #00e5ff;
         }
 
         .zone-c2 {
@@ -148,9 +178,16 @@
 
         .zone-c3 {
             flex-grow: 1; /* Prend l'espace disponible */
+            flex-basis: 0; /* Permet une distribution égale de l'espace */
+            margin-left: auto; /* Pousse C2 vers le centre */
             display: flex;
             flex-direction: column;
-            gap: 5px; /* Espacement réduit entre les sous-zones */
+            gap: 5px; /* Espacement entre C31 et C32 */
+        }
+
+        .zone-c31, .zone-c32 {
+            flex-grow: 1;
+            /* Chaque sous-zone prend la moitié de l'espace vertical disponible */
         }
 
         /* --- Styles pour les tiroirs et les flèches --- */
@@ -202,7 +239,7 @@
 
         <!-- Zone C : Pied de page en 3 zones -->
         <div class="zone-c">
-            <div class="zone zone-c1">C1</div>
+            <div class="zone zone-c1" id="log-zone"></div> <!-- C1 est maintenant un seul bloc -->
             <div class="zone-c2" id="main-action-button"></div>
             <div class="zone-c3">
                 <div class="zone zone-c31">C31</div>
@@ -222,6 +259,7 @@
             const drawerLeft = document.getElementById('drawer-left');
             const drawerRight = document.getElementById('drawer-right');
             const mainButton = document.getElementById('main-action-button');
+            const logZone = document.getElementById('log-zone');
 
             function closeAllDrawers() {
                 drawerLeft.classList.remove('is-open');
@@ -263,6 +301,22 @@
                 mainButton.addEventListener('touchstart', press, { passive: true });
                 mainButton.addEventListener('touchend', release);
                 mainButton.addEventListener('touchcancel', release); // Si le contact est interrompu
+
+                // Ajout d'une ligne de log au clic
+                mainButton.addEventListener('click', () => {
+                    const randomTexts = [
+                        "Analyse des signatures énergétiques...",
+                        "Systèmes nominaux. En attente d'instructions.",
+                        "Calibration des capteurs terminée.",
+                        "Routage de la puissance auxiliaire.",
+                        "Avertissement : Fluctuation détectée dans le secteur 7."
+                    ];
+                    const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                    
+                    const logEntry = document.createElement('p');
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${randomText}`;
+                    logZone.appendChild(logEntry);
+                });
             }
         });
     </script>

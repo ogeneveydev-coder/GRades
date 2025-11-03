@@ -84,23 +84,73 @@
             height: 80px; /* Hauteur alignée sur le carré C2 */
             flex-shrink: 0; /* Empêche la zone de rétrécir */
             background-color: transparent; /* Pas de couleur de fond pour le conteneur */
-            padding: 10px;
-            gap: 10px;
+            padding: 5px; /* Espacement extérieur réduit */
+            gap: 5px; /* Espacement intérieur réduit */
         }
 
         .zone-c1 {
             flex-grow: 1; /* Prend l'espace disponible */
         }
 
+        .zone-c11, .zone-c12, .zone-c31, .zone-c32 {
+            flex-grow: 1;
+        }
+
         .zone-c2 {
             width: 80px; /* On définit une largeur fixe */
-            height: 80px; /* On définit une hauteur fixe pour créer le carré */
-            aspect-ratio: 1 / 1; /* Assure que la zone est carrée */
+            height: 80px; /* On définit une hauteur fixe pour créer le cercle */
             align-self: center; /* Centre le carré verticalement si la hauteur change */
+            border-radius: 50%; /* Rend la zone parfaitement ronde */
+            background-image: radial-gradient(circle at 50% 30%, rgba(200, 240, 255, 0.25), rgba(0, 229, 255, 0.05) 70%); /* Effet de dôme en verre */
+            border: 2px solid rgba(0, 229, 255, 0.5); /* Bordure cyan */
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4), inset 0 0 10px rgba(0, 229, 255, 0.3); /* Lueur externe et interne cyan */
+            position: relative; /* Pour positionner le pseudo-élément */
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            -webkit-tap-highlight-color: transparent; /* Empêche le surlignage bleu au clic sur mobile */
+        }
+
+        .zone-c2:not(.zone) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .zone-c2::before {
+            content: '';
+            position: absolute;
+            width: 45%;
+            height: 45%;
+            background-color: #00e5ff; /* Cyan lumineux pour le bouton */
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00e5ff, 0 0 30px #00e5ff, inset 0 0 5px rgba(255, 255, 255, 0.7); /* Lueur intense */
+            animation: pulse 2.5s infinite;
+        }
+
+        /* On applique l'effet de survol uniquement sur les appareils avec une souris */
+        @media (hover: hover) and (pointer: fine) {
+            .zone-c2:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px rgba(0, 229, 255, 0.7), inset 0 0 15px rgba(0, 229, 255, 0.4);
+            }
+        }
+
+        /* Style pour l'effet de pression sur le bouton */
+        .zone-c2:active, .zone-c2.is-pressed {
+            transform: scale(1.1);
+            transition: transform 0.05s ease-in;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px #00e5ff, 0 0 25px #00e5ff, inset 0 0 5px rgba(255, 255, 255, 0.7); }
+            50% { box-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff, inset 0 0 8px rgba(255, 255, 255, 0.9); }
         }
 
         .zone-c3 {
             flex-grow: 1; /* Prend l'espace disponible */
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Espacement réduit entre les sous-zones */
         }
 
         /* --- Styles pour les tiroirs et les flèches --- */
@@ -152,11 +202,8 @@
 
         <!-- Zone C : Pied de page en 3 zones -->
         <div class="zone-c">
-            <div class="zone-c1">
-                <div class="zone zone-c11">C11</div>
-                <div class="zone zone-c12">C12</div>
-            </div>
-            <div class="zone zone-c2">C2</div>
+            <div class="zone zone-c1">C1</div>
+            <div class="zone-c2" id="main-action-button"></div>
             <div class="zone-c3">
                 <div class="zone zone-c31">C31</div>
                 <div class="zone zone-c32">C32</div>
@@ -174,23 +221,49 @@
             const triggerRight = document.getElementById('trigger-right');
             const drawerLeft = document.getElementById('drawer-left');
             const drawerRight = document.getElementById('drawer-right');
+            const mainButton = document.getElementById('main-action-button');
 
             function closeAllDrawers() {
                 drawerLeft.classList.remove('is-open');
                 drawerRight.classList.remove('is-open');
+                // On réinitialise les flèches en mode "ouvrir"
+                triggerLeft.innerHTML = '›';
+                triggerRight.innerHTML = '‹';
             }
 
             triggerLeft.addEventListener('click', () => {
                 const wasOpen = drawerLeft.classList.contains('is-open');
                 closeAllDrawers();
-                if (!wasOpen) drawerLeft.classList.add('is-open');
+                if (!wasOpen) {
+                    drawerLeft.classList.add('is-open');
+                    triggerLeft.innerHTML = '‹'; // Flèche pour "fermer"
+                }
             });
 
             triggerRight.addEventListener('click', () => {
                 const wasOpen = drawerRight.classList.contains('is-open');
                 closeAllDrawers();
-                if (!wasOpen) drawerRight.classList.add('is-open');
+                if (!wasOpen) {
+                    drawerRight.classList.add('is-open');
+                    triggerRight.innerHTML = '›'; // Flèche pour "fermer"
+                }
             });
+
+            // Gestion de l'effet de pression sur le bouton C2
+            if (mainButton) {
+                const press = () => mainButton.classList.add('is-pressed');
+                const release = () => mainButton.classList.remove('is-pressed');
+
+                // Pour la souris
+                mainButton.addEventListener('mousedown', press);
+                mainButton.addEventListener('mouseup', release);
+                mainButton.addEventListener('mouseleave', release); // Si la souris quitte le bouton en cliquant
+
+                // Pour le tactile
+                mainButton.addEventListener('touchstart', press, { passive: true });
+                mainButton.addEventListener('touchend', release);
+                mainButton.addEventListener('touchcancel', release); // Si le contact est interrompu
+            }
         });
     </script>
 </body>

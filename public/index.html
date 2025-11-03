@@ -3,32 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grades de l'Armée</title>
+    <title>Accueil - Grades de l'Armée</title>
     <style>
-        body { font-family: sans-serif; margin: 2em; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        td img {
-            max-width: 50px;
-            height: auto;
-            border-radius: 4px;
+        body { 
+            font-family: sans-serif; 
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .main-container {
+            display: flex;
+        }
+        #stats-panel {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 1.5em;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        #stats-panel h2 {
+            margin-top: 0;
+            color: #ffc107;
+            border-bottom: 1px solid #495057;
+            padding-bottom: 0.5em;
+        }
+        #stats-panel ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #stats-panel li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5em 0;
+            border-bottom: 1px solid #495057;
+        }
+        #stats-panel li span:first-child {
+            font-weight: bold;
+        }
+        .content-panel {
+            flex-grow: 1;
+            padding: 2em;
+        }
+        .content-panel a { 
+            display: inline-block; 
+            margin-bottom: 1em; 
+            font-size: 1.2em; 
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .content-panel a:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Grades de l'Armée Française</h1>
-    <a href="/admin.html">Ajouter un grade (Admin)</a>
-    <hr>
+    <div class="main-container">
+        <div id="stats-panel">
+            <!-- Le contenu sera injecté par JavaScript -->
+        </div>
+        <div class="content-panel">
+            <h1>Accueil</h1>
+            <p>Bienvenue sur l'application de gestion des grades de l'armée.</p>
+            <a href="/essai.html">Voir la liste des grades et généraux</a>
+            <a href="/login.html">Connexion / Administration</a>
+        </div>
+    </div>
 
-    <h2>Pictogrammes des Grades</h2>
-    <div id="icon-container" style="margin-bottom: 2em; display: flex; flex-wrap: wrap; gap: 10px;">Chargement des icônes...</div>
-    
-    <h2>Liste des Grades</h2>
-    <div id="grades-list-container" style="margin-bottom: 2em;">Chargement des grades...</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const statsPanel = document.getElementById('stats-panel');
+            let isLoggedIn = false;
 
-    <h2>Liste des Généraux (Exemple)</h2>
-    <div id="table-container">Chargement des données...</div>
-    <script src="app.js"></script>
+            // 1. Vérifier le statut de connexion et créer l'en-tête
+            try {
+                const response = await fetch('/api/auth/status', { credentials: 'include' });
+                const data = await response.json();
+
+                if (data.loggedIn) {
+                    isLoggedIn = true;
+                    const headerContainer = document.createElement('div');
+                    headerContainer.style.position = 'absolute';
+                    headerContainer.style.top = '10px';
+                    headerContainer.style.right = '20px';
+                    headerContainer.style.zIndex = '1000';
+                    headerContainer.style.fontFamily = 'sans-serif';
+                    headerContainer.style.display = 'flex';
+                    headerContainer.style.alignItems = 'center';
+                    headerContainer.innerHTML = `
+                        <span style="margin-right: 15px; color: #333;">${data.email}</span>
+                        <a href="#" id="global-logout-btn" title="Déconnexion" style="text-decoration: none; font-size: 1.5em; color: #dc3545;">&#9211;</a>
+                    `;
+                    document.body.prepend(headerContainer);
+
+                    headerContainer.querySelector('#global-logout-btn').addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                        window.location.href = '/login.html';
+                    });
+                }
+            } catch (error) {
+                console.error("Impossible de créer l'en-tête d'authentification", error);
+            }
+
+            // 2. Charger les statistiques du personnage si l'utilisateur est connecté
+            if (isLoggedIn) {
+                try {
+                    const response = await fetch('/api/me/personnage', { credentials: 'include' });
+                    if (!response.ok) throw new Error('Personnage non trouvé');
+
+                    const perso = await response.json();
+                    
+                    const pictogrammeHtml = perso.pictogramme ? `<img src="${perso.pictogramme}" style="height: 20px; vertical-align: middle; margin-left: 10px; image-rendering: pixelated;">` : '';
+
+                    let statsHtml = '<h2>Personnage</h2><ul>';
+                    statsHtml += `<li><span>Grade</span> <span>${perso.grade}${pictogrammeHtml}</span></li>`;
+                    statsHtml += `<li><span>Niveau</span> <span>${perso.niveau}</span></li>`;
+                    statsHtml += `<li><span>XP</span> <span>${perso.experience}</span></li>`;
+                    statsHtml += `<li><span>PV</span> <span>${perso.pointsDeVie}</span></li>`;
+                    statsHtml += `<li><span>Force</span> <span>${perso.force}</span></li>`;
+                    statsHtml += `<li><span>Constitution</span> <span>${perso.constitution}</span></li>`;
+                    statsHtml += `<li><span>Dextérité</span> <span>${perso.dexterite}</span></li>`;
+                    statsHtml += `<li><span>Vitesse</span> <span>${perso.vitesse}</span></li>`;
+                    statsHtml += `<li><span>Charisme</span> <span>${perso.charisme}</span></li>`;
+                    statsHtml += `<li><span>Intelligence</span> <span>${perso.intelligence}</span></li>`;
+                    statsHtml += `<li><span>Fidélité</span> <span>${perso.fidelite}</span></li>`;
+                    statsHtml += `<li><span>Ambition</span> <span>${perso.ambition}</span></li>`;
+                    statsHtml += '</ul>';
+                    statsPanel.innerHTML = statsHtml;
+
+                } catch (error) {
+                    statsPanel.innerHTML = '<h2>Personnage</h2><p>Erreur de chargement des statistiques.</p>';
+                }
+            } else {
+                statsPanel.innerHTML = '<h2>Personnage</h2><p>Connectez-vous pour voir vos statistiques.</p>';
+            }
+        });
+    </script>
 </body>
 </html>

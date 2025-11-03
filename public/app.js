@@ -7,7 +7,39 @@ function createAndAppend(parent, tag, text) {
     return element;
 }
 
+async function createAuthHeader() {
+    try {
+        const response = await fetch('/api/auth/status', { credentials: 'include' });
+        const data = await response.json();
+
+        if (data.loggedIn) {
+            const headerContainer = document.createElement('div');
+            headerContainer.style.position = 'absolute';
+            headerContainer.style.top = '10px';
+            headerContainer.style.right = '20px';
+            headerContainer.style.zIndex = '1000';
+            headerContainer.style.fontFamily = 'sans-serif';
+            headerContainer.style.display = 'flex';
+            headerContainer.style.alignItems = 'center';
+            headerContainer.innerHTML = `
+                <span style="margin-right: 15px;">${data.email}</span>
+                <a href="#" id="global-logout-btn" title="Déconnexion" style="text-decoration: none; font-size: 1.5em; color: #dc3545;">&#9211;</a>
+            `;
+            document.body.prepend(headerContainer);
+
+            document.getElementById('global-logout-btn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                window.location.href = '/login.html';
+            });
+        }
+    } catch (error) {
+        console.error("Impossible de créer l'en-tête d'authentification", error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    createAuthHeader();
     const container = document.getElementById('table-container');
 
     if (!container) {
@@ -36,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const li = createAndAppend(ul, 'li');
                 li.style.marginBottom = '5px';
                 // Correction pour afficher l'image du galon
-                const pictogramme = grade.pictogramme ? `<img src="${grade.pictogramme}" style="height: 15px; vertical-align: middle; margin-right: 8px; image-rendering: pixelated;">` : `<span style="display: inline-block; width: 28px;"></span>`;
+                const pictogramme = grade.pictogramme ? `<img src="${grade.pictogramme}" style="height: 25px; vertical-align: middle; margin-right: 8px; image-rendering: pixelated;">` : `<span style="display: inline-block; width: 28px;"></span>`;
                 
                 li.innerHTML = `${pictogramme}<b>${grade.nom}</b> (OTAN: ${grade.codeOtan || 'N/A'})`;
             });
@@ -44,51 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error("Impossible de charger les grades:", error);
             gradesContainer.innerHTML = "<p style='color: red;'>Erreur : Impossible de charger la liste des grades.</p>";
-        }
-    }
-
-    async function loadIcons() {
-        const iconContainer = document.getElementById('icon-container');
-        if (!iconContainer) {
-            console.error("L'élément 'icon-container' est introuvable.");
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/armee-francaise');
-            if (!response.ok) throw new Error(`Erreur HTTP ! statut: ${response.status}`);
-            const armeeData = await response.json();
-
-            const iconSet = new Set();
-
-            // Fonction récursive pour trouver tous les pictogrammes
-            function findPictos(node) {
-                if (Array.isArray(node)) {
-                    node.forEach(findPictos);
-                } else if (typeof node === 'object' && node !== null) {
-                    if (node.pictogramme) {
-                        iconSet.add(node.pictogramme);
-                    }
-                    for (const key in node) {
-                        // Appel récursif pour toutes les propriétés de l'objet
-                        findPictos(node[key]);
-                    }
-                }
-            }
-
-            findPictos(armeeData);
-
-            iconContainer.innerHTML = ''; // Vide le message de chargement
-            iconSet.forEach(picoUrl => {
-                const img = createAndAppend(iconContainer, 'img');
-                img.src = picoUrl;
-                // Appliquer un style cohérent pour les images de galons
-                img.style.height = '15px'; // Hauteur similaire à la liste des grades
-                img.style.verticalAlign = 'middle';
-                img.style.border = '1px solid #eee';
-            });
-        } catch (error) {
-            iconContainer.innerHTML = "<p style='color: red;'>Erreur : Impossible de charger les icônes.</p>";
         }
     }
 
@@ -141,6 +128,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     loadGrades();
-    loadIcons();
     loadGenerals();
 });

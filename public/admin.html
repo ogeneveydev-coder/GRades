@@ -35,8 +35,10 @@
     </style>
 </head>
 <body>
-    <h1>Ajouter un nouveau Grade</h1>
-    <p>Ce formulaire vous permet d'ajouter un nouveau grade à la base de données.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
+        <h1>Administration</h1>
+    </div>
+    <p>Cette page vous permet de gérer les grades et les utilisateurs.</p>
 
     <div class="admin-container">
         <div id="grades-list-panel">
@@ -87,7 +89,11 @@
     </div>
 
     <hr>
-    <a href="/">Retour à la liste des grades</a>
+    <h2>Gestion des Utilisateurs</h2>
+    <div id="users-table-container">Chargement des utilisateurs...</div>
+
+    <hr>
+    <a href="/">Retour à l'accueil</a>
 
     <script src="admin.js"></script>
 </body>

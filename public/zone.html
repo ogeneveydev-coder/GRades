@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zones de la page</title>
+    <style>
+        /* --- Configuration générale --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            height: 100%;
+            overflow: hidden; /* Empêche le défilement */
+            background-color: #020818; /* Fond bleu très sombre, presque noir */
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative; /* Contexte de positionnement pour les flèches */
+        }
+
+        /* --- Style commun à toutes les zones --- */
+        .zone {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #00e5ff; /* Cyan lumineux */
+            text-shadow: 0 0 5px #00e5ff, 0 0 10px #00e5ff; /* Effet de lueur */
+            background-color: rgba(0, 100, 150, 0.1); /* Fond bleu très léger et transparent */
+            border: 1px solid rgba(0, 229, 255, 0.3); /* Bordure cyan semi-transparente */
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) inset; /* Lueur intérieure */
+            border-radius: 8px; /* Coins légèrement arrondis */
+        }
+
+        /* --- Zone A (Haut) --- */
+        .zone-a {
+            height: 60px; /* Hauteur approximative de 2 lignes d'écriture */
+            flex-shrink: 0; /* Empêche la zone de rétrécir */
+        }
+
+        /* --- Zone B (Milieu) --- */
+        .zone-b {
+            display: flex;
+            flex-grow: 1; /* Prend tout l'espace vertical restant */
+            position: relative; /* Important pour le positionnement des tiroirs */
+            overflow: hidden; /* Cache le contenu qui dépasse */
+        }
+
+        .zone-b1 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 25%;
+            transform: translateX(-100%); /* Caché par défaut */
+            transition: transform 0.3s ease-in-out;
+            z-index: 10;
+        }
+
+        .zone-b2 {
+            flex-grow: 1; /* Zone principale, prend l'espace restant */
+            transition: margin 0.3s ease-in-out; /* Animation douce */
+        }
+
+        .zone-b3 {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 25%;
+            transform: translateX(100%); /* Caché par défaut */
+            transition: transform 0.3s ease-in-out;
+            z-index: 10;
+        }
+
+        /* --- Zone C (Bas) --- */
+        .zone-c {
+            display: flex;
+            height: 80px; /* Hauteur alignée sur le carré C2 */
+            flex-shrink: 0; /* Empêche la zone de rétrécir */
+            background-color: transparent; /* Pas de couleur de fond pour le conteneur */
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .zone-c1 {
+            flex-grow: 1; /* Prend l'espace disponible */
+        }
+
+        .zone-c2 {
+            width: 80px; /* On définit une largeur fixe */
+            height: 80px; /* On définit une hauteur fixe pour créer le carré */
+            aspect-ratio: 1 / 1; /* Assure que la zone est carrée */
+            align-self: center; /* Centre le carré verticalement si la hauteur change */
+        }
+
+        .zone-c3 {
+            flex-grow: 1; /* Prend l'espace disponible */
+        }
+
+        /* --- Styles pour les tiroirs et les flèches --- */
+        .drawer-trigger {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%); 
+            background-color: rgba(0, 229, 255, 0.1);
+            color: #00e5ff;
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            padding: 15px 5px;
+            cursor: pointer;
+            z-index: 20;
+            font-size: 1.2em;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .drawer-trigger:hover {
+            background-color: rgba(0, 229, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+        }
+
+        #trigger-left {
+            left: 0;
+        }
+
+        #trigger-right {
+            right: 0;
+            border-radius: 5px 0 0 5px;
+        }
+
+        /* Classe ajoutée par JS pour ouvrir un tiroir */
+        .is-open {
+            transform: translateX(0) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Zone A : en-tête sur toute la largeur -->
+        <div class="zone zone-a">A</div>
+
+        <!-- Zone B : Contenu principal en 3 colonnes -->
+        <div class="zone-b">
+            <div class="zone zone-b1" id="drawer-left">B1</div>
+            <div class="zone zone-b2" id="main-content">B2</div>
+            <div class="zone zone-b3" id="drawer-right">B3</div>
+        </div>
+
+        <!-- Zone C : Pied de page en 3 zones -->
+        <div class="zone-c">
+            <div class="zone-c1">
+                <div class="zone zone-c11">C11</div>
+                <div class="zone zone-c12">C12</div>
+            </div>
+            <div class="zone zone-c2">C2</div>
+            <div class="zone-c3">
+                <div class="zone zone-c31">C31</div>
+                <div class="zone zone-c32">C32</div>
+            </div>
+        </div>
+
+        <!-- Flèches pour ouvrir les tiroirs -->
+        <button class="drawer-trigger" id="trigger-left" aria-label="Ouvrir le panneau de gauche">›</button>
+        <button class="drawer-trigger" id="trigger-right" aria-label="Ouvrir le panneau de droite">‹</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const triggerLeft = document.getElementById('trigger-left');
+            const triggerRight = document.getElementById('trigger-right');
+            const drawerLeft = document.getElementById('drawer-left');
+            const drawerRight = document.getElementById('drawer-right');
+
+            function closeAllDrawers() {
+                drawerLeft.classList.remove('is-open');
+                drawerRight.classList.remove('is-open');
+            }
+
+            triggerLeft.addEventListener('click', () => {
+                const wasOpen = drawerLeft.classList.contains('is-open');
+                closeAllDrawers();
+                if (!wasOpen) drawerLeft.classList.add('is-open');
+            });
+
+            triggerRight.addEventListener('click', () => {
+                const wasOpen = drawerRight.classList.contains('is-open');
+                closeAllDrawers();
+                if (!wasOpen) drawerRight.classList.add('is-open');
+            });
+        });
+    </script>
+</body>
+</html>

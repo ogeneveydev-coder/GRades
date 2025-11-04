@@ -32,6 +32,13 @@
         #new-grade-btn { margin-top: 1em; width: 100%; }
         .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1em; }
         .hidden { display: none; }
+        #xp-curve-container {
+            max-height: 215px; /* Hauteur pour ~5 lignes + en-tête */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1em;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +98,10 @@
     <hr>
     <h2>Gestion des Utilisateurs</h2>
     <div id="users-table-container">Chargement des utilisateurs...</div>
+
+    <hr>
+    <h2>Courbe d'Expérience</h2>
+    <div id="xp-curve-container">Chargement de la courbe d'XP...</div>
 
     <hr>
     <a href="/">Retour à l'accueil</a>

@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pictogrammePreview: document.getElementById('pictogramme-preview'),
             logoutBtn: document.getElementById('logout-btn'),
             usersContainer: document.getElementById('users-table-container'),
+            xpContainer: document.getElementById('xp-curve-container'),
         },
 
         // État de l'application
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             this.setupEventListeners();
             this.loadGrades();
             this.loadUsers();
+            this.loadXpCurve();
         },
 
         /**
@@ -172,6 +174,50 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
             usersContainer.innerHTML = '';
             usersContainer.appendChild(table);
+        },
+
+        async loadXpCurve() {
+            const { xpContainer } = this.elements;
+            if (!xpContainer) return;
+
+            try {
+                const response = await fetch('/api/xp-curve');
+                if (!response.ok) throw new Error("Impossible de charger la courbe d'XP.");
+                const xpCurve = await response.json();
+                this.renderXpCurveTable(xpCurve);
+            } catch (error) {
+                xpContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            }
+        },
+
+        renderXpCurveTable(xpCurve) {
+            const { xpContainer } = this.elements;
+            if (xpCurve.length === 0) {
+                xpContainer.innerHTML = '<p>Aucune donnée de courbe d\'XP trouvée.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            table.innerHTML = `
+                <thead style="background-color: #f2f2f2; position: sticky; top: 0;">
+                    <tr>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Niveau</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">XP Total Requis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${xpCurve.map(entry => `
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${entry.level}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${entry.xpRequired.toLocaleString('fr-FR')}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            xpContainer.innerHTML = '';
+            xpContainer.appendChild(table);
         },
 
         // --- Gestionnaires d'événements ---

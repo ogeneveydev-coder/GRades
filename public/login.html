@@ -55,7 +55,7 @@
                     throw new Error(result.error || 'Une erreur est survenue.');
                 }
 
-                window.location.href = '/admin.html'; // Redirection vers la page admin
+                window.location.href = '/'; // Redirection vers la page d'accueil
             } catch (error) {
                 statusMessage.className = 'error';
                 statusMessage.textContent = error.message;

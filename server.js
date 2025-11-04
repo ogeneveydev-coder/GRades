@@ -86,15 +86,16 @@ app.get('/api/grades', async (req, res) => {
 // --- Routes d'authentification ---
 
 app.post('/api/auth/register', async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email et mot de passe sont requis.' });
+  const { email, password, pseudo } = req.body;
+  if (!email || !password || !pseudo) {
+    return res.status(400).json({ error: 'Email, pseudo et mot de passe sont requis.' });
   }
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
         email,
+        pseudo,
         password: hashedPassword,
         // On crée un personnage par défaut pour le nouvel utilisateur
         personnage: { create: {} }
@@ -102,8 +103,14 @@ app.post('/api/auth/register', async (req, res) => {
     });
     res.status(201).json({ message: 'Utilisateur créé avec succès.', userId: user.id });
   } catch (error) {
-    if (error.code === 'P2002') { // Erreur de contrainte unique (email déjà pris)
-      return res.status(409).json({ error: 'Cet email est déjà utilisé.' });
+    if (error.code === 'P2002') { // Erreur de contrainte unique
+      if (error.meta?.target?.includes('email')) {
+        return res.status(409).json({ error: 'Cet email est déjà utilisé.' });
+      }
+      if (error.meta?.target?.includes('pseudo')) {
+        return res.status(409).json({ error: 'Ce pseudo est déjà utilisé.' });
+      }
+      return res.status(409).json({ error: 'Email ou pseudo déjà utilisé.' });
     }
     res.status(500).json({ error: "Erreur lors de la création de l'utilisateur." });
   }
@@ -152,11 +159,16 @@ app.get('/api/auth/status', async (req, res) => {
 // Route pour récupérer le personnage de l'utilisateur connecté
 app.get('/api/me/personnage', isAuthenticated, async (req, res) => {
   try {
-    let personnage = await prisma.personnage.findUnique({
-      where: {
-        userId: req.session.userId,
-      },
+    const user = await prisma.user.findUnique({
+      where: { id: req.session.userId },
+      include: { personnage: true },
     });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur non trouvé.' });
+    }
+
+    let personnage = user.personnage;
 
     // Si aucun personnage n'est trouvé, on en crée un pour l'utilisateur
     if (!personnage) {
@@ -164,18 +176,15 @@ app.get('/api/me/personnage', isAuthenticated, async (req, res) => {
       personnage = await prisma.personnage.create({ data: { userId: req.session.userId } });
     }
 
-    if (!personnage) {
-      return res.status(404).json({ error: 'Personnage non trouvé pour cet utilisateur.' });
-    }
-
     // On cherche les détails du grade pour récupérer le pictogramme
     const gradeDetails = await prisma.grade.findUnique({
       where: { nom: personnage.grade },
     });
 
-    // On combine les informations du personnage avec le pictogramme de son grade
+    // On combine les informations du personnage avec le pseudo et le pictogramme
     const personnageComplet = {
       ...personnage,
+      pseudo: user.pseudo,
       pictogramme: gradeDetails?.pictogramme || null,
     };
 
@@ -242,6 +251,21 @@ app.delete('/api/grades/:id', isAuthenticated, async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la suppression du grade:", error);
     res.status(500).json({ error: "Erreur lors de la suppression du grade." });
+  }
+});
+
+// Route pour récupérer la courbe d'XP
+app.get('/api/xp-curve', isAuthenticated, async (req, res) => {
+  try {
+    const xpCurve = await prisma.levelXP.findMany({
+      orderBy: {
+        level: 'asc',
+      },
+    });
+    res.json(xpCurve);
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la courbe d'XP:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération de la courbe d'XP." });
   }
 });
 

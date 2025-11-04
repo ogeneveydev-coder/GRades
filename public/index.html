@@ -5,121 +5,274 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - Grades de l'Armée</title>
     <style>
-        body { 
-            font-family: sans-serif; 
+        /* --- Configuration générale --- */
+        html, body {
             margin: 0;
-            background-color: #f4f4f4;
+            padding: 0;
+            font-family: sans-serif;
+            height: 100%;
+            overflow: hidden; /* Empêche le défilement */
+            background-color: #020818; /* Fond bleu très sombre, presque noir */
+            color: #EAEAEA;
         }
+
         .main-container {
             display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative; /* Contexte de positionnement pour les flèches */
         }
-        #stats-panel {
-            width: 250px;
-            background-color: #343a40;
-            color: white;
-            padding: 1.5em;
-            height: 100vh;
+
+        /* --- Style commun à toutes les zones --- */
+        .zone {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1em; /* Taille de police par défaut */
+            font-weight: bold;
+            color: #00e5ff; /* Cyan lumineux */
+            text-shadow: 0 0 5px #00e5ff, 0 0 10px #00e5ff; /* Effet de lueur */
+            background-color: rgba(0, 100, 150, 0.1); /* Fond bleu très léger et transparent */
+            border: 1px solid rgba(0, 229, 255, 0.3); /* Bordure cyan semi-transparente */
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) inset; /* Lueur intérieure */
+            border-radius: 8px; /* Coins légèrement arrondis */
             box-sizing: border-box;
         }
-        #stats-panel h2 {
-            margin-top: 0;
-            color: #ffc107;
-            border-bottom: 1px solid #495057;
-            padding-bottom: 0.5em;
+
+        /* --- Zone A (Haut) --- */
+        .zone-a {
+            height: 45px; /* Hauteur réduite */
+            flex-shrink: 0;
+            justify-content: flex-start; /* Aligne les éléments à gauche */
+            padding: 0 20px;
+            font-size: 1em;
+            align-items: flex-end; /* Aligne les onglets en bas */
+            border-bottom: 1px solid rgba(0, 229, 255, 0.3); /* Ligne de séparation */
+            background-color: transparent; /* Fond transparent pour la zone A */
+            box-shadow: none; /* Pas d'ombre intérieure */
+            border-top: none; border-left: none; border-right: none; /* Uniquement la bordure du bas */
         }
-        #stats-panel ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        #stats-panel li {
+        .nav-links {
             display: flex;
-            justify-content: space-between;
-            padding: 0.5em 0;
-            border-bottom: 1px solid #495057;
+            height: 100%;
+            align-items: flex-end;
         }
-        #stats-panel li span:first-child {
-            font-weight: bold;
+        .nav-tab {
+            padding: 8px 18px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            margin-right: 5px;
         }
-        .content-panel {
+        .zone-a .auth-links { margin-left: auto; align-self: center; } /* Pousse l'authentification à droite */
+        .zone-a .auth-info a { font-size: 1.5em; }
+
+        /* --- Zone B (Milieu) --- */
+        .zone-b {
+            display: flex;
             flex-grow: 1;
-            padding: 2em;
+            position: relative;
+            overflow: hidden;
         }
-        .content-panel a { 
-            display: inline-block; 
-            margin-bottom: 1em; 
-            font-size: 1.2em; 
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
+
+        .zone-b1 {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 25%;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 10;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 1.5em;
+            font-size: 0.9em;
+            text-shadow: 0 0 3px rgba(0, 229, 255, 0.5); /* Lueur du texte réduite */
         }
-        .content-panel a:hover {
-            background-color: #0056b3;
+        .zone-b1 h2 { margin-top: 0; color: #ffc107; padding-bottom: 0.5em; width: 100%; display: flex; align-items: center; gap: 10px; }
+        .zone-b1 ul { list-style-type: none; padding: 0; width: 100%; }
+        .zone-b1 li { display: flex; justify-content: space-between; padding: 0.3em 0; }
+
+        .zone-b2 {
+            flex-grow: 1;
+            transition: margin 0.3s ease-in-out;
+            flex-direction: column;
+            text-align: center;
         }
+
+        .zone-b3 {
+            position: absolute;
+            right: 0; top: 0; bottom: 0;
+            width: 25%;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 10;
+        }
+
+        /* --- Zone C (Bas) --- */
+        .zone-c {
+            display: flex;
+            height: 80px;
+            flex-shrink: 0;
+            background-color: transparent;
+            padding: 5px;
+            gap: 5px;
+        }
+
+        .zone-c1 {
+            flex-grow: 1; flex-basis: 0; margin-right: auto;
+            display: flex; flex-direction: column-reverse;
+            justify-content: flex-start; align-items: flex-start;
+            overflow-y: auto; padding: 10px;
+            font-size: 0.7em; font-weight: normal;
+        }
+        .zone-c1 p { margin: 2px 0; line-height: 1.3; max-width: 100%; word-wrap: break-word; }
+        .zone-c1::-webkit-scrollbar { width: 6px; }
+        .zone-c1::-webkit-scrollbar-track { background: transparent; }
+        .zone-c1::-webkit-scrollbar-thumb { background-color: #00e5ff; border-radius: 6px; box-shadow: 0 0 3px #00e5ff; }
+
+        .zone-c2 {
+            width: 80px; height: 80px;
+            align-self: center; border-radius: 50%;
+            background-image: radial-gradient(circle at 50% 30%, rgba(200, 240, 255, 0.25), rgba(0, 229, 255, 0.05) 70%);
+            border: 2px solid rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4), inset 0 0 10px rgba(0, 229, 255, 0.3);
+            position: relative; cursor: pointer;
+            transition: all 0.2s ease-out;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .zone-c2:not(.zone) { display: flex; justify-content: center; align-items: center; }
+        .zone-c2::before {
+            content: ''; position: absolute;
+            width: 45%; height: 45%;
+            background-color: #00e5ff; border-radius: 50%;
+            box-shadow: 0 0 20px #00e5ff, 0 0 30px #00e5ff, inset 0 0 5px rgba(255, 255, 255, 0.7);
+            animation: pulse 2.5s infinite;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .zone-c2:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 229, 255, 0.7), inset 0 0 15px rgba(0, 229, 255, 0.4); }
+        }
+        .zone-c2:active, .zone-c2.is-pressed { transform: scale(1.1); transition: transform 0.05s ease-in; }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px #00e5ff, 0 0 25px #00e5ff, inset 0 0 5px rgba(255, 255, 255, 0.7); }
+            50% { box-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff, inset 0 0 8px rgba(255, 255, 255, 0.9); }
+        }
+
+        .zone-c3 {
+            flex-grow: 1; flex-basis: 0; margin-left: auto;
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .zone-c31, .zone-c32 { flex-grow: 1; }
+
+        /* --- Styles pour les tiroirs et les flèches --- */
+        .drawer-trigger {
+            position: absolute; top: 50%;
+            transform: translateY(-50%); 
+            background-color: rgba(0, 229, 255, 0.1);
+            color: #00e5ff;
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            padding: 15px 5px; cursor: pointer; z-index: 20;
+            font-size: 1.2em; border-radius: 0 5px 5px 0;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .drawer-trigger:hover { background-color: rgba(0, 229, 255, 0.2); box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
+        #trigger-left { left: 0; }
+        #trigger-right { right: 0; border-radius: 5px 0 0 5px; }
+        .is-open { transform: translateX(0) !important; }
+
     </style>
 </head>
 <body>
     <div class="main-container">
-        <div id="stats-panel">
-            <!-- Le contenu sera injecté par JavaScript -->
+        <!-- Zone A : en-tête sur toute la largeur -->
+        <div class="zone zone-a" id="top-bar">
+            <div class="nav-links">
+                <a href="/essai.html" class="zone nav-tab">Liste</a>
+                <a href="/admin.html" class="zone nav-tab">Administration</a>
+            </div>
+            <div class="auth-links" id="auth-container">
+                <!-- Le contenu d'authentification sera injecté ici -->
+            </div>
         </div>
-        <div class="content-panel">
-            <h1>Accueil</h1>
-            <p>Bienvenue sur l'application de gestion des grades de l'armée.</p>
-            <a href="/essai.html">Voir la liste des grades et généraux</a>
-            <a href="/login.html">Connexion / Administration</a>
+
+        <!-- Zone B : Contenu principal en 3 colonnes -->
+        <div class="zone-b">
+            <div class="zone zone-b1" id="drawer-left">
+                <!-- Les statistiques du personnage seront injectées ici -->
+            </div>
+            <div class="zone zone-b2" id="main-content">
+                <h1>ACCUEIL</h1>
+                <p>Bienvenue sur l'application de gestion des grades de l'armée.</p>
+            </div>
+            <div class="zone zone-b3" id="drawer-right">B3</div>
         </div>
+
+        <!-- Zone C : Pied de page en 3 zones -->
+        <div class="zone-c">
+            <div class="zone zone-c1" id="log-zone"></div>
+            <div class="zone-c2" id="main-action-button"></div>
+            <div class="zone-c3">
+                <div class="zone zone-c31">C31</div>
+                <div class="zone zone-c32">C32</div>
+            </div>
+        </div>
+
+        <!-- Flèches pour ouvrir les tiroirs -->
+        <button class="drawer-trigger" id="trigger-left" aria-label="Ouvrir le panneau de gauche">›</button>
+        <button class="drawer-trigger" id="trigger-right" aria-label="Ouvrir le panneau de droite">‹</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const statsPanel = document.getElementById('stats-panel');
+            // --- Références aux éléments du DOM ---
+            const authContainer = document.getElementById('auth-container');
+            const statsPanel = document.getElementById('drawer-left');
+            const triggerLeft = document.getElementById('trigger-left');
+            const triggerRight = document.getElementById('trigger-right');
+            const drawerLeft = document.getElementById('drawer-left');
+            const drawerRight = document.getElementById('drawer-right');
+            const mainButton = document.getElementById('main-action-button');
+            const logZone = document.getElementById('log-zone');
+
             let isLoggedIn = false;
 
-            // 1. Vérifier le statut de connexion et créer l'en-tête
+            // --- 1. Gestion de l'authentification et de l'en-tête (Zone A) ---
             try {
                 const response = await fetch('/api/auth/status', { credentials: 'include' });
                 const data = await response.json();
 
                 if (data.loggedIn) {
                     isLoggedIn = true;
-                    const headerContainer = document.createElement('div');
-                    headerContainer.style.position = 'absolute';
-                    headerContainer.style.top = '10px';
-                    headerContainer.style.right = '20px';
-                    headerContainer.style.zIndex = '1000';
-                    headerContainer.style.fontFamily = 'sans-serif';
-                    headerContainer.style.display = 'flex';
-                    headerContainer.style.alignItems = 'center';
-                    headerContainer.innerHTML = `
-                        <span style="margin-right: 15px; color: #333;">${data.email}</span>
-                        <a href="#" id="global-logout-btn" title="Déconnexion" style="text-decoration: none; font-size: 1.5em; color: #dc3545;">&#9211;</a>
+                    authContainer.innerHTML = `
+                        <div class="auth-info">
+                            <span style="margin-right: 15px;">${data.email}</span>
+                            <a href="#" id="global-logout-btn" title="Déconnexion">&#9211;</a>
+                        </div>
                     `;
-                    document.body.prepend(headerContainer);
-
-                    headerContainer.querySelector('#global-logout-btn').addEventListener('click', async (e) => {
+                    authContainer.querySelector('#global-logout-btn').addEventListener('click', async (e) => {
                         e.preventDefault();
                         await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
                         window.location.href = '/login.html';
                     });
+                } else {
+                    authContainer.innerHTML = '<a href="/login.html">Connexion / Administration</a>';
                 }
             } catch (error) {
-                console.error("Impossible de créer l'en-tête d'authentification", error);
+                console.error("Impossible de vérifier le statut d'authentification", error);
+                authContainer.innerHTML = '<a href="/login.html">Connexion / Administration</a>';
             }
 
-            // 2. Charger les statistiques du personnage si l'utilisateur est connecté
+            // --- 2. Chargement des statistiques du personnage (Zone B1) ---
             if (isLoggedIn) {
                 try {
                     const response = await fetch('/api/me/personnage', { credentials: 'include' });
                     if (!response.ok) throw new Error('Personnage non trouvé');
 
                     const perso = await response.json();
-                    
-                    const pictogrammeHtml = perso.pictogramme ? `<img src="${perso.pictogramme}" style="height: 20px; vertical-align: middle; margin-left: 10px; image-rendering: pixelated;">` : '';
+                    const pictogrammeTitreHtml = perso.pictogramme ? `<img src="${perso.pictogramme}" style="height: 50px; image-rendering: pixelated;">` : '';
 
-                    let statsHtml = '<h2>Personnage</h2><ul>';
-                    statsHtml += `<li><span>Grade</span> <span>${perso.grade}${pictogrammeHtml}</span></li>`;
+                    let statsHtml = `<h2>${pictogrammeTitreHtml}${(perso.pseudo || 'Personnage').toUpperCase()}</h2><ul>`;
+                    statsHtml += `<li><span>Grade</span> <span>${perso.grade}</span></li>`;
                     statsHtml += `<li><span>Niveau</span> <span>${perso.niveau}</span></li>`;
                     statsHtml += `<li><span>XP</span> <span>${perso.experience}</span></li>`;
                     statsHtml += `<li><span>PV</span> <span>${perso.pointsDeVie}</span></li>`;
@@ -139,6 +292,74 @@
                 }
             } else {
                 statsPanel.innerHTML = '<h2>Personnage</h2><p>Connectez-vous pour voir vos statistiques.</p>';
+            }
+
+            // --- 3. Gestion des tiroirs (Zone B) ---
+            const largeScreenBreakpoint = 1200; // Seuil en pixels pour un grand écran
+
+            function closeAllDrawers() {
+                drawerLeft.classList.remove('is-open');
+                drawerRight.classList.remove('is-open');
+                triggerLeft.innerHTML = '›';
+                triggerRight.innerHTML = '‹';
+            }
+
+            triggerLeft.addEventListener('click', () => {
+                const isLargeScreen = window.innerWidth >= largeScreenBreakpoint;
+                const wasOpen = drawerLeft.classList.contains('is-open');
+
+                if (!isLargeScreen) closeAllDrawers(); // Sur petit écran, on ferme tout
+
+                if (wasOpen) {
+                    drawerLeft.classList.remove('is-open');
+                    triggerLeft.innerHTML = '›';
+                } else {
+                    drawerLeft.classList.add('is-open');
+                    triggerLeft.innerHTML = '‹';
+                }
+            });
+
+            triggerRight.addEventListener('click', () => {
+                const isLargeScreen = window.innerWidth >= largeScreenBreakpoint;
+                const wasOpen = drawerRight.classList.contains('is-open');
+
+                if (!isLargeScreen) closeAllDrawers(); // Sur petit écran, on ferme tout
+
+                if (wasOpen) {
+                    drawerRight.classList.remove('is-open');
+                    triggerRight.innerHTML = '‹';
+                } else {
+                    drawerRight.classList.add('is-open');
+                    triggerRight.innerHTML = '›';
+                }
+            });
+
+            // --- 4. Gestion du bouton principal et du log (Zone C) ---
+            if (mainButton) {
+                const press = () => mainButton.classList.add('is-pressed');
+                const release = () => mainButton.classList.remove('is-pressed');
+
+                mainButton.addEventListener('mousedown', press);
+                mainButton.addEventListener('mouseup', release);
+                mainButton.addEventListener('mouseleave', release);
+                mainButton.addEventListener('touchstart', press, { passive: true });
+                mainButton.addEventListener('touchend', release);
+                mainButton.addEventListener('touchcancel', release);
+
+                mainButton.addEventListener('click', () => {
+                    const randomTexts = [
+                        "Analyse des signatures énergétiques...",
+                        "Systèmes nominaux. En attente d'instructions.",
+                        "Calibration des capteurs terminée.",
+                        "Routage de la puissance auxiliaire.",
+                        "Avertissement : Fluctuation détectée dans le secteur 7."
+                    ];
+                    const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                    
+                    const logEntry = document.createElement('p');
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${randomText}`;
+                    logZone.prepend(logEntry);
+                });
             }
         });
     </script>

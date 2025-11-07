@@ -1,0 +1,50 @@
+{
+  "soldat": {
+    "baseStats": {
+      "niveau": 1,
+      "etoiles": 0,
+      "grade": "Soldat",
+      "pointsDeVie": 100,
+      "attaque": 20,
+      "force": 10,
+      "constitution": 10,
+      "dexterite": 10,
+      "intelligence": 10,
+      "charisme": 10,
+      "vitesse": 10,
+      "resistance": 5,
+      "precision": 80,
+      "tauxCritique": 5,
+      "degatsCritiques": 150,
+      "chance": 5,
+      "fidelite": 50,
+      "ambition": 10
+    },
+    "growthFactors": {
+      "perLevel": {
+        "pointsDeVie": 10,
+        "attaque": 2,
+        "force": 0.5,
+        "constitution": 0.5,
+        "dexterite": 0.4,
+        "intelligence": 0.3,
+        "charisme": 0.3
+      },
+      "perRank": {
+        "Soldat de 1ère classe": { "allStatsMultiplier": 1.05 },
+        "Caporal": { "allStatsMultiplier": 1.10 },
+        "Caporal-chef": { "allStatsMultiplier": 1.15 },
+        "Sergent": { "allStatsMultiplier": 1.25, "oneTimeBonus": { "charisme": 10 } },
+        "Colonel": { "allStatsMultiplier": 2.5, "oneTimeBonus": { "charisme": 50, "fidelite": 20 } },
+        "Maréchal": { "allStatsMultiplier": 5.0, "oneTimeBonus": { "charisme": 100, "ambition": 50 } }
+      },
+      "perStar": {
+        "1": { "allStatsMultiplier": 1.10 },
+        "2": { "allStatsMultiplier": 1.25 },
+        "3": { "allStatsMultiplier": 1.45 },
+        "4": { "allStatsMultiplier": 1.70 },
+        "5": { "allStatsMultiplier": 2.00 }
+      }
+    }
+  }
+}

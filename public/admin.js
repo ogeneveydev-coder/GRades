@@ -60,12 +60,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             logoutBtn: document.getElementById('logout-btn'),
             usersContainer: document.getElementById('users-table-container'),
             xpContainer: document.getElementById('xp-curve-container'),
+            objectsContainer: document.getElementById('objects-table-container'),
+            objectDetailsPanel: document.getElementById('object-details-panel'),
+            objectForm: document.getElementById('object-form'),
+            newObjectBtn: document.getElementById('new-object-btn'),
+            deleteObjectBtn: document.getElementById('delete-object-btn'),
+            objectStatusMessage: document.getElementById('object-status-message'),
         },
 
         // État de l'application
         state: {
             currentGrades: [],
             selectedGradeId: null,
+            currentObjects: [],
+            selectedObjectId: null,
         },
 
         /**
@@ -73,10 +81,12 @@ document.addEventListener('DOMContentLoaded', async () => {
          */
         init() {
             this.elements.detailsPanel.classList.add('hidden');
+            this.elements.objectDetailsPanel.classList.add('hidden');
             this.setupEventListeners();
             this.loadGrades();
             this.loadUsers();
             this.loadXpCurve();
+            this.loadObjects();
         },
 
         /**
@@ -88,6 +98,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             this.elements.deleteBtn.addEventListener('click', this.handleDelete.bind(this));
             this.elements.newGradeBtn.addEventListener('click', this.handleNewGrade.bind(this));
             this.elements.gradesList.addEventListener('click', this.handleGradeSelection.bind(this));
+            this.elements.newObjectBtn.addEventListener('click', this.handleNewObject.bind(this));
+            this.elements.objectsContainer.addEventListener('click', this.handleObjectSelection.bind(this));
+            this.elements.objectForm.addEventListener('submit', this.handleObjectFormSubmit.bind(this));
+            this.elements.deleteObjectBtn.addEventListener('click', this.handleObjectDelete.bind(this));
         },
 
         // --- Méthodes de chargement et de rendu ---
@@ -220,6 +234,196 @@ document.addEventListener('DOMContentLoaded', async () => {
             xpContainer.appendChild(table);
         },
 
+        async loadObjects() {
+            const { objectsContainer } = this.elements;
+            if (!objectsContainer) return;
+
+            try {
+                const response = await fetch('/api/objects');
+                if (!response.ok) throw new Error('Impossible de charger les objets.');
+                this.state.currentObjects = await response.json();
+                this.renderObjectsTable();
+            } catch (error) {
+                objectsContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            }
+        },
+
+        renderObjectsTable(objects) {
+            const { objectsContainer } = this.elements;
+            if (!objectsContainer) return;
+
+            if (this.state.currentObjects.length === 0) {
+                objectsContainer.innerHTML = '<p>Aucun objet trouvé.</p>';
+                // On s'assure que le panneau de détails est caché s'il n'y a pas d'objets
+                this.elements.objectDetailsPanel.classList.add('hidden');
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            table.innerHTML = `
+                <thead style="background-color: #f2f2f2; position: sticky; top: 0;">
+                    <tr>
+                        <th style="padding: 8px; border: 1px solid #ddd;">ID</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Nom</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Type</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Rareté</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Poids</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${this.state.currentObjects.map(object => `
+                        <tr 
+                            data-object-id="${object.id}" 
+                            style="cursor: pointer; ${object.id === this.state.selectedObjectId ? 'background-color: #e0f7ff;' : ''}"
+                        >
+                            <td style="padding: 8px; border: 1px solid #ddd;">${object.id}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${object.nom}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${object.type}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${object.rarete}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${object.poids}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            objectsContainer.innerHTML = '';
+            objectsContainer.appendChild(table);
+        },
+
+        handleObjectSelection(event) {
+            const row = event.target.closest('tr[data-object-id]');
+            if (row) {
+                this.state.selectedObjectId = parseInt(row.dataset.objectId, 10);
+                const selectedObject = this.state.currentObjects.find(o => o.id === this.state.selectedObjectId);
+                this.renderObjectsTable(); // Pour mettre à jour le surlignage
+                this.displayObjectDetails(selectedObject);
+            }
+        },
+
+        handleNewObject() {
+            this.state.selectedObjectId = null;
+            this.renderObjectsTable();
+            this.displayObjectDetails(null); // `null` pour le mode création
+        },
+
+        async handleObjectFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(this.elements.objectForm);
+            const objectData = Object.fromEntries(formData.entries());
+            const id = objectData.id;
+
+            // Conversion des champs numériques, en s'assurant que les champs vides deviennent `null`
+            [
+                'poids', 
+                'valeurProtection', 
+                'degatsMin', 
+                'degatsMax', 
+                'bonusSoldatForce',
+                'bonusSoldatConstitution',
+                'bonusSoldatDexterite',
+                'bonusSoldatVitesse',
+                'bonusSoldatCharisme',
+                'bonusSoldatIntelligence',
+                'bonusSoldatChance',
+                'bonusSoldatFidelite',
+                'bonusSoldatResistance',
+                'bonusSoldatPrecision',
+                'bonusSoldatTauxCritique',
+                'bonusSoldatDegatsCritiques',
+                'bonusSoldatPointsDeVie',
+                'bonusSoldatAttaque',
+                'bonusPersonnageForce',
+                'bonusPersonnageConstitution',
+                'bonusPersonnageDexterite',
+                'bonusPersonnageVitesse',
+                'bonusPersonnageCharisme',
+                'bonusPersonnageIntelligence',
+                'bonusPersonnageChance', 
+                'bonusPersonnageFidelite',
+                'bonusPersonnageAmbition',
+                'bonusPersonnagePointsDeVie',
+                'bonusPersonnageAttaque'
+            ].forEach(key => {
+                if (objectData[key] === '') {
+                    objectData[key] = null;
+                } else if (objectData[key] !== null) {
+                    objectData[key] = key === 'poids' ? parseFloat(objectData[key]) : parseInt(objectData[key], 10);
+                }
+            });
+
+            const isCreating = !id;
+            const url = isCreating ? '/api/objects' : `/api/objects/${id}`;
+            const method = isCreating ? 'POST' : 'PUT';
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(objectData),
+                });
+
+                if (!response.ok) {
+                    const result = await response.json();
+                    throw new Error(result.error || `Impossible de ${isCreating ? 'créer' : 'mettre à jour'} l'objet.`);
+                }
+
+                const savedObject = await response.json();
+                this.setObjectStatus(`Objet "${savedObject.nom}" ${isCreating ? 'créé' : 'mis à jour'} !`);
+                
+                await this.loadObjects();
+                this.state.selectedObjectId = savedObject.id;
+                this.renderObjectsTable();
+                this.displayObjectDetails(savedObject);
+
+            } catch (error) {
+                console.error("Erreur lors de la soumission du formulaire objet:", error);
+                this.setObjectStatus(error.message, true);
+            }
+        },
+
+        async handleObjectDelete() {
+            const objectId = this.elements.objectForm.querySelector('#object-id').value;
+            if (!objectId || !confirm(`Êtes-vous sûr de vouloir supprimer cet objet (ID: ${objectId}) ?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/objects/${objectId}`, { method: 'DELETE' });
+                if (!response.ok) {
+                    const result = await response.json();
+                    throw new Error(result.error || 'La suppression a échoué.');
+                }
+
+                this.setObjectStatus('Objet supprimé avec succès.');
+                this.state.selectedObjectId = null;
+                this.elements.objectForm.reset();
+                this.elements.objectDetailsPanel.classList.add('hidden');
+                await this.loadObjects();
+
+            } catch (error) {
+                console.error("Erreur lors de la suppression de l'objet:", error);
+                this.setObjectStatus(error.message, true);
+            }
+        },
+
+        displayObjectDetails(object) {
+            const { objectForm, deleteObjectBtn, objectDetailsPanel } = this.elements;
+            objectForm.reset();
+
+            if (object) { // Mode édition
+                for (const key in object) {
+                    const input = objectForm.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        input.value = object[key] ?? '';
+                    }
+                }
+                deleteObjectBtn.classList.remove('hidden');
+            } else { // Mode création
+                deleteObjectBtn.classList.add('hidden');
+            }
+            objectDetailsPanel.classList.remove('hidden');
+        },
         // --- Gestionnaires d'événements ---
 
         handleGradeSelection(event) {
@@ -344,6 +548,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             setTimeout(() => {
                 statusMessage.textContent = '';
                 statusMessage.className = '';
+            }, 5000);
+        },
+
+        setObjectStatus(message, isError = false) {
+            const { objectStatusMessage } = this.elements;
+            objectStatusMessage.textContent = message;
+            objectStatusMessage.className = isError ? 'error' : 'success';
+            setTimeout(() => {
+                objectStatusMessage.textContent = '';
+                objectStatusMessage.className = '';
             }, 5000);
         },
     };

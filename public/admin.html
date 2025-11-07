@@ -3,13 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Gestion des Grades</title>
+    <title>Administration</title>
+    <link rel="stylesheet" href="admin.css">
     <style>
-        body { font-family: sans-serif; margin: 2em; max-width: 800px; margin: 2em auto; }
-        form { display: flex; flex-direction: column; gap: 10px; }
-        label { font-weight: bold; }
-        input, textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 95%; }
-        textarea { resize: vertical; min-height: 80px; }
+        /* Styles de base pour l'interface d'administration */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .admin-panel {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #367c39;
+        }
         .btn { padding: 10px 15px; color: white; border: none; border-radius: 4px; cursor: pointer; }
         .btn-primary { background-color: #007bff; }
         .btn-primary:hover { background-color: #0056b3; }
@@ -17,94 +53,280 @@
         .btn-danger:hover { background-color: #c82333; }
         .btn-secondary { background-color: #6c757d; }
         .btn-secondary:hover { background-color: #5a6268; }
-        #status-message { margin-top: 1em; padding: 10px; border-radius: 4px; }
+        #status-message, #object-status-message { margin-top: 1em; padding: 10px; border-radius: 4px; }
         .success { background-color: #d4edda; color: #155724; }
         .error { background-color: #f8d7da; color: #721c24; }
-        a { display: inline-block; margin-top: 1em; }
-        .admin-container { display: flex; gap: 2em; min-height: 400px; }
-        #grades-list-panel { flex: 1; border-right: 1px solid #eee; padding-right: 2em; }
-        #grade-details-panel { flex: 2; }
-        #existing-grades-list { list-style-type: none; padding: 0; margin: 0; max-height: 200px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; }
-        #existing-grades-list li { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
-        #existing-grades-list li:last-child { border-bottom: none; }
-        #existing-grades-list li:hover { background-color: #f0f0f0; }
-        #existing-grades-list li.selected { background-color: #007bff; color: white; }
-        #new-grade-btn { margin-top: 1em; width: 100%; }
-        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1em; }
-        .hidden { display: none; }
+        .admin-container {
+            display: flex;
+            gap: 2em;
+            min-height: 400px;
+        }
+        .list-panel { flex: 1; border-right: 1px solid #eee; padding-right: 2em; }
+        .details-panel { flex: 2; }
+        #existing-grades-list, #objects-table-container ul { list-style-type: none; padding: 0; margin: 0; max-height: 300px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; }
+        #existing-grades-list li, #objects-table-container li { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
+        #existing-grades-list li:last-child, #objects-table-container li:last-child { border-bottom: none; }
+        #existing-grades-list li:hover, #objects-table-container li:hover { background-color: #f0f0f0; }
+        #existing-grades-list li.selected, #objects-table-container li.selected { background-color: #007bff; color: white; }
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1em; grid-column: 1 / -1; }
+        .hidden {
+            display: none !important;
+        }
         #xp-curve-container {
-            max-height: 215px; /* Hauteur pour ~5 lignes + en-tête */
-            overflow-y: auto;
+            max-height: 250px; /* Hauteur maximale avant d'afficher la barre de défilement */
+            overflow-y: auto; /* Affiche la barre de défilement verticale si nécessaire */
             border: 1px solid #ccc;
             border-radius: 4px;
-            margin-bottom: 1em;
         }
     </style>
 </head>
 <body>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
         <h1>Administration</h1>
+        <a href="/" class="btn btn-secondary">Retour à l'accueil</a>
     </div>
-    <p>Cette page vous permet de gérer les grades et les utilisateurs.</p>
 
-    <div class="admin-container">
-        <div id="grades-list-panel">
-            <h2>Grades Existants</h2>
-            <ul id="existing-grades-list">Chargement des grades...</ul>
-            <button id="new-grade-btn" class="btn btn-secondary">Nouveau Grade</button>
-        </div>
-
-        <div id="grade-details-panel">
-            <h2>Détails du Grade</h2>
-            <form id="grade-form">
-                <input type="hidden" id="id" name="id">
-                <div>
-                    <label for="nom">Nom du Grade :</label>
-                    <input type="text" id="nom" name="nom" required>
-                </div>
-                <div>
-                    <label for="pictogramme">Pictogramme (ex: /images/grades/colonel.png) :</label>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="text" id="pictogramme" name="pictogramme" style="flex-grow: 1;">
-                        <img id="pictogramme-preview" src="" alt="Aperçu" style="height: 40px; width: auto; border: 1px solid #ccc; display: none;">
+    <section id="grades-management">
+        <h2>Gestion des Grades</h2>
+        <div class="admin-container">
+            <div class="list-panel">
+                <ul id="existing-grades-list">Chargement des grades...</ul>
+                <button id="new-grade-btn" class="btn btn-secondary" style="width: 100%; margin-top: 1em;">Nouveau Grade</button>
+            </div>
+            <div id="grade-details-panel" class="details-panel hidden">
+                <h3>Détails du Grade</h3>
+                <form id="grade-form">
+                    <input type="hidden" id="id" name="id">
+                    <div>
+                        <label for="nom">Nom du Grade :</label>
+                        <input type="text" id="nom" name="nom" required>
                     </div>
-                </div>
-                <div>
-                    <label for="ordre">Ordre hiérarchique :</label>
-                    <input type="number" id="ordre" name="ordre">
-                </div>
-                <div>
-                    <label for="codeOtan">Code OTAN :</label>
-                    <input type="text" id="codeOtan" name="codeOtan">
-                </div>
-                <div>
-                    <label for="pays">Pays (ex: FR) :</label>
-                    <input type="text" id="pays" name="pays" value="FR">
-                </div>
-                <div>
-                    <label for="armee">Armée (ex: Armée de Terre) :</label>
-                    <input type="text" id="armee" name="armee" value="Armée de Terre">
-                </div>
-        
-                <div class="form-actions">
-                    <button type="button" id="delete-btn" class="btn btn-danger hidden">Supprimer</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </form>
-            <div id="status-message"></div>
+                    <div>
+                        <label for="pictogramme">Pictogramme (ex: /images/grades/colonel.png) :</label>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="text" id="pictogramme" name="pictogramme" style="flex-grow: 1;">
+                            <img id="pictogramme-preview" src="" alt="Aperçu" style="height: 40px; width: auto; border: 1px solid #ccc; display: none;">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="ordre">Ordre hiérarchique :</label>
+                        <input type="number" id="ordre" name="ordre">
+                    </div>
+                    <div>
+                        <label for="codeOtan">Code OTAN :</label>
+                        <input type="text" id="codeOtan" name="codeOtan">
+                    </div>
+                    <div>
+                        <label for="pays">Pays (ex: FR) :</label>
+                        <input type="text" id="pays" name="pays" value="FR">
+                    </div>
+                    <div>
+                        <label for="armee">Armée (ex: Armée de Terre) :</label>
+                        <input type="text" id="armee" name="armee" value="Armée de Terre">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="delete-btn" class="btn btn-danger hidden">Supprimer</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+                <div id="status-message"></div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <hr>
-    <h2>Gestion des Utilisateurs</h2>
-    <div id="users-table-container">Chargement des utilisateurs...</div>
+
+    <section id="objects-management">
+        <h2>Gestion des Objets</h2>
+        <div class="admin-container">
+            <div class="list-panel">
+                <div id="objects-table-container">Chargement des objets...</div>
+                <button id="new-object-btn" class="btn btn-secondary" style="width: 100%; margin-top: 1em;">Nouvel Objet</button>
+            </div>
+            <div id="object-details-panel" class="details-panel hidden">
+                <h3>Détails de l'Objet</h3>
+                <form id="object-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px;">
+                    <input type="hidden" id="object-id" name="id">
+                    <div style="grid-column: 1 / -1;">
+                        <label for="object-nom">Nom :</label>
+                        <input type="text" id="object-nom" name="nom" required>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <label for="object-description">Description :</label>
+                        <textarea id="object-description" name="description"></textarea>
+                    </div>
+                    <div>
+                        <label for="object-type">Type :</label>
+                        <select id="object-type" name="type" required>
+                            <option value="ARME_PRINCIPALE">Arme Principale</option>
+                            <option value="ARME_SECONDAIRE">Arme Secondaire</option>
+                            <option value="ARMURE_TETE">Armure (Tête)</option>
+                            <option value="ARMURE_CORPS">Armure (Corps)</option>
+                            <option value="ARMURE_JAMBES">Armure (Jambes)</option>
+                            <option value="ARMURE_PIED">Armure (Pieds)</option>
+                            <option value="ARMURE_MAIN">Armure (Mains)</option>
+                            <option value="AMELIORATION">Amélioration</option>
+                            <option value="CONSOMMABLE">Consommable</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="object-rarete">Rareté :</label>
+                        <select id="object-rarete" name="rarete" required>
+                            <option value="COMMUN">Commun</option>
+                            <option value="PEU_COMMUN">Peu Commun</option>
+                            <option value="RARE">Rare</option>
+                            <option value="EPIQUE">Épique</option>
+                            <option value="RELIQUE">Relique</option>
+                            <option value="LEGENDAIRE">Légendaire</option>
+                            <option value="MYTHIQUE">Mythique</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="object-poids">Poids :</label>
+                        <input type="number" id="object-poids" name="poids" step="0.1" value="0">
+                    </div>
+                    <div>
+                        <label for="object-valeurProtection">Protection :</label>
+                        <input type="number" id="object-valeurProtection" name="valeurProtection">
+                    </div>
+                    <div>
+                        <label for="object-degatsMin">Dégâts Min :</label>
+                        <input type="number" id="object-degatsMin" name="degatsMin">
+                    </div>
+                    <div>
+                        <label for="object-degatsMax">Dégâts Max :</label>
+                        <input type="number" id="object-degatsMax" name="degatsMax">
+                    </div>
+                    <div style="grid-column: 1 / -1; border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;">
+                        <h4 style="margin: 0 0 10px 0;">Bonus pour le Soldat</h4>
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatForce">Bonus Force (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatForce" name="bonusSoldatForce">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatConstitution">Bonus Constitution (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatConstitution" name="bonusSoldatConstitution">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatDexterite">Bonus Dextérité (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatDexterite" name="bonusSoldatDexterite">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatVitesse">Bonus Vitesse (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatVitesse" name="bonusSoldatVitesse">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatCharisme">Bonus Charisme (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatCharisme" name="bonusSoldatCharisme">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatIntelligence">Bonus Intelligence (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatIntelligence" name="bonusSoldatIntelligence">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatChance">Bonus Chance (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatChance" name="bonusSoldatChance">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatFidelite">Bonus Fidélité (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatFidelite" name="bonusSoldatFidelite">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatResistance">Bonus Résistance (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatResistance" name="bonusSoldatResistance">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatPrecision">Bonus Précision (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatPrecision" name="bonusSoldatPrecision">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatTauxCritique">Bonus Taux Critique (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatTauxCritique" name="bonusSoldatTauxCritique">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatDegatsCritiques">Bonus Dégâts Critiques (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatDegatsCritiques" name="bonusSoldatDegatsCritiques">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatPointsDeVie">Bonus Points de Vie (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatPointsDeVie" name="bonusSoldatPointsDeVie">
+                    </div>
+                    <div>
+                        <label for="object-bonusSoldatAttaque">Bonus Attaque (Soldat) :</label>
+                        <input type="number" id="object-bonusSoldatAttaque" name="bonusSoldatAttaque">
+                    </div>
+
+                    <div style="grid-column: 1 / -1; border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;">
+                        <h4 style="margin: 0 0 10px 0;">Bonus pour le Personnage Principal (Global)</h4>
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageForce">Bonus Force (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageForce" name="bonusPersonnageForce">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageConstitution">Bonus Constitution (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageConstitution" name="bonusPersonnageConstitution">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageDexterite">Bonus Dextérité (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageDexterite" name="bonusPersonnageDexterite">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageVitesse">Bonus Vitesse (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageVitesse" name="bonusPersonnageVitesse">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageCharisme">Bonus Charisme (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageCharisme" name="bonusPersonnageCharisme">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageIntelligence">Bonus Intelligence (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageIntelligence" name="bonusPersonnageIntelligence">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageChance">Bonus Chance (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageChance" name="bonusPersonnageChance">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageFidelite">Bonus Fidélité (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageFidelite" name="bonusPersonnageFidelite">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageAmbition">Bonus Ambition (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageAmbition" name="bonusPersonnageAmbition">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnagePointsDeVie">Bonus Points de Vie (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnagePointsDeVie" name="bonusPersonnagePointsDeVie">
+                    </div>
+                    <div>
+                        <label for="object-bonusPersonnageAttaque">Bonus Attaque (Perso) :</label>
+                        <input type="number" id="object-bonusPersonnageAttaque" name="bonusPersonnageAttaque">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="delete-object-btn" class="btn btn-danger hidden">Supprimer</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+                <div id="object-status-message"></div>
+            </div>
+        </div>
+    </section>
 
     <hr>
-    <h2>Courbe d'Expérience</h2>
-    <div id="xp-curve-container">Chargement de la courbe d'XP...</div>
+
+    <section id="xp-curve">
+        <h2>Courbe d'XP</h2>
+        <div id="xp-curve-container"></div>
+    </section>
 
     <hr>
-    <a href="/">Retour à l'accueil</a>
+
+    <section id="users-management">
+        <h2>Gestion des Utilisateurs</h2>
+        <div id="users-table-container"></div>
+    </section>
 
     <script src="admin.js"></script>
 </body>

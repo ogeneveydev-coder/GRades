@@ -15,12 +15,12 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  pseudo    String?  @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  pseudo     String?     @unique
+  password   String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   personnage Personnage?
   soldats    Soldat[]
 }
@@ -34,6 +34,7 @@ model Personnage {
   grade        String  @default("Soldat")
   niveau       Int     @default(0)
   pointsDeVie  Int     @default(0)
+  attaque      Int     @default(0)
   force        Int     @default(0)
   constitution Int     @default(0)
   dexterite    Int     @default(0)
@@ -45,11 +46,12 @@ model Personnage {
   taille       Int     @default(0) // en cm
   blessures    String?
   kills        Int     @default(0)
+  chance       Int     @default(0)
 }
 
 // Modèle pour la table des Généraux
 model General {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   lastName  String
   firstName String
   grade     String
@@ -57,10 +59,10 @@ model General {
   birthDate DateTime
   deathDate DateTime? // Le '?' indique que ce champ peut être nul (pour les généraux encore en vie)
   photo     String?
-  pays      String?   // Ex: FR, UK, US
-  codeOtan  String?   // Code OTAN: OF-9, OF-8, etc.
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  pays      String? // Ex: FR, UK, US
+  codeOtan  String? // Code OTAN: OF-9, OF-8, etc.
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 // Modèle pour la table des Grades
@@ -70,8 +72,8 @@ model Grade {
   pictogramme String?
   ordre       Int? // Pour trier les grades par ordre hiérarchique
   armee       String? // Ex: Armée de Terre, Marine, etc.
-  pays        String?   // Ex: FR, UK, US
-  codeOtan    String?   // Code OTAN: OF-9, OF-8, etc.
+  pays        String? // Ex: FR, UK, US
+  codeOtan    String? // Code OTAN: OF-9, OF-8, etc.
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -82,33 +84,39 @@ model LevelXP {
 }
 
 model Soldat {
-  id           Int     @id @default(autoincrement())
-  user         User    @relation(fields: [userId], references: [id])
-  userId       Int
-
-  prenom       String?
-  nom          String?
-  nationalite  String?
-  age          Int?
-
-  experience   Int     @default(0)
-  grade        String  @default("Soldat")
-  niveau       Int     @default(0)
-  pointsDeVie  Int     @default(0)
-  force        Int     @default(0)
-  constitution Int     @default(0)
-  dexterite    Int     @default(0)
-  charisme     Int     @default(0)
-  intelligence Int     @default(0)
-  vitesse      Int     @default(0)
-  fidelite     Int     @default(0)
-  ambition     Int     @default(0)
-  taille       Int     @default(0) // en cm
+  id              Int          @id @default(autoincrement())
+  user            User         @relation(fields: [userId], references: [id])
+  userId          Int
+  prenom          String?
+  nom             String?
+  nationalite     String?
+  age             Int?
+  experience      Int          @default(0)
+  grade           String       @default("Soldat")
+  niveau          Int          @default(0)
+  pointsDeVie     Int          @default(0)
+  attaque         Int          @default(0)
+  force           Int          @default(0)
+  constitution    Int          @default(0)
+  dexterite       Int          @default(0)
+  charisme        Int          @default(0)
+  intelligence    Int          @default(0)
+  vitesse         Int          @default(0)
+  fidelite        Int          @default(0)
+  ambition        Int          @default(0)
+  resistance      Int          @default(0)
+  precision       Int          @default(0)
+  tauxCritique    Int          @default(0)
+  degatsCritiques Int          @default(0)
+  chance          Int          @default(0)
+  taille          Int          @default(0) // en cm
+  etoiles         Int          @default(0)
+  inventaire      Inventaire[]
 }
 
 model Prenom {
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int     @id @default(autoincrement())
+  name        String
   nationalite String?
   genre       String? // m ou f
 
@@ -116,9 +124,92 @@ model Prenom {
 }
 
 model NomDeFamille {
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int     @id @default(autoincrement())
+  name        String
   nationalite String?
 
   @@unique([name, nationalite])
+}
+
+model Objet {
+  id          Int         @id @default(autoincrement())
+  nom         String      @unique
+  description String?
+  pictogramme String?
+  poids       Float       @default(0)
+  type        TypeObjet
+  rarete      RareteObjet @default(COMMUN)
+
+  // --- Statistiques de l'objet ---
+  // Pour les armes
+  degatsMin Int?
+  degatsMax Int?
+
+  // Pour les armures
+  valeurProtection Int?
+
+  // --- Bonus pour le SOLDAT qui équipe l'objet ---
+  bonusSoldatForce           Int?
+  bonusSoldatConstitution    Int?
+  bonusSoldatDexterite       Int?
+  bonusSoldatCharisme        Int?
+  bonusSoldatIntelligence    Int?
+  bonusSoldatVitesse         Int?
+  bonusSoldatChance          Int?
+  bonusSoldatFidelite        Int?
+  bonusSoldatResistance      Int?
+  bonusSoldatPrecision       Int?
+  bonusSoldatTauxCritique    Int?
+  bonusSoldatDegatsCritiques Int?
+  bonusSoldatPointsDeVie     Int?
+  bonusSoldatAttaque         Int?
+
+  // --- Bonus pour le PERSONNAGE PRINCIPAL (bonus globaux) ---
+  bonusPersonnageForce        Int?
+  bonusPersonnageConstitution Int?
+  bonusPersonnageDexterite    Int?
+  bonusPersonnageCharisme     Int?
+  bonusPersonnageIntelligence Int?
+  bonusPersonnageVitesse      Int?
+  bonusPersonnageChance       Int?
+  bonusPersonnageFidelite     Int?
+  bonusPersonnageAmbition     Int?
+  bonusPersonnagePointsDeVie  Int?
+  bonusPersonnageAttaque      Int?
+
+  // Relation vers les instances d'objets dans les inventaires
+  instances Inventaire[]
+}
+
+model Inventaire {
+  id        Int     @id @default(autoincrement())
+  estEquipe Boolean @default(false)
+
+  soldat   Soldat @relation(fields: [soldatId], references: [id])
+  soldatId Int
+
+  objet   Objet @relation(fields: [objetId], references: [id])
+  objetId Int
+}
+
+enum TypeObjet {
+  ARME_PRINCIPALE
+  ARME_SECONDAIRE
+  ARMURE_TETE
+  ARMURE_CORPS
+  ARMURE_JAMBES
+  ARMURE_PIED
+  ARMURE_MAIN
+  AMELIORATION
+  CONSOMMABLE
+}
+
+enum RareteObjet {
+  COMMUN
+  PEU_COMMUN
+  RARE
+  EPIQUE
+  RELIQUE
+  LEGENDAIRE
+  MYTHIQUE
 }

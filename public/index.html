@@ -189,6 +189,7 @@
             <div class="nav-links">
                 <a href="/essai.html" class="zone nav-tab">Liste</a>
                 <a href="/admin.html" class="zone nav-tab">Administration</a>
+                <a href="/showBDD.html" class="zone nav-tab">BDD</a>
             </div>
             <div class="auth-links" id="auth-container">
                 <!-- Le contenu d'authentification sera injecté ici -->
@@ -271,17 +272,20 @@
                     const perso = await response.json();
                     const pictogrammeTitreHtml = perso.pictogramme ? `<img src="${perso.pictogramme}" style="height: 50px; image-rendering: pixelated;">` : '';
 
-                    let statsHtml = `<h2>${pictogrammeTitreHtml}${(perso.pseudo || 'Personnage').toUpperCase()}</h2><ul>`;
-                    statsHtml += `<li><span>Grade</span> <span>${perso.grade}</span></li>`;
-                    statsHtml += `<li><span>Niveau</span> <span>${perso.niveau}</span></li>`;
-                    statsHtml += `<li><span>XP</span> <span>${perso.experience}</span></li>`;
-                    statsHtml += `<li><span>PV</span> <span>${perso.pointsDeVie}</span></li>`;
+                    let statsHtml = `<h2>${pictogrammeTitreHtml}${(perso.pseudo || 'Personnage').toUpperCase()}</h2>`;
+                    
+                    // Regrouper les statistiques sous le nom
+                    statsHtml += `<div style="text-align: center; margin-bottom: 1em;">${perso.grade} - Niveau ${perso.niveau} (${perso.experience} XP)</div>`;
+
+                    statsHtml += '<ul>';
+                    statsHtml += `<li><span>Points de Vie</span> <span>${perso.pointsDeVie}</span></li>`;
                     statsHtml += `<li><span>Force</span> <span>${perso.force}</span></li>`;
                     statsHtml += `<li><span>Constitution</span> <span>${perso.constitution}</span></li>`;
                     statsHtml += `<li><span>Dextérité</span> <span>${perso.dexterite}</span></li>`;
                     statsHtml += `<li><span>Vitesse</span> <span>${perso.vitesse}</span></li>`;
                     statsHtml += `<li><span>Charisme</span> <span>${perso.charisme}</span></li>`;
                     statsHtml += `<li><span>Intelligence</span> <span>${perso.intelligence}</span></li>`;
+                    statsHtml += `<li><span>Chance</span> <span>${perso.chance}</span></li>`;
                     statsHtml += `<li><span>Fidélité</span> <span>${perso.fidelite}</span></li>`;
                     statsHtml += `<li><span>Ambition</span> <span>${perso.ambition}</span></li>`;
                     statsHtml += '</ul>';

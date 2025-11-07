@@ -47,6 +47,16 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: 'Accès non autorisé. Vous devez être connecté.' });
 };
 
+// --- Redirection pour la racine ---
+// Si l'utilisateur n'est pas connecté et essaie d'accéder à la racine,
+// on le redirige vers la page de connexion.
+app.get('/', (req, res, next) => {
+  if (!req.session.userId) {
+    return res.redirect('/login.html');
+  }
+  next(); // Si connecté, on laisse express.static servir index.html
+});
+
 // 4. Nouvelle route API pour récupérer les généraux
 app.get('/api/generals', async (req, res) => {
   try {
@@ -268,6 +278,200 @@ app.get('/api/xp-curve', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Erreur lors de la récupération de la courbe d'XP." });
   }
 });
+
+// --- Routes pour la gestion des Objets (CRUD) ---
+
+// GET /api/objects - Récupérer tous les objets
+app.get('/api/objects', isAuthenticated, async (req, res) => {
+  try {
+    const objects = await prisma.objet.findMany({
+      orderBy: { nom: 'asc' },
+    });
+    res.json(objects);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des objets:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des objets." });
+  }
+});
+
+// POST /api/objects - Créer un nouvel objet
+app.post('/api/objects', isAuthenticated, async (req, res) => {
+  try {
+    // Convertir les valeurs numériques qui pourraient arriver en string
+    const objectData = {
+      ...req.body,
+      poids: parseFloat(req.body.poids) || 0,
+      degatsMin: req.body.degatsMin ? parseInt(req.body.degatsMin, 10) : null,
+      degatsMax: req.body.degatsMax ? parseInt(req.body.degatsMax, 10) : null,
+      valeurProtection: req.body.valeurProtection ? parseInt(req.body.valeurProtection, 10) : null,
+      bonusSoldatForce: req.body.bonusSoldatForce ? parseInt(req.body.bonusSoldatForce, 10) : null,
+      bonusSoldatConstitution: req.body.bonusSoldatConstitution ? parseInt(req.body.bonusSoldatConstitution, 10) : null,
+      bonusSoldatDexterite: req.body.bonusSoldatDexterite ? parseInt(req.body.bonusSoldatDexterite, 10) : null,
+      bonusSoldatCharisme: req.body.bonusSoldatCharisme ? parseInt(req.body.bonusSoldatCharisme, 10) : null,
+      bonusSoldatIntelligence: req.body.bonusSoldatIntelligence ? parseInt(req.body.bonusSoldatIntelligence, 10) : null,
+      bonusSoldatVitesse: req.body.bonusSoldatVitesse ? parseInt(req.body.bonusSoldatVitesse, 10) : null,
+      bonusSoldatChance: req.body.bonusSoldatChance ? parseInt(req.body.bonusSoldatChance, 10) : null,
+      bonusSoldatFidelite: req.body.bonusSoldatFidelite ? parseInt(req.body.bonusSoldatFidelite, 10) : null,
+      bonusSoldatResistance: req.body.bonusSoldatResistance ? parseInt(req.body.bonusSoldatResistance, 10) : null,
+      bonusSoldatPrecision: req.body.bonusSoldatPrecision ? parseInt(req.body.bonusSoldatPrecision, 10) : null,
+      bonusSoldatTauxCritique: req.body.bonusSoldatTauxCritique ? parseInt(req.body.bonusSoldatTauxCritique, 10) : null,
+      bonusSoldatDegatsCritiques: req.body.bonusSoldatDegatsCritiques ? parseInt(req.body.bonusSoldatDegatsCritiques, 10) : null,
+      bonusSoldatPointsDeVie: req.body.bonusSoldatPointsDeVie ? parseInt(req.body.bonusSoldatPointsDeVie, 10) : null,
+      bonusSoldatAttaque: req.body.bonusSoldatAttaque ? parseInt(req.body.bonusSoldatAttaque, 10) : null,
+      bonusPersonnageForce: req.body.bonusPersonnageForce ? parseInt(req.body.bonusPersonnageForce, 10) : null,
+      bonusPersonnageConstitution: req.body.bonusPersonnageConstitution ? parseInt(req.body.bonusPersonnageConstitution, 10) : null,
+      bonusPersonnageDexterite: req.body.bonusPersonnageDexterite ? parseInt(req.body.bonusPersonnageDexterite, 10) : null,
+      bonusPersonnageCharisme: req.body.bonusPersonnageCharisme ? parseInt(req.body.bonusPersonnageCharisme, 10) : null,
+      bonusPersonnageIntelligence: req.body.bonusPersonnageIntelligence ? parseInt(req.body.bonusPersonnageIntelligence, 10) : null,
+      bonusPersonnageVitesse: req.body.bonusPersonnageVitesse ? parseInt(req.body.bonusPersonnageVitesse, 10) : null,
+      bonusPersonnageChance: req.body.bonusPersonnageChance ? parseInt(req.body.bonusPersonnageChance, 10) : null,
+      bonusPersonnageFidelite: req.body.bonusPersonnageFidelite ? parseInt(req.body.bonusPersonnageFidelite, 10) : null,
+      bonusPersonnageAmbition: req.body.bonusPersonnageAmbition ? parseInt(req.body.bonusPersonnageAmbition, 10) : null,
+      bonusPersonnagePointsDeVie: req.body.bonusPersonnagePointsDeVie ? parseInt(req.body.bonusPersonnagePointsDeVie, 10) : null,
+      bonusPersonnageAttaque: req.body.bonusPersonnageAttaque ? parseInt(req.body.bonusPersonnageAttaque, 10) : null,
+    };
+    const newObject = await prisma.objet.create({ data: objectData });
+    res.status(201).json(newObject);
+  } catch (error) {
+    console.error("Erreur lors de la création de l'objet:", error);
+    if (error.code === 'P2002') {
+      return res.status(409).json({ error: 'Un objet avec ce nom existe déjà.' });
+    }
+    res.status(500).json({ error: "Erreur lors de la création de l'objet." });
+  }
+});
+
+// PUT /api/objects/:id - Mettre à jour un objet
+app.put('/api/objects/:id', isAuthenticated, async (req, res) => {
+  const { id } = req.params;
+  const dataToUpdate = req.body;
+  // Assurez-vous que les types de données sont corrects avant la mise à jour
+  if (dataToUpdate.poids) dataToUpdate.poids = parseFloat(dataToUpdate.poids);
+  if (dataToUpdate.degatsMin) dataToUpdate.degatsMin = parseInt(dataToUpdate.degatsMin, 10);
+  if (dataToUpdate.degatsMax) dataToUpdate.degatsMax = parseInt(dataToUpdate.degatsMax, 10);
+  if (dataToUpdate.valeurProtection) dataToUpdate.valeurProtection = parseInt(dataToUpdate.valeurProtection, 10);
+  if (dataToUpdate.bonusSoldatForce) dataToUpdate.bonusSoldatForce = parseInt(dataToUpdate.bonusSoldatForce, 10);
+  if (dataToUpdate.bonusSoldatConstitution) dataToUpdate.bonusSoldatConstitution = parseInt(dataToUpdate.bonusSoldatConstitution, 10);
+  if (dataToUpdate.bonusSoldatDexterite) dataToUpdate.bonusSoldatDexterite = parseInt(dataToUpdate.bonusSoldatDexterite, 10);
+  if (dataToUpdate.bonusSoldatCharisme) dataToUpdate.bonusSoldatCharisme = parseInt(dataToUpdate.bonusSoldatCharisme, 10);
+  if (dataToUpdate.bonusSoldatIntelligence) dataToUpdate.bonusSoldatIntelligence = parseInt(dataToUpdate.bonusSoldatIntelligence, 10);
+  if (dataToUpdate.bonusSoldatVitesse) dataToUpdate.bonusSoldatVitesse = parseInt(dataToUpdate.bonusSoldatVitesse, 10);
+  if (dataToUpdate.bonusSoldatChance) dataToUpdate.bonusSoldatChance = parseInt(dataToUpdate.bonusSoldatChance, 10);
+  if (dataToUpdate.bonusSoldatFidelite) dataToUpdate.bonusSoldatFidelite = parseInt(dataToUpdate.bonusSoldatFidelite, 10);
+  if (dataToUpdate.bonusSoldatResistance) dataToUpdate.bonusSoldatResistance = parseInt(dataToUpdate.bonusSoldatResistance, 10);
+  if (dataToUpdate.bonusSoldatPrecision) dataToUpdate.bonusSoldatPrecision = parseInt(dataToUpdate.bonusSoldatPrecision, 10);
+  if (dataToUpdate.bonusSoldatTauxCritique) dataToUpdate.bonusSoldatTauxCritique = parseInt(dataToUpdate.bonusSoldatTauxCritique, 10);
+  if (dataToUpdate.bonusSoldatDegatsCritiques) dataToUpdate.bonusSoldatDegatsCritiques = parseInt(dataToUpdate.bonusSoldatDegatsCritiques, 10);
+  if (dataToUpdate.bonusSoldatPointsDeVie) dataToUpdate.bonusSoldatPointsDeVie = parseInt(dataToUpdate.bonusSoldatPointsDeVie, 10);
+  if (dataToUpdate.bonusSoldatAttaque) dataToUpdate.bonusSoldatAttaque = parseInt(dataToUpdate.bonusSoldatAttaque, 10);
+  if (dataToUpdate.bonusPersonnageForce) dataToUpdate.bonusPersonnageForce = parseInt(dataToUpdate.bonusPersonnageForce, 10);
+  if (dataToUpdate.bonusPersonnageConstitution) dataToUpdate.bonusPersonnageConstitution = parseInt(dataToUpdate.bonusPersonnageConstitution, 10);
+  if (dataToUpdate.bonusPersonnageDexterite) dataToUpdate.bonusPersonnageDexterite = parseInt(dataToUpdate.bonusPersonnageDexterite, 10);
+  if (dataToUpdate.bonusPersonnageCharisme) dataToUpdate.bonusPersonnageCharisme = parseInt(dataToUpdate.bonusPersonnageCharisme, 10);
+  if (dataToUpdate.bonusPersonnageIntelligence) dataToUpdate.bonusPersonnageIntelligence = parseInt(dataToUpdate.bonusPersonnageIntelligence, 10);
+  if (dataToUpdate.bonusPersonnageVitesse) dataToUpdate.bonusPersonnageVitesse = parseInt(dataToUpdate.bonusPersonnageVitesse, 10);
+  if (dataToUpdate.bonusPersonnageChance) dataToUpdate.bonusPersonnageChance = parseInt(dataToUpdate.bonusPersonnageChance, 10);
+  if (dataToUpdate.bonusPersonnageFidelite) dataToUpdate.bonusPersonnageFidelite = parseInt(dataToUpdate.bonusPersonnageFidelite, 10);
+  if (dataToUpdate.bonusPersonnageAmbition) dataToUpdate.bonusPersonnageAmbition = parseInt(dataToUpdate.bonusPersonnageAmbition, 10);
+  if (dataToUpdate.bonusPersonnagePointsDeVie) dataToUpdate.bonusPersonnagePointsDeVie = parseInt(dataToUpdate.bonusPersonnagePointsDeVie, 10);
+  if (dataToUpdate.bonusPersonnageAttaque) dataToUpdate.bonusPersonnageAttaque = parseInt(dataToUpdate.bonusPersonnageAttaque, 10);
+
+  try {
+    const updatedObject = await prisma.objet.update({
+      where: { id: parseInt(id, 10) },
+      data: dataToUpdate,
+    });
+    res.json(updatedObject);
+  } catch (error) {
+    console.error(`Erreur lors de la mise à jour de l'objet ${id}:`, error);
+    res.status(500).json({ error: "Erreur lors de la mise à jour de l'objet." });
+  }
+});
+
+// DELETE /api/objects/:id - Supprimer un objet
+app.delete('/api/objects/:id', isAuthenticated, async (req, res) => {
+  const { id } = req.params;
+  try {
+    await prisma.objet.delete({ where: { id: parseInt(id, 10) } });
+    res.status(204).send();
+  } catch (error) {
+    console.error(`Erreur lors de la suppression de l'objet ${id}:`, error);
+    // Si l'objet est utilisé dans un inventaire, Prisma renverra une erreur (P2003)
+    if (error.code === 'P2003') {
+      return res.status(409).json({ error: "Impossible de supprimer cet objet car il est utilisé dans au moins un inventaire." });
+    }
+    res.status(500).json({ error: "Erreur lors de la suppression de l'objet." });
+  }
+});
+
+// --- Route pour la visualisation de la BDD ---
+
+app.get('/api/database/all', isAuthenticated, async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      include: {
+        personnage: true,
+      }
+    });
+
+    const soldats = await prisma.soldat.findMany({
+      include: {
+        inventaire: true,
+      }
+    });
+
+    const objets = await prisma.objet.findMany();
+
+    res.json({
+      users,
+      soldats,
+      objets,
+    });
+
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données de la BDD:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des données de la BDD." });
+  }
+});
+
+// Route pour récupérer les données d'une table spécifique
+app.get('/api/database/table/:tableName', isAuthenticated, async (req, res) => {
+    const { tableName } = req.params;
+    // Le client Prisma utilise le camelCase (ex: user, nomDeFamille)
+    // On convertit le nom du modèle de PascalCase à camelCase.
+    const modelName = tableName.charAt(0).toLowerCase() + tableName.slice(1);
+
+    try {
+        // On vérifie que le modèle existe sur le client Prisma
+        if (!prisma[modelName]) {
+            return res.status(400).json({ error: `Modèle "${tableName}" non trouvé.` });
+        }
+
+        const data = await prisma[modelName].findMany();
+        res.json(data);
+    } catch (error) {
+        console.error(`Erreur lors de la récupération des données de la table ${tableName}:`, error);
+        res.status(500).json({ error: `Erreur lors de la récupération des données de la table ${tableName}.` });
+    }
+});
+
+
+
+
+
+// Route pour récupérer le schéma Prisma
+app.get('/api/database/schema', isAuthenticated, (req, res) => {
+  try {
+    const schemaPath = path.join(__dirname, 'prisma', 'schema.prisma');
+    const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
+    res.json({ schema: schemaContent });
+  } catch (error) {
+    console.error("Erreur lors de la lecture du fichier schema.prisma:", error);
+    res.status(500).json({ error: "Impossible de lire le fichier de schéma." });
+  }
+});
+
+
 
 // 5. Démarrage du serveur
 server.listen(port, '0.0.0.0', () => {

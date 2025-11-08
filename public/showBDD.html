@@ -17,6 +17,16 @@
             border-bottom: 2px solid #4dd0e1;
             padding-bottom: 10px;
         }
+        #schema-container {
+            position: relative; /* Pour le positionnement de la couche SVG */
+        }
+        #relation-lines-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; /* Permet de cliquer à travers la couche SVG */
+            z-index: 2; /* Les lignes sont au-dessus des cartes */
+        }
         #schema-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -30,6 +40,9 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
+            position: relative; /* Pour que z-index fonctionne */
+            z-index: 1; /* Les cartes sont en dessous des lignes */
+            max-height: 400px; /* Limite la hauteur de la carte */
         }
         .model-header {
             background-color: #4dd0e1; /* Cyan pour l'en-tête */
@@ -68,6 +81,10 @@
         }
         .field-type {
             color: #4ec9b0; /* Vert sarcelle */
+        }
+        .field-type.relation-link {
+            cursor: pointer;
+            text-decoration: underline;
         }
         .field-attributes {
             color: #9cdcfe; /* Bleu clair */
@@ -151,8 +168,11 @@
 
     <div id="loading-message">Chargement des données...</div>
 
-    <div id="schema-grid" style="display: none;">
-        <!-- Les cartes des modèles seront injectées ici -->
+    <div id="schema-container">
+        <svg id="relation-lines-svg"></svg>
+        <div id="schema-grid" style="display: none;">
+            <!-- Les cartes des modèles seront injectées ici -->
+        </div>
     </div>
 
     <!-- Structure de la fenêtre modale -->

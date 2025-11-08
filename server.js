@@ -8,6 +8,7 @@ const path = require('path');
 const os = require('os');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const gameConfig = JSON.parse(fs.readFileSync('game-config.json', 'utf-8'));
 
 // 2. Initialisation
 const app = express();
@@ -456,9 +457,6 @@ app.get('/api/database/table/:tableName', isAuthenticated, async (req, res) => {
 });
 
 
-
-
-
 // Route pour récupérer le schéma Prisma
 app.get('/api/database/schema', isAuthenticated, (req, res) => {
   try {
@@ -471,7 +469,150 @@ app.get('/api/database/schema', isAuthenticated, (req, res) => {
   }
 });
 
+// --- Route pour l'invocation de soldat ---
 
+app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.session.userId },
+      include: { personnage: true }
+    });
+
+    if (!user || !user.personnage) {
+      return res.status(404).json({ error: "Personnage non trouvé." });
+    }
+
+    const characterLevel = user.personnage.niveau || 1;
+    const { baseProbabilities, levelModifier, gradeProbabilities } = gameConfig.summon;
+
+    // 1. Calculer les probabilités de RARETÉ ajustées
+    const adjustedProbabilities = {};
+    let totalWeight = 0;
+
+    for (const rarity in baseProbabilities) {
+      const baseProb = baseProbabilities[rarity];
+      // La formule améliore les chances pour les raretés plus élevées avec le niveau
+      const rarityBonus = Math.pow(characterLevel, levelModifier.exponent) * levelModifier.perLevel;
+      let weight = baseProb + (rarityBonus * (Object.keys(baseProbabilities).indexOf(rarity) / 2));
+      
+      // On s'assure que même les raretés communes ne disparaissent pas
+      if (weight < baseProb / 2) {
+        weight = baseProb / 2;
+      }
+
+      adjustedProbabilities[rarity] = weight;
+      totalWeight += weight;
+    }
+
+    // 2. Effectuer le tirage de la RARETÉ
+    let random = Math.random() * totalWeight;
+    let summonedRarity = 'COMMUN';
+
+    for (const rarity in adjustedProbabilities) {
+      random -= adjustedProbabilities[rarity];
+      if (random <= 0) {
+        summonedRarity = rarity;
+        break;
+      }
+    }
+
+    // 3. Calculer les probabilités de GRADE ajustées
+    const adjustedGradeProbabilities = {};
+    let totalGradeWeight = 0;
+    const gradeBonus = Math.pow(characterLevel, levelModifier.exponent) * levelModifier.perLevel;
+
+    for (const grade in gradeProbabilities) {
+        const baseProb = gradeProbabilities[grade];
+        let weight = baseProb + (gradeBonus * (Object.keys(gradeProbabilities).indexOf(grade) / 4));
+        adjustedGradeProbabilities[grade] = weight;
+        totalGradeWeight += weight;
+    }
+
+    // 4. Effectuer le tirage du GRADE
+    let randomGrade = Math.random() * totalGradeWeight;
+    let summonedGrade = 'Soldat';
+
+    for (const grade in adjustedGradeProbabilities) {
+        randomGrade -= adjustedGradeProbabilities[grade];
+        if (randomGrade <= 0) {
+            summonedGrade = grade;
+            break;
+        }
+    }
+
+    // 5. Calculer les statistiques finales basées sur la rareté et le grade
+    const { baseStats } = gameConfig.soldat;
+    const rarityModifier = gameConfig.summon.rarityModifiers[summonedRarity] || gameConfig.summon.rarityModifiers.COMMUN;
+    const gradeModifierValue = gameConfig.gradeModifiers[summonedGrade] || 1.0;
+    const finalStats = { ...baseStats };
+
+    // Correction : On s'assure que le grade tiré au sort est bien celui utilisé.
+    finalStats.grade = summonedGrade;
+
+    const statsToMultiply = ['pointsDeVie', 'attaque', 'force', 'constitution', 'dexterite', 'intelligence', 'vitesse', 'resistance', 'precision'];
+
+    statsToMultiply.forEach(stat => {
+      if (finalStats[stat] != null) {
+        // Le modificateur de rareté devient un bonus ajouté au modificateur de grade.
+        // (rarityMultiplier - 1) transforme le multiplicateur (ex: 1.25) en bonus (ex: 0.25)
+        const totalMultiplier = gradeModifierValue + (rarityModifier.statsMultiplier - 1);
+        finalStats[stat] = Math.round(finalStats[stat] * totalMultiplier);
+      }
+    });
+
+    if (rarityModifier.bonus) {
+      for (const stat in rarityModifier.bonus) {
+        finalStats[stat] = (finalStats[stat] || 0) + rarityModifier.bonus[stat];
+      }
+    }
+
+    // 6. Créer le nouveau soldat
+    const newSoldier = await prisma.soldat.create({
+      data: {
+        userId: user.id,
+        rarete: summonedRarity,
+        grade: summonedGrade,
+        prenom: "Nouveau",
+        nom: "Soldat",
+        ...finalStats
+      }
+    });
+
+    // 7. Enregistrer l'événement dans le journal d'invocation
+    const logText = `Soldat invoqué ! ${newSoldier.prenom} ${newSoldier.nom} - Grade: ${newSoldier.grade}, Rareté: ${newSoldier.rarete}`;
+    await prisma.summonLog.create({
+      data: {
+        text: logText,
+        userId: user.id,
+      }
+    });
+
+    res.status(201).json(newSoldier);
+
+  } catch (error) {
+    console.error("Erreur lors de l'invocation du soldat:", error);
+    res.status(500).json({ error: "Erreur serveur lors de l'invocation." });
+  }
+});
+
+// --- Route pour récupérer les logs d'invocation ---
+app.get('/api/logs/summon', isAuthenticated, async (req, res) => {
+  try {
+    const logs = await prisma.summonLog.findMany({
+      where: {
+        userId: req.session.userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 100, // On récupère les 100 plus récents
+    });
+    res.json(logs);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des logs d'invocation:", error);
+    res.status(500).json({ error: "Erreur serveur lors de la récupération des logs." });
+  }
+});
 
 // 5. Démarrage du serveur
 server.listen(port, '0.0.0.0', () => {

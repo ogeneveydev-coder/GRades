@@ -23,6 +23,7 @@ model User {
   updatedAt  DateTime    @updatedAt
   personnage Personnage?
   soldats    Soldat[]
+  summonLogs SummonLog[]
 }
 
 model Personnage {
@@ -111,6 +112,7 @@ model Soldat {
   chance          Int          @default(0)
   taille          Int          @default(0) // en cm
   etoiles         Int          @default(0)
+  rarete          Rarete       @default(COMMUN)
   inventaire      Inventaire[]
 }
 
@@ -138,7 +140,7 @@ model Objet {
   pictogramme String?
   poids       Float       @default(0)
   type        TypeObjet
-  rarete      RareteObjet @default(COMMUN)
+  rarete      Rarete      @default(COMMUN)
 
   // --- Statistiques de l'objet ---
   // Pour les armes
@@ -204,7 +206,7 @@ enum TypeObjet {
   CONSOMMABLE
 }
 
-enum RareteObjet {
+enum Rarete {
   COMMUN
   PEU_COMMUN
   RARE
@@ -212,4 +214,13 @@ enum RareteObjet {
   RELIQUE
   LEGENDAIRE
   MYTHIQUE
+}
+
+model SummonLog {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }

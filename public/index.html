@@ -190,6 +190,7 @@
                 <a href="/essai.html" class="zone nav-tab">Liste</a>
                 <a href="/admin.html" class="zone nav-tab">Administration</a>
                 <a href="/showBDD.html" class="zone nav-tab">BDD</a>
+                <a href="/schema-viewer.html" class="zone nav-tab">Structure</a>
             </div>
             <div class="auth-links" id="auth-container">
                 <!-- Le contenu d'authentification sera injecté ici -->
@@ -234,6 +235,25 @@
             const drawerRight = document.getElementById('drawer-right');
             const mainButton = document.getElementById('main-action-button');
             const logZone = document.getElementById('log-zone');
+
+            // --- Fonctions pour gérer les logs depuis la BDD ---
+            async function loadLogsFromDatabase() {
+                if (!isLoggedIn) return;
+                try {
+                    const response = await fetch('/api/logs/summon', { credentials: 'include' });
+                    if (!response.ok) return;
+                    const logs = await response.json();
+                    logZone.innerHTML = ''; // On vide avant de remplir
+                    logs.reverse().forEach(log => { // On inverse pour utiliser prepend
+                        const logEntry = document.createElement('p');
+                        const timestamp = new Date(log.createdAt).toLocaleTimeString();
+                        logEntry.textContent = `[${timestamp}] ${log.text}`;
+                        logZone.prepend(logEntry);
+                    });
+                } catch (error) {
+                    console.error("Erreur lors du chargement des logs:", error);
+                }
+            }
 
             let isLoggedIn = false;
 
@@ -298,6 +318,9 @@
                 statsPanel.innerHTML = '<h2>Personnage</h2><p>Connectez-vous pour voir vos statistiques.</p>';
             }
 
+            // On charge les logs après avoir vérifié la connexion
+            await loadLogsFromDatabase();
+
             // --- 3. Gestion des tiroirs (Zone B) ---
             const largeScreenBreakpoint = 1200; // Seuil en pixels pour un grand écran
 
@@ -350,19 +373,33 @@
                 mainButton.addEventListener('touchend', release);
                 mainButton.addEventListener('touchcancel', release);
 
-                mainButton.addEventListener('click', () => {
-                    const randomTexts = [
-                        "Analyse des signatures énergétiques...",
-                        "Systèmes nominaux. En attente d'instructions.",
-                        "Calibration des capteurs terminée.",
-                        "Routage de la puissance auxiliaire.",
-                        "Avertissement : Fluctuation détectée dans le secteur 7."
-                    ];
-                    const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
-                    
+                mainButton.addEventListener('click', async () => {
+                    let randomText = "Invocation en cours...";
+                    try {
+                        const response = await fetch('/api/soldats/summon', { 
+                            method: 'POST',
+                            credentials: 'include'
+                        });
+                        if (!response.ok) {
+                            const err = await response.json();
+                            throw new Error(err.error || 'Échec de l\'invocation');
+                        }
+                        const newSoldier = await response.json();
+                        randomText = `Soldat invoqué ! ${newSoldier.prenom} ${newSoldier.nom} - Grade: ${newSoldier.grade}, Rareté: ${newSoldier.rarete}`;
+                    } catch (error) {
+                        randomText = `Erreur: ${error.message}`;
+                    }
                     const logEntry = document.createElement('p');
                     logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${randomText}`;
                     logZone.prepend(logEntry);
+
+                    // On s'assure de ne garder que les 100 dernières lignes
+                    while (logZone.children.length > 100) {
+                        logZone.lastChild.remove();
+                    }
+
+                    // Pas besoin de sauvegarder côté client, le serveur le fait déjà.
+
                 });
             }
         });

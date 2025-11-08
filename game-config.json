@@ -46,5 +46,69 @@
         "5": { "allStatsMultiplier": 2.00 }
       }
     }
+  },
+  "gradeModifiers": {
+    "Soldat": 1.0,
+    "Soldat de 1ère classe": 1.05,
+    "Caporal": 1.15,
+    "Caporal-chef": 1.25,
+    "Sergent": 1.5,
+    "Sergent-chef": 1.6,
+    "Adjudant": 1.75,
+    "Adjudant-chef": 1.9,
+    "Major": 2.1,
+    "Aspirant": 2.4,
+    "Sous-lieutenant": 2.8,
+    "Lieutenant": 3.2,
+    "Capitaine": 3.7,
+    "Commandant": 4.3,
+    "Lieutenant-colonel": 5.0,
+    "Colonel": 6.0,
+    "Général de brigade": 8.0,
+    "Maréchal": 10.0
+  },
+  "summon": {
+    "gradeProbabilities": {
+      "Soldat": 68.899,
+      "Soldat de 1ère classe": 18.0,
+      "Caporal": 7.0,
+      "Caporal-chef": 3.5,
+      "Sergent": 1.5,
+      "Sergent-chef": 0.5,
+      "Adjudant": 0.25,
+      "Adjudant-chef": 0.12,
+      "Major": 0.08,
+      "Aspirant": 0.05,
+      "Sous-lieutenant": 0.04,
+      "Lieutenant": 0.02,
+      "Capitaine": 0.015,
+      "Commandant": 0.01,
+      "Lieutenant-colonel": 0.008,
+      "Colonel": 0.005,
+      "Général de brigade": 0.002,
+      "Maréchal": 0.001
+    },
+    "baseProbabilities": {
+      "COMMUN": 50,
+      "PEU_COMMUN": 25,
+      "RARE": 15,
+      "EPIQUE": 7,
+      "RELIQUE": 2.5,
+      "LEGENDAIRE": 0.4,
+      "MYTHIQUE": 0.1
+    },
+    "levelModifier": {
+      "perLevel": 0.02,
+      "exponent": 1.1
+    },
+    "rarityModifiers": {
+      "COMMUN":       { "statsMultiplier": 1.0, "bonus": { "chance": 0 } },
+      "PEU_COMMUN":   { "statsMultiplier": 1.1, "bonus": { "chance": 5 } },
+      "RARE":         { "statsMultiplier": 1.25, "bonus": { "chance": 10 } },
+      "EPIQUE":       { "statsMultiplier": 1.45, "bonus": { "chance": 15, "tauxCritique": 2 } },
+      "RELIQUE":      { "statsMultiplier": 1.70, "bonus": { "chance": 20, "tauxCritique": 4, "degatsCritiques": 10 } },
+      "LEGENDAIRE":   { "statsMultiplier": 2.0, "bonus": { "chance": 25, "tauxCritique": 6, "degatsCritiques": 20, "pointsDeVie": 50 } },
+      "MYTHIQUE":     { "statsMultiplier": 2.5, "bonus": { "chance": 50, "tauxCritique": 10, "degatsCritiques": 50, "pointsDeVie": 100, "attaque": 20 } }
+    }
   }
 }

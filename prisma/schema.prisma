@@ -114,6 +114,7 @@ model Soldat {
   etoiles         Int          @default(0)
   rarete          Rarete       @default(COMMUN)
   inventaire      Inventaire[]
+  summonLogs      SummonLog[]
 }
 
 model Prenom {
@@ -219,7 +220,12 @@ enum Rarete {
 model SummonLog {
   id        Int      @id @default(autoincrement())
   text      String
+  rarete    Rarete   @default(COMMUN)
+  grade     String   @default("Soldat")
   createdAt DateTime @default(now())
+
+  soldat   Soldat? @relation(fields: [soldatId], references: [id])
+  soldatId Int?
 
   user   User @relation(fields: [userId], references: [id])
   userId Int

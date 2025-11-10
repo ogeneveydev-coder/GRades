@@ -31,7 +31,6 @@
             font-size: 1em; /* Taille de police par défaut */
             font-weight: bold;
             color: #00e5ff; /* Cyan lumineux */
-            text-shadow: 0 0 5px #00e5ff, 0 0 10px #00e5ff; /* Effet de lueur */
             background-color: rgba(0, 100, 150, 0.1); /* Fond bleu très léger et transparent */
             border: 1px solid rgba(0, 229, 255, 0.3); /* Bordure cyan semi-transparente */
             box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) inset; /* Lueur intérieure */
@@ -87,7 +86,6 @@
             justify-content: flex-start;
             padding: 1.5em;
             font-size: 0.9em;
-            text-shadow: 0 0 3px rgba(0, 229, 255, 0.5); /* Lueur du texte réduite */
         }
         .zone-b1 h2 { margin-top: 0; color: #ffc107; padding-bottom: 0.5em; width: 100%; display: flex; align-items: center; gap: 10px; }
         .zone-b1 ul { list-style-type: none; padding: 0; width: 100%; }
@@ -123,10 +121,15 @@
             flex-grow: 1; flex-basis: 0; margin-right: auto;
             display: flex; flex-direction: column-reverse;
             justify-content: flex-start; align-items: flex-start;
-            overflow-y: auto; padding: 10px;
+            overflow-y: auto;
+            padding: 10px;
             font-size: 0.7em; font-weight: normal;
         }
-        .zone-c1 p { margin: 2px 0; line-height: 1.3; max-width: 100%; word-wrap: break-word; }
+        .zone-c1 p { margin: 2px 0; line-height: 1.3; max-width: 100%; word-wrap: break-word; border-radius: 3px; padding: 2px 4px; }
+        .zone-c1 p.clickable-log {
+            cursor: pointer;
+        }
+        .zone-c1 p.clickable-log:hover { background-color: rgba(0, 229, 255, 0.15); }
         .zone-c1::-webkit-scrollbar { width: 6px; }
         .zone-c1::-webkit-scrollbar-track { background: transparent; }
         .zone-c1::-webkit-scrollbar-thumb { background-color: #00e5ff; border-radius: 6px; box-shadow: 0 0 3px #00e5ff; }
@@ -180,6 +183,232 @@
         #trigger-right { right: 0; border-radius: 5px 0 0 5px; }
         .is-open { transform: translateX(0) !important; }
 
+        /* --- Animation d'invocation --- */
+        #summoning-animation-container {
+            display: none; /* Caché par défaut */
+            perspective: 1500px;
+            width: 320px;
+            height: 480px;
+            margin: auto; /* Centrer dans B2 */
+            position: relative; /* Pour les effets de fond */
+            overflow: hidden; /* Pour contenir les effets */
+            border-radius: 15px;
+        }
+
+        /* Background effect for the container */
+        #summoning-animation-container.active-summon {
+            background: radial-gradient(circle at center, rgba(255, 255, 0, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: container-glow 1.5s infinite alternate;
+        }
+
+        @keyframes container-glow {
+            from { box-shadow: 0 0 10px rgba(255, 255, 0, 0.3); }
+            to { box-shadow: 0 0 30px rgba(255, 255, 0, 0.8); }
+        }
+
+        .summon-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            /* Initial subtle shake */
+            animation: subtle-shake 0.5s infinite alternate;
+        }
+
+        .summon-card.is-flipping {
+            transform: rotateY(180deg);
+            animation: none; /* Stop shaking when flipping */
+        }
+
+        .summon-card.shaking {
+            animation: intense-shake 0.1s infinite alternate; /* More intense shake */
+        }
+
+        @keyframes subtle-shake {
+            0% { transform: translateX(0) rotateZ(0); }
+            25% { transform: translateX(1px) rotateZ(0.5deg); }
+            75% { transform: translateX(-1px) rotateZ(-0.5deg); }
+            100% { transform: translateX(0) rotateZ(0); }
+        }
+
+        @keyframes intense-shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #0d1a3a;
+            border: 2px solid #00e5ff; /* Bordure cyan par défaut */
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5); /* Lueur cyan par défaut */
+            transition: border-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out; /* Transition douce pour la couleur/lueur */
+        }
+        .card-front {
+            font-size: 2em;
+            color: #EAEAEA;
+            text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff; /* Lueur plus prononcée */
+            background-image: radial-gradient(circle at center, rgba(0, 229, 255, 0.1) 0%, rgba(0, 0, 0, 0.5) 70%);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            padding: 20px;
+            box-sizing: border-box;
+            justify-content: space-around;
+            text-align: center;
+            background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.5) 70%);
+        }
+        .card-back h3 {
+            margin: 0;
+            font-size: 2.5em; /* Nom du grade plus grand */
+            text-shadow: 0 0 10px currentColor; /* Lueur basée sur la couleur du grade */
+        }
+        .card-back .soldier-name {
+            font-size: 1.2em; /* Taille du nom du soldat ajustée */
+            color: #EAEAEA;
+            margin-top: 10px;
+        }
+        .card-back .soldier-nationality {
+            font-size: 1em;
+            color: #BDBDBD; /* Gris clair */
+            margin-top: 5px;
+        }
+        .card-back .soldier-rarity {
+            font-size: 1.4em; /* Rareté plus grande */
+            font-weight: normal;
+            color: #ffc107;
+            text-shadow: 0 0 5px #ffc107;
+        }
+        .card-back .grade-icon {
+            width: 128px; /* Taille de l'icône */
+            height: 128px;
+            object-fit: contain;
+            margin: 15px 0;
+            image-rendering: pixelated; /* Pour un look rétro si les images sont petites */
+        }
+        .stars-container {
+            font-size: 1.8em;
+            color: #FFD700; /* Couleur Or */
+            text-shadow: 0 0 5px #FFD700;
+        }
+
+        /* On réduit la taille des étoiles spécifiquement dans la zone de log */
+        .zone-c1 .stars-container {
+            font-size: 1.2em; /* Taille légèrement supérieure à celle du texte du log */
+            vertical-align: middle; /* Assure un meilleur alignement vertical */
+        }
+
+        /* Effet de flash lors du retournement */
+        .flash-effect { /* Base styles for the flash element */
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            opacity: 0; /* Hidden by default */
+            z-index: 100; /* Au-dessus de tout */
+            border-radius: 15px;
+        }
+
+        .flash-effect.active { /* Class to trigger the flash animation */
+            opacity: 0;
+            animation: flash 0.2s ease-out forwards;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Effet de scintillement pour la carte révélée */
+        .card-back.sparkle::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: sparkle-fade 1s ease-out forwards;
+            border-radius: 15px;
+        }
+
+        /* --- Styles pour la fenêtre modale (Pop-up) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(2, 8, 24, 0.85);
+            display: none; /* Caché par défaut */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #0d1a3a;
+            color: #EAEAEA;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .modal-header h2 { margin: 0; color: #00e5ff; font-size: 1.8em; }
+        .close-button {
+            color: #aaa;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-button:hover { color: white; }
+        .modal-body { overflow-y: auto; padding-right: 10px; }
+        .modal-body ul { list-style-type: none; padding: 0; }
+        .modal-body li { display: flex; justify-content: space-between; padding: 6px 0; }
+        .modal-body hr {
+            border: 0;
+            height: 1px;
+            background-color: rgba(0, 229, 255, 0.2);
+            margin: 10px 0;
+        }
+        .soldier-name-header {
+            color: #00e5ff; text-align: center; font-size: 1.5em; margin-top: 0;
+        }
+
+        @keyframes sparkle-fade {
+            0% { opacity: 1; transform: scale(0.5); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
     </style>
 </head>
 <body>
@@ -190,7 +419,6 @@
                 <a href="/essai.html" class="zone nav-tab">Liste</a>
                 <a href="/admin.html" class="zone nav-tab">Administration</a>
                 <a href="/showBDD.html" class="zone nav-tab">BDD</a>
-                <a href="/schema-viewer.html" class="zone nav-tab">Structure</a>
             </div>
             <div class="auth-links" id="auth-container">
                 <!-- Le contenu d'authentification sera injecté ici -->
@@ -203,8 +431,18 @@
                 <!-- Les statistiques du personnage seront injectées ici -->
             </div>
             <div class="zone zone-b2" id="main-content">
-                <h1>ACCUEIL</h1>
-                <p>Bienvenue sur l'application de gestion des grades de l'armée.</p>
+                <div id="welcome-content">
+                    <h1>ACCUEIL</h1>
+                    <p>Bienvenue sur l'application de gestion des grades de l'armée.</p>
+                </div>
+                <div id="summoning-animation-container">
+                    <div class="summon-card">
+                        <div class="card-front">Invocation...</div>
+                        <div class="card-back" id="summon-card-back">
+                            <!-- Le résultat de l'invocation sera injecté ici -->
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="zone zone-b3" id="drawer-right">B3</div>
         </div>
@@ -224,17 +462,54 @@
         <button class="drawer-trigger" id="trigger-right" aria-label="Ouvrir le panneau de droite">‹</button>
     </div>
 
+    <!-- Fenêtre modale pour les détails du soldat -->
+    <div id="soldier-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Le contenu sera entièrement généré par JavaScript -->
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             // --- Références aux éléments du DOM ---
-            const authContainer = document.getElementById('auth-container');
-            const statsPanel = document.getElementById('drawer-left');
             const triggerLeft = document.getElementById('trigger-left');
             const triggerRight = document.getElementById('trigger-right');
             const drawerLeft = document.getElementById('drawer-left');
+            const authContainer = document.getElementById('auth-container');
             const drawerRight = document.getElementById('drawer-right');
             const mainButton = document.getElementById('main-action-button');
             const logZone = document.getElementById('log-zone');
+            const mainContent = document.getElementById('main-content');
+            const welcomeContent = document.getElementById('welcome-content');
+            const animationContainer = document.getElementById('summoning-animation-container');
+            const summonCard = animationContainer.querySelector('.summon-card');
+            const statsPanel = document.getElementById('drawer-left');
+
+            // Couleurs pour les GRADES
+            const gradeColors = {
+                // Troupes
+                "Soldat": "#9E9E9E",
+                "Soldat de 1ère classe": "#BDBDBD",
+                // Sous-officiers
+                "Caporal": "#66BB6A",
+                "Caporal-chef": "#4CAF50",
+                "Sergent": "#2E7D32",
+                "Sergent-chef": "#1B5E20",
+                "Adjudant": "#42A5F5",
+                "Adjudant-chef": "#1E88E5",
+                "Major": "#0D47A1",
+                // Officiers subalternes
+                "Aspirant": "#FFEE58",
+                "Sous-lieutenant": "#FFD600",
+                "Lieutenant": "#FFAB00",
+                "Capitaine": "#FF6D00",
+                // Officiers supérieurs et généraux
+                "Commandant": "#E53935",
+                "Lieutenant-colonel": "#C62828",
+                "Colonel": "#B71C1C",
+                "Général de brigade": "#880E4F",
+                "Maréchal": "#D500F9" // Magenta/Violet pour le grade ultime
+            };
 
             // --- Fonctions pour gérer les logs depuis la BDD ---
             async function loadLogsFromDatabase() {
@@ -243,19 +518,48 @@
                     const response = await fetch('/api/logs/summon', { credentials: 'include' });
                     if (!response.ok) return;
                     const logs = await response.json();
+                    console.log("Logs chargés depuis la BDD:", logs); // DEBUG
                     logZone.innerHTML = ''; // On vide avant de remplir
                     logs.reverse().forEach(log => { // On inverse pour utiliser prepend
                         const logEntry = document.createElement('p');
                         const timestamp = new Date(log.createdAt).toLocaleTimeString();
-                        logEntry.textContent = `[${timestamp}] ${log.text}`;
+                        logEntry.style.color = gradeColors[log.grade] || "#FFFFFF"; // Applique la couleur du grade
+                        
+                        if (log.soldatId) {
+                            const starsHtml = getStarsHtml(log.rarete);
+                            logEntry.innerHTML = `[${timestamp}] Soldat Invoqué! ${log.grade} ${starsHtml}`;
+                            logEntry.classList.add('clickable-log');
+                            logEntry.dataset.soldatId = log.soldatId;
+                        }
                         logZone.prepend(logEntry);
                     });
                 } catch (error) {
-                    console.error("Erreur lors du chargement des logs:", error);
+                    console.error("DEBUG: Erreur lors du chargement des logs:", error);
                 }
             }
 
+            const rarityToStars = {
+                "COMMUN": 1,
+                "PEU_COMMUN": 2,
+                "RARE": 3,
+                "EPIQUE": 4,
+                "RELIQUE": 5,
+                "LEGENDAIRE": 6,
+                "MYTHIQUE": 7
+            };
+
+            /**
+             * Génère le HTML pour les étoiles basées sur la rareté.
+             * @param {string} rarity - La rareté du soldat.
+             * @returns {string} Le HTML des étoiles.
+             */
+            function getStarsHtml(rarity) {
+                const starCount = rarityToStars[rarity] || 0;
+                return `<span class="stars-container">${'★'.repeat(starCount)}</span>`;
+            }
+
             let isLoggedIn = false;
+            let isAnimating = false; // Drapeau pour suivre l'état de l'animation
 
             // --- 1. Gestion de l'authentification et de l'en-tête (Zone A) ---
             try {
@@ -374,34 +678,180 @@
                 mainButton.addEventListener('touchcancel', release);
 
                 mainButton.addEventListener('click', async () => {
-                    let randomText = "Invocation en cours...";
-                    try {
-                        const response = await fetch('/api/soldats/summon', { 
-                            method: 'POST',
-                            credentials: 'include'
-                        });
-                        if (!response.ok) {
-                            const err = await response.json();
-                            throw new Error(err.error || 'Échec de l\'invocation');
-                        }
-                        const newSoldier = await response.json();
-                        randomText = `Soldat invoqué ! ${newSoldier.prenom} ${newSoldier.nom} - Grade: ${newSoldier.grade}, Rareté: ${newSoldier.rarete}`;
-                    } catch (error) {
-                        randomText = `Erreur: ${error.message}`;
+                    // On empêche un nouveau clic si l'animation est déjà en cours
+                    if (isAnimating) return;
+
+                    if (!isLoggedIn) {
+                        alert("Veuillez vous connecter pour invoquer un soldat.");
+                        return;
                     }
-                    const logEntry = document.createElement('p');
-                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${randomText}`;
-                    logZone.prepend(logEntry);
+
+                    isAnimating = true; // On active le drapeau
+                    // 1. Préparer et lancer l'animation initiale
+                    welcomeContent.style.display = 'none';
+                    animationContainer.style.display = 'flex';
+                    animationContainer.classList.remove('active-summon');
+                    summonCard.classList.remove('is-flipping');
+                    summonCard.classList.add('shaking'); // Commencer le tremblement intense
+                    document.getElementById('summon-card-back').classList.remove('sparkle');
+
+                    // Ajouter un élément flash dynamiquement pour s'assurer qu'il est réinitialisé
+                    let flashElement = animationContainer.querySelector('.flash-effect');
+                    if (flashElement) flashElement.remove();
+                    flashElement = document.createElement('div');
+                    flashElement.classList.add('flash-effect');
+                    animationContainer.appendChild(flashElement);
+
+                    // Séquence d'événements pour plus de suspense
+                    setTimeout(async () => {
+                        animationContainer.classList.add('active-summon'); // Activer la lueur du conteneur
+
+                        try {
+                            // 2. Appeler le serveur pour l'invocation
+                            const response = await fetch('/api/soldats/summon', {
+                                method: 'POST',
+                                credentials: 'include'
+                            });
+
+                            if (!response.ok) {
+                                const err = await response.json();
+                                throw new Error(err.error || 'Échec de l\'invocation');
+                            }
+                            const newSoldier = await response.json();
+
+                            // 3. Mettre à jour le dos de la carte avec les résultats
+                            const cardBack = document.getElementById('summon-card-back');
+                            const gradeColor = gradeColors[newSoldier.grade] || "#00e5ff";
+                            const gradeIconHtml = newSoldier.pictogramme ? `<img src="${newSoldier.pictogramme}" alt="${newSoldier.grade}" class="grade-icon">` : '';
+                            const starsHtml = getStarsHtml(newSoldier.rarete);
+
+                            cardBack.style.borderColor = gradeColor;
+                            cardBack.innerHTML = `
+                                <h3 style="color: ${gradeColor}">${newSoldier.grade}</h3>
+                                ${gradeIconHtml}
+                                <div class="soldier-name">${newSoldier.prenom} ${newSoldier.nom}</div>
+                                <div class="soldier-nationality">${newSoldier.nationalite}</div>
+                                ${starsHtml}
+                            `;
+
+                            // 4. Retourner la carte pour révéler le soldat après un délai
+                            setTimeout(() => {
+                                summonCard.classList.add('is-flipping');
+                                summonCard.classList.remove('shaking'); // Arrêter le tremblement
+                                flashElement.classList.add('active'); // Déclencher le flash
+
+                                // Ajouter l'effet de scintillement après le retournement
+                                setTimeout(() => cardBack.classList.add('sparkle'), 800);
+                            }, 1500); // Délai de 1.5s de tremblement avant le retournement
+
+                            // 5. Ajouter l'entrée au log en bas
+                            if (newSoldier.id) {
+                                const logEntry = document.createElement('p');
+                                logEntry.style.color = gradeColor;
+                                logEntry.classList.add('clickable-log');
+                                logEntry.dataset.soldatId = newSoldier.id;
+                                logEntry.innerHTML = `[${new Date().toLocaleTimeString()}] Soldat Invoqué! ${newSoldier.grade} ${starsHtml}`;
+                                logZone.prepend(logEntry);
+                            }
+
+
+                            // 6. Réinitialiser l'animation après un délai pour afficher le résultat
+                            setTimeout(() => {
+                                animationContainer.style.display = 'none';
+                                welcomeContent.style.display = 'block';
+                                isAnimating = false; // On désactive le drapeau à la fin de l'animation
+                            }, 3000); // Afficher le résultat pendant 3 secondes
+
+                        } catch (error) {
+                            // En cas d'erreur, on l'affiche dans le log et on cache l'animation
+                            const logEntry = document.createElement('p');
+                            logEntry.style.color = "#FF5555";
+                            logEntry.textContent = `[${new Date().toLocaleTimeString()}] Erreur: ${error.message}`;
+                            logZone.prepend(logEntry);
+                            animationContainer.style.display = 'none';
+                            welcomeContent.style.display = 'block';
+                            isAnimating = false; // On désactive aussi le drapeau en cas d'erreur
+                        }
+                    }, 200); // Court délai initial pour que le tremblement soit visible
 
                     // On s'assure de ne garder que les 100 dernières lignes
                     while (logZone.children.length > 100) {
                         logZone.lastChild.remove();
                     }
-
-                    // Pas besoin de sauvegarder côté client, le serveur le fait déjà.
-
                 });
             }
+
+            // --- 5. Gestion de la modale de détails du soldat ---
+            const modalOverlay = document.getElementById('soldier-modal-overlay');
+
+            function openModal() {
+                console.log("DEBUG: Appel de openModal()");
+                modalOverlay.style.display = 'flex';
+            }
+            function closeModal() { 
+                modalOverlay.style.display = 'none'; 
+            }
+
+            const modalContent = modalOverlay.querySelector('.modal-content');
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
+            logZone.addEventListener('click', async (e) => {
+                const logEntry = e.target.closest('.clickable-log');
+                if (!logEntry || !logEntry.dataset.soldatId) return;
+
+                const soldatId = logEntry.dataset.soldatId;
+                try {
+                    const response = await fetch(`/api/soldats/${soldatId}`, { credentials: 'include' });
+                    if (!response.ok) throw new Error('Impossible de charger les détails du soldat.');
+                    
+                    const soldat = await response.json();
+                    
+                    const starsHtml = getStarsHtml(soldat.rarete);
+                    const gradeColor = gradeColors[soldat.grade] || '#FFFFFF';
+
+                    modalContent.innerHTML = `
+                        <div class="modal-header">
+                            <h2>Détails</h2>
+                            <span id="modal-close-button" class="close-button">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                        <h3 class="soldier-name-header" style="color: ${gradeColor};">${soldat.prenom} ${soldat.nom}</h3>
+                        <p style="text-align: center; margin-top: -10px; margin-bottom: 20px; color: #BDBDBD;">${soldat.nationalite}</p>
+                        <div style="text-align: center; margin-bottom: 20px;">${starsHtml}</div>
+                        <ul>
+                            <li><span>Grade</span> <span style="color: ${gradeColor}; font-weight: bold;">${soldat.grade}</span></li>
+                            <li><span>Niveau</span> <span>${soldat.niveau}</span></li>
+                            <li><span>Expérience</span> <span>${soldat.experience}</span></li>
+                            <hr>
+                            <li><span>Points de Vie</span> <span>${soldat.pointsDeVie}</span></li>
+                            <li><span>Attaque</span> <span>${soldat.attaque}</span></li>
+                            <li><span>Force</span> <span>${soldat.force}</span></li>
+                            <li><span>Constitution</span> <span>${soldat.constitution}</span></li>
+                            <li><span>Dextérité</span> <span>${soldat.dexterite}</span></li>
+                            <li><span>Vitesse</span> <span>${soldat.vitesse}</span></li>
+                            <li><span>Résistance</span> <span>${soldat.resistance}</span></li>
+                            <li><span>Précision</span> <span>${soldat.precision}</span></li>
+                            <hr>
+                            <li><span>Charisme</span> <span>${soldat.charisme}</span></li>
+                            <li><span>Intelligence</span> <span>${soldat.intelligence}</span></li>
+                            <li><span>Chance</span> <span>${soldat.chance}</span></li>
+                            <li><span>Fidélité</span> <span>${soldat.fidelite}</span></li>
+                            <li><span>Ambition</span> <span>${soldat.ambition}</span></li>
+                        </ul>
+                        </div>
+                    `;
+
+                    // On rattache l'événement de fermeture au nouveau bouton
+                    modalContent.querySelector('#modal-close-button').addEventListener('click', closeModal);
+                    openModal();
+                } catch (error) {
+                    console.error("Erreur lors de l'affichage de la popup:", error);
+                    alert(error.message);
+                }
+            });
+
         });
     </script>
 </body>

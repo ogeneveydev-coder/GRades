@@ -540,6 +540,54 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
         }
     }
 
+    // NOUVELLE ÉTAPE : Récupérer les détails du grade (pictogramme)
+    const gradeDetails = await prisma.grade.findUnique({
+      where: { nom: summonedGrade },
+    });
+    const summonedGradePictogramme = gradeDetails?.pictogramme || null;
+
+    // NOUVELLE ÉTAPE : Générer un nom et une nationalité uniques
+    const nationalities = ['français', 'italien', 'espagnol', 'anglais', 'allemand'];
+    const summonedNationality = nationalities[Math.floor(Math.random() * nationalities.length)];
+
+    let summonedFirstName = '';
+    let summonedLastName = '';
+    let isNameUnique = false;
+    let attempts = 0;
+    const MAX_NAME_ATTEMPTS = 50; // Sécurité pour éviter une boucle infinie
+
+    while (!isNameUnique && attempts < MAX_NAME_ATTEMPTS) {
+      attempts++;
+
+      // 1. Tirer un prénom aléatoire pour la nationalité
+      const firstNames = await prisma.prenom.findMany({ where: { nationalite: summonedNationality } });
+      if (firstNames.length > 0) {
+        summonedFirstName = firstNames[Math.floor(Math.random() * firstNames.length)].name;
+      } else {
+        summonedFirstName = 'Nouveau'; // Fallback
+      }
+
+      // 2. Tirer un nom de famille aléatoire pour la nationalité
+      const lastNames = await prisma.nomDeFamille.findMany({ where: { nationalite: summonedNationality } });
+      if (lastNames.length > 0) {
+        summonedLastName = lastNames[Math.floor(Math.random() * lastNames.length)].name;
+      } else {
+        summonedLastName = `Soldat_${Date.now()}`; // Fallback
+      }
+
+      // 3. Vérifier si la combinaison nom/prénom existe déjà
+      const existingSoldier = await prisma.soldat.findFirst({
+        where: {
+          prenom: summonedFirstName,
+          nom: summonedLastName,
+        },
+      });
+
+      if (!existingSoldier) {
+        isNameUnique = true;
+      }
+    }
+
     // 5. Calculer les statistiques finales basées sur la rareté et le grade
     const { baseStats } = gameConfig.soldat;
     const rarityModifier = gameConfig.summon.rarityModifiers[summonedRarity] || gameConfig.summon.rarityModifiers.COMMUN;
@@ -553,10 +601,17 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
 
     statsToMultiply.forEach(stat => {
       if (finalStats[stat] != null) {
-        // Le modificateur de rareté devient un bonus ajouté au modificateur de grade.
+        // Ajustement des multiplicateurs pour un meilleur équilibrage
+        const gradeInfluence = 0.5; // Réduit l'impact direct du grade sur la stat de base
+        const rarityInfluence = 1.5; // Augmente l'impact de la rareté
         // (rarityMultiplier - 1) transforme le multiplicateur (ex: 1.25) en bonus (ex: 0.25)
-        const totalMultiplier = gradeModifierValue + (rarityModifier.statsMultiplier - 1);
+        const totalMultiplier = 1 + (gradeModifierValue - 1) * gradeInfluence + (rarityModifier.statsMultiplier - 1) * rarityInfluence;
         finalStats[stat] = Math.round(finalStats[stat] * totalMultiplier);
+
+        // Appliquer une borne pour la précision entre 5 et 100
+        if (stat === 'precision') {
+          finalStats[stat] = Math.min(100, Math.max(5, finalStats[stat])); // Bornes de 5% à 100%
+        }
       }
     });
 
@@ -574,6 +629,9 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
         grade: summonedGrade,
         prenom: "Nouveau",
         nom: "Soldat",
+        nationalite: summonedNationality,
+        prenom: summonedFirstName,
+        nom: summonedLastName,
         ...finalStats
       }
     });
@@ -583,11 +641,20 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
     await prisma.summonLog.create({
       data: {
         text: logText,
+        rarete: newSoldier.rarete,
+        grade: newSoldier.grade, // On enregistre le grade
+        soldatId: newSoldier.id, // On lie le log au soldat créé
         userId: user.id,
       }
     });
 
-    res.status(201).json(newSoldier);
+    // On ajoute le pictogramme à l'objet retourné au client
+    const soldierWithPictogram = {
+      ...newSoldier,
+      pictogramme: summonedGradePictogramme,
+    };
+
+    res.status(201).json(soldierWithPictogram);
 
   } catch (error) {
     console.error("Erreur lors de l'invocation du soldat:", error);
@@ -595,6 +662,24 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
   }
 });
 
+// --- Route pour récupérer un soldat par son ID ---
+app.get('/api/soldats/:id', isAuthenticated, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const soldat = await prisma.soldat.findUnique({
+      where: { id: parseInt(id, 10) },
+    });
+
+    if (!soldat || soldat.userId !== req.session.userId) {
+      return res.status(404).json({ error: 'Soldat non trouvé ou non autorisé.' });
+    }
+
+    res.json(soldat);
+  } catch (error) {
+    console.error(`Erreur lors de la récupération du soldat ${id}:`, error);
+    res.status(500).json({ error: 'Erreur serveur.' });
+  }
+});
 // --- Route pour récupérer les logs d'invocation ---
 app.get('/api/logs/summon', isAuthenticated, async (req, res) => {
   try {
@@ -604,6 +689,13 @@ app.get('/api/logs/summon', isAuthenticated, async (req, res) => {
       },
       orderBy: {
         createdAt: 'desc',
+      },
+      // On sélectionne explicitement les champs nécessaires pour le client
+      select: {
+        createdAt: true,
+        grade: true,
+        rarete: true,
+        soldatId: true, // C'est la clé !
       },
       take: 100, // On récupère les 100 plus récents
     });

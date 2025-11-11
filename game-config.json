@@ -110,5 +110,25 @@
       "LEGENDAIRE":   { "statsMultiplier": 2.0, "bonus": { "chance": 25, "tauxCritique": 6, "degatsCritiques": 20, "pointsDeVie": 50 } },
       "MYTHIQUE":     { "statsMultiplier": 2.5, "bonus": { "chance": 50, "tauxCritique": 10, "degatsCritiques": 50, "pointsDeVie": 100, "attaque": 20 } }
     }
+  },
+  "maxRarityPerGrade": {
+    "Soldat": "PEU_COMMUN",
+    "Soldat de 1ère classe": "PEU_COMMUN",
+    "Caporal": "RARE",
+    "Caporal-chef": "RARE",
+    "Sergent": "EPIQUE",
+    "Sergent-chef": "EPIQUE",
+    "Adjudant": "RELIQUE",
+    "Adjudant-chef": "RELIQUE",
+    "Major": "RELIQUE",
+    "Aspirant": "LEGENDAIRE",
+    "Sous-lieutenant": "LEGENDAIRE",
+    "Lieutenant": "LEGENDAIRE",
+    "Capitaine": "LEGENDAIRE",
+    "Commandant": "MYTHIQUE",
+    "Lieutenant-colonel": "MYTHIQUE",
+    "Colonel": "MYTHIQUE",
+    "Général de brigade": "MYTHIQUE",
+    "Maréchal": "MYTHIQUE"
   }
 }

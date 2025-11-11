@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventaire</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #020818; /* Fond sombre cohérent avec le reste du site */
+        }
+
+       .inventory-container {
+            width: 800px; /* Largeur totale */
+            height: 500px;
+            border: 1px solid rgba(0, 229, 255, 0.3); /* Bordure cyan */
+            background-color: rgba(0, 100, 150, 0.1); /* Fond bleu transparent */
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) inset; /* Lueur intérieure */
+            border-radius: 8px; /* Coins légèrement arrondis */
+            display: flex; /* Utiliser Flexbox pour diviser en zones */
+        }
+
+       .inventory-zone {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Styles spécifiques pour la zone du personnage */
+        .character-zone {
+            width: 350px;
+            flex-shrink: 0;
+            border-right: 1px solid rgba(0, 229, 255, 0.15);
+        }
+
+        /* Styles spécifiques pour la zone des objets */
+        .items-zone {
+            width: 450px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00e5ff; /* Cyan lumineux */
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00e5ff, 0 0 10px #00e5ff; /* Effet de lueur */
+        }
+
+        .character-display {
+            position: absolute;
+            top: 55%; /* On remonte légèrement pour faire de la place au titre */
+            left: 50%; /* Recentrage dans la nouvelle zone de 350px */
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .character-header {
+            position: absolute;
+            top: 0; /* Positionné tout en haut du conteneur .character-display */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Espace entre le galon et le nom */
+        }
+        .character-rank-icon {
+            height: 40px; /* Hauteur pour l'icône du galon */
+        }
+        .character-name {
+            margin: 0;
+            font-size: 1.2em;
+            color: #00e5ff;
+            text-shadow: 0 0 8px #00e5ff;
+            font-weight: bold;
+        }
+
+        .character-image {
+            max-width: 150px;
+            max-height: 300px;
+            object-fit: contain;
+        }
+
+        .character-image-main { /* Nouvelle classe pour l'image principale du personnage */
+            /* On limite la taille de l'image du personnage pour éviter qu'elle soit trop grande */
+            max-width: 400px; /* Rétablir une grande taille */
+            max-height: 500px; /* Rétablir une grande taille */
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.7)); /* Ajoute une lueur externe */
+            opacity: 1; /* Rendre le personnage entièrement visible */
+        } /* L'accolade manquante est ajoutée ici */
+        .equipment-slot {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: rgba(0, 100, 150, 0.1); /* Fond légèrement visible */
+            border: 1px solid rgba(0, 229, 255, 0.7); /* Bordure solide et lumineuse */
+            border-radius: 8px; /* Coins arrondis */
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.6), inset 0 0 5px rgba(0, 229, 255, 0.4); /* Lueur externe et interne */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out; /* Transition douce pour les effets de survol */
+        }
+        /* Suppression des pseudo-éléments pour les coins */
+        .equipment-slot::before,
+        .equipment-slot::after {
+            content: none;
+        }
+        .equipment-slot:hover {
+            transform: scale(1.05); /* Agrandissement léger au survol */
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.8), inset 0 0 8px rgba(0, 229, 255, 0.5);
+        }
+        .equipment-slot img {
+            max-width: 80%; /* Image légèrement plus petite pour laisser de la place à la bordure */
+            max-height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7)); /* Lueur plus forte sur l'icône */
+        }
+        .accessory-slot-1 img {
+            transform: rotate(90deg); /* Rotation de 90 degrés pour l'image de l'accessoire 1 */
+        }
+
+        /* Positionnement des slots autour du personnage */
+        /* Slots à gauche */
+        .head-slot { top: 60px; left: 20px; }
+        .body-slot { top: 158px; left: 20px; }
+        .legs-slot { top: 256px; left: 20px; }
+        .feet-slot { top: 354px; left: 20px; }
+
+        /* Slots à droite */
+        .hands-slot { top: 60px; right: 20px; left: auto; }
+        .accessory-slot-1 { top: 170px; right: 20px; left: auto; height: 140px; }
+        .accessory-slot-2 { top: 350px; right: 20px; left: auto; }
+</style>
+</head>
+<body>
+    <div class="inventory-container">
+        <div class="inventory-zone character-zone">
+            <div class="character-display">
+                <!-- En-tête avec nom et galon -->
+                <div class="character-header">
+                    <img src="/images/grades/placeholder_grade.svg" alt="Galon" class="character-rank-icon">
+                    <h2 class="character-name">Nom du Personnage</h2>
+                </div>
+
+                <!-- Image principale du personnage -->
+                <img src="/images/personnage/character.svg" alt="Mon Personnage" class="character-image-main">
+                
+                <!-- Emplacements d'équipement avec images -->
+                <div class="equipment-slot head-slot">
+                    <img src="/images/personnage/casque.svg" alt="Tête">
+                </div>
+                <div class="equipment-slot body-slot">
+                    <img src="/images/personnage/plastron.svg" alt="Corps">
+                </div>
+                <div class="equipment-slot legs-slot">
+                    <img src="/images/personnage/jambes.svg" alt="Jambes">
+                </div>
+                <div class="equipment-slot hands-slot">
+                    <img src="/images/personnage/gants.svg" alt="Main Droite">
+                </div>
+                <div class="equipment-slot feet-slot">
+                    <img src="/images/personnage/pieds.svg" alt="Pieds">
+                </div>
+                <div class="equipment-slot accessory-slot-1">
+                    <img src="/images/personnage/arme1.svg" alt="Accessoire 1">
+                </div>
+                <div class="equipment-slot accessory-slot-2">
+                    <img src="/images/personnage/arme2.svg" alt="Accessoire 2">
+                </div>
+            </div>
+        </div>
+        <div class="inventory-zone items-zone">
+            Inventaire
+        </div>
+    </div>
+</body>
+</html>

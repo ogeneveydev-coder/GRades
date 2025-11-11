@@ -113,6 +113,7 @@ model Soldat {
   taille          Int          @default(0) // en cm
   etoiles         Int          @default(0)
   rarete          Rarete       @default(COMMUN)
+  raretePotentielle Rarete     @default(COMMUN)
   inventaire      Inventaire[]
   summonLogs      SummonLog[]
 }

@@ -506,12 +506,12 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
 
     // 2. Effectuer le tirage de la RARETÉ
     let random = Math.random() * totalWeight;
-    let summonedRarity = 'COMMUN';
+    let potentialRarity = 'COMMUN';
 
     for (const rarity in adjustedProbabilities) {
       random -= adjustedProbabilities[rarity];
       if (random <= 0) {
-        summonedRarity = rarity;
+        potentialRarity = rarity;
         break;
       }
     }
@@ -538,6 +538,20 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
             summonedGrade = grade;
             break;
         }
+    }
+
+    // NOUVELLE ÉTAPE : Plafonner la rareté en fonction du grade
+    const { maxRarityPerGrade } = gameConfig;
+    const maxRarityForGrade = maxRarityPerGrade[summonedGrade] || 'MYTHIQUE';
+
+    // On définit l'ordre des raretés pour pouvoir les comparer
+    const rarityOrder = ["COMMUN", "PEU_COMMUN", "RARE", "EPIQUE", "RELIQUE", "LEGENDAIRE", "MYTHIQUE"];
+    const potentialRarityIndex = rarityOrder.indexOf(potentialRarity);
+    const maxRarityIndex = rarityOrder.indexOf(maxRarityForGrade);
+
+    // Si la rareté obtenue est supérieure à la rareté maximale autorisée pour ce grade, on la plafonne.
+    if (potentialRarityIndex > maxRarityIndex) {
+      potentialRarity = maxRarityForGrade;
     }
 
     // NOUVELLE ÉTAPE : Récupérer les détails du grade (pictogramme)
@@ -590,7 +604,7 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
 
     // 5. Calculer les statistiques finales basées sur la rareté et le grade
     const { baseStats } = gameConfig.soldat;
-    const rarityModifier = gameConfig.summon.rarityModifiers[summonedRarity] || gameConfig.summon.rarityModifiers.COMMUN;
+    const rarityModifier = gameConfig.summon.rarityModifiers[potentialRarity] || gameConfig.summon.rarityModifiers.COMMUN;
     const gradeModifierValue = gameConfig.gradeModifiers[summonedGrade] || 1.0;
     const finalStats = { ...baseStats };
 
@@ -625,10 +639,9 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
     const newSoldier = await prisma.soldat.create({
       data: {
         userId: user.id,
-        rarete: summonedRarity,
         grade: summonedGrade,
-        prenom: "Nouveau",
-        nom: "Soldat",
+        rarete: 'COMMUN', // Le soldat commence toujours à 1 étoile
+        raretePotentielle: potentialRarity, // On stocke son potentiel maximum
         nationalite: summonedNationality,
         prenom: summonedFirstName,
         nom: summonedLastName,
@@ -637,11 +650,11 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
     });
 
     // 7. Enregistrer l'événement dans le journal d'invocation
-    const logText = `Soldat invoqué ! ${newSoldier.prenom} ${newSoldier.nom} - Grade: ${newSoldier.grade}, Rareté: ${newSoldier.rarete}`;
+    const logText = `Soldat invoqué ! ${newSoldier.prenom} ${newSoldier.nom} - Grade: ${newSoldier.grade}, Rareté: ${potentialRarity}`;
     await prisma.summonLog.create({
       data: {
         text: logText,
-        rarete: newSoldier.rarete,
+        rarete: potentialRarity, // On log le potentiel pour l'affichage des étoiles
         grade: newSoldier.grade, // On enregistre le grade
         soldatId: newSoldier.id, // On lie le log au soldat créé
         userId: user.id,
@@ -651,6 +664,7 @@ app.post('/api/soldats/summon', isAuthenticated, async (req, res) => {
     // On ajoute le pictogramme à l'objet retourné au client
     const soldierWithPictogram = {
       ...newSoldier,
+      // newSoldier contient déjà rarete: 'COMMUN' et raretePotentielle: potentialRarity
       pictogramme: summonedGradePictogramme,
     };
 
@@ -668,13 +682,25 @@ app.get('/api/soldats/:id', isAuthenticated, async (req, res) => {
   try {
     const soldat = await prisma.soldat.findUnique({
       where: { id: parseInt(id, 10) },
+      include: {
+        user: { // On inclut l'utilisateur pour vérifier la propriété
+          select: { id: true }
+        }
+      }
     });
 
-    if (!soldat || soldat.userId !== req.session.userId) {
+    if (!soldat || soldat.user.id !== req.session.userId) {
       return res.status(404).json({ error: 'Soldat non trouvé ou non autorisé.' });
     }
 
-    res.json(soldat);
+    // On récupère les détails du grade pour le pictogramme
+    const gradeDetails = await prisma.grade.findUnique({
+      where: { nom: soldat.grade }
+    });
+
+    // On combine les informations
+    const soldatComplet = { ...soldat, pictogramme: gradeDetails?.pictogramme || null };
+    res.json(soldatComplet);
   } catch (error) {
     console.error(`Erreur lors de la récupération du soldat ${id}:`, error);
     res.status(500).json({ error: 'Erreur serveur.' });

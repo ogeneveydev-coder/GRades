@@ -364,15 +364,16 @@
         .modal-content {
             background-color: #0d1a3a;
             color: #EAEAEA;
-            padding: 25px;
             border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 85vh;
+            /* On reprend les dimensions de la page inventaire.html */
+            width: 800px;
+            height: 500px;
             display: flex;
             flex-direction: column;
             border: 1px solid rgba(0, 229, 255, 0.5);
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+            padding: 0; /* On retire le padding pour que le conteneur interne prenne toute la place */
+            overflow: hidden; /* Pour que les coins arrondis s'appliquent au contenu */
         }
         .modal-header {
             display: flex;
@@ -390,10 +391,14 @@
             cursor: pointer;
             transition: color 0.2s;
         }
-        .close-button:hover { color: white; }
+        .modal-header .close-button:hover { color: white; }
         .modal-body { overflow-y: auto; padding-right: 10px; }
         .modal-body ul { list-style-type: none; padding: 0; }
-        .modal-body li { display: flex; justify-content: space-between; padding: 6px 0; }
+        .modal-body li {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+        }
         .modal-body hr {
             border: 0;
             height: 1px;
@@ -403,6 +408,95 @@
         .soldier-name-header {
             color: #00e5ff; text-align: center; font-size: 1.5em; margin-top: 0;
         }
+        /* Styles pour le bouton de fermeture global de la modale */
+        .modal-close-button-global {
+            position: absolute; top: 10px; right: 15px;
+            font-size: 2em; color: #aaa; cursor: pointer;
+            z-index: 10; transition: color 0.2s;
+        }
+        .modal-close-button-global:hover { color: white; }
+
+        /* --- Styles copiés depuis inventaire.html pour le visuel du personnage --- */
+        .character-display {
+            position: absolute;
+            top: 60%; /* On redescend encore un peu plus */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .character-header {
+            position: absolute;
+            top: -40px; /* On remonte encore plus l'en-tête */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .character-rank-icon { height: 60px; } /* Taille du galon augmentée */
+        .character-name {
+            margin: 0;
+            font-size: 1.2em;
+            color: #00e5ff;
+            text-shadow: 0 0 8px #00e5ff;
+            font-weight: bold;
+        }
+        .character-header .stars-container {
+            font-size: 1.1em; /* Taille des étoiles réduite */
+            vertical-align: middle;
+        }
+        .character-image-main {
+            max-width: 220px; /* Taille augmentée */
+            max-height: 450px; /* Taille augmentée */
+            max-width: 400px; /* Taille identique à la page inventaire */
+            max-height: 500px; /* Taille identique à la page inventaire */
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.7));
+            opacity: 1;
+        }
+        .equipment-slot {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: rgba(0, 100, 150, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.7);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.6), inset 0 0 5px rgba(0, 229, 255, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out; /* Ajout de la transition pour le survol */
+        }
+        .equipment-slot:hover {
+            transform: scale(1.05); /* Agrandissement léger au survol */
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.8), inset 0 0 8px rgba(0, 229, 255, 0.5);
+        }
+        .equipment-slot img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7));
+        }
+        .accessory-slot-1 img { transform: rotate(90deg); }
+
+        /* Positionnement des slots */
+        .head-slot { top: 60px; left: 20px; }
+        .body-slot { top: 158px; left: 20px; }
+        .legs-slot { top: 256px; left: 20px; }
+        .feet-slot { top: 354px; left: 20px; }
+
+        .hands-slot { top: 60px; right: 20px; left: auto; }
+        .accessory-slot-1 { top: 170px; right: 20px; left: auto; height: 140px; }
+        .accessory-slot-2 { top: 350px; right: 20px; left: auto; }
+
 
         @keyframes sparkle-fade {
             0% { opacity: 1; transform: scale(0.5); }
@@ -526,7 +620,7 @@
                         logEntry.style.color = gradeColors[log.grade] || "#FFFFFF"; // Applique la couleur du grade
                         
                         if (log.soldatId) {
-                            const starsHtml = getStarsHtml(log.rarete);
+                            const starsHtml = getStarsHtml('COMMUN', log.rarete); // Affiche 1 étoile dorée et le reste en argent
                             logEntry.innerHTML = `[${timestamp}] Soldat Invoqué! ${log.grade} ${starsHtml}`;
                             logEntry.classList.add('clickable-log');
                             logEntry.dataset.soldatId = log.soldatId;
@@ -551,11 +645,17 @@
             /**
              * Génère le HTML pour les étoiles basées sur la rareté.
              * @param {string} rarity - La rareté du soldat.
+             * @param {string} [potentialRarity] - La rareté potentielle du soldat.
              * @returns {string} Le HTML des étoiles.
              */
-            function getStarsHtml(rarity) {
-                const starCount = rarityToStars[rarity] || 0;
-                return `<span class="stars-container">${'★'.repeat(starCount)}</span>`;
+            function getStarsHtml(rarity, potentialRarity) {
+                const currentStarCount = rarityToStars[rarity] || 0;
+                // Si potentialRarity n'est pas fourni, on considère que le potentiel est la rareté actuelle.
+                const potentialStarCount = rarityToStars[potentialRarity || rarity] || 0;
+
+                const filledStars = '★'.repeat(currentStarCount);
+                const emptyStars = '☆'.repeat(potentialStarCount - currentStarCount);
+                return `<span class="stars-container"><span style="color: #FFD700;">${filledStars}</span><span style="color: #777;">${emptyStars}</span></span>`;
             }
 
             let isLoggedIn = false;
@@ -723,7 +823,7 @@
                             const cardBack = document.getElementById('summon-card-back');
                             const gradeColor = gradeColors[newSoldier.grade] || "#00e5ff";
                             const gradeIconHtml = newSoldier.pictogramme ? `<img src="${newSoldier.pictogramme}" alt="${newSoldier.grade}" class="grade-icon">` : '';
-                            const starsHtml = getStarsHtml(newSoldier.rarete);
+                            const starsHtml = getStarsHtml(newSoldier.rarete, newSoldier.raretePotentielle);
 
                             cardBack.style.borderColor = gradeColor;
                             cardBack.innerHTML = `
@@ -750,7 +850,7 @@
                                 logEntry.style.color = gradeColor;
                                 logEntry.classList.add('clickable-log');
                                 logEntry.dataset.soldatId = newSoldier.id;
-                                logEntry.innerHTML = `[${new Date().toLocaleTimeString()}] Soldat Invoqué! ${newSoldier.grade} ${starsHtml}`;
+                                logEntry.innerHTML = `[${new Date().toLocaleTimeString()}] Soldat Invoqué! ${newSoldier.grade} ${getStarsHtml('COMMUN', newSoldier.raretePotentielle)}`;
                                 logZone.prepend(logEntry);
                             }
 
@@ -808,40 +908,75 @@
                     
                     const soldat = await response.json();
                     
-                    const starsHtml = getStarsHtml(soldat.rarete);
+                    const starsHtml = getStarsHtml(soldat.rarete, soldat.raretePotentielle);
                     const gradeColor = gradeColors[soldat.grade] || '#FFFFFF';
 
+                    // On charge le contenu de la page inventaire.html dans la modale
                     modalContent.innerHTML = `
-                        <div class="modal-header">
-                            <h2>Détails</h2>
-                            <span id="modal-close-button" class="close-button">&times;</span>
+                        <span id="modal-close-button" class="modal-close-button-global">&times;</span>
+                        <div class="zone character-zone" style="width: 350px; flex-shrink: 0; border-right: 1px solid rgba(0, 229, 255, 0.15); position: relative;">
+                            <div class="character-display">
+                                <div class="character-header">
+                                    <img src="${soldat.pictogramme || '/images/grades/placeholder_grade.svg'}" alt="Galon" class="character-rank-icon" style="flex-shrink: 0;">
+                                    <h2 class="character-name" style="flex-shrink: 0;">${soldat.prenom} ${soldat.nom}</h2>
+                                    <div style="margin-left: 10px;">${starsHtml}</div>
+                                </div>
+                                <img src="/images/personnage/character.svg" alt="Visuel du soldat" class="character-image-main">
+                                
+                                <div class="equipment-slot head-slot">
+                                    <img src="/images/personnage/casque.svg" alt="Tête">
+                                </div>
+                                <div class="equipment-slot body-slot">
+                                    <img src="/images/personnage/plastron.svg" alt="Corps">
+                                </div>
+                                <div class="equipment-slot legs-slot">
+                                    <img src="/images/personnage/jambes.svg" alt="Jambes">
+                                </div>
+                                <div class="equipment-slot hands-slot">
+                                    <img src="/images/personnage/gants.svg" alt="Mains">
+                                </div>
+                                <div class="equipment-slot feet-slot">
+                                    <img src="/images/personnage/pieds.svg" alt="Pieds">
+                                </div>
+                                <div class="equipment-slot accessory-slot-1">
+                                    <img src="/images/personnage/arme1.svg" alt="Accessoire 1">
+                                </div>
+                                <div class="equipment-slot accessory-slot-2">
+                                    <img src="/images/personnage/arme2.svg" alt="Accessoire 2">
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                        <h3 class="soldier-name-header" style="color: ${gradeColor};">${soldat.prenom} ${soldat.nom}</h3>
-                        <p style="text-align: center; margin-top: -10px; margin-bottom: 20px; color: #BDBDBD;">${soldat.nationalite}</p>
-                        <div style="text-align: center; margin-bottom: 20px;">${starsHtml}</div>
-                        <ul>
-                            <li><span>Grade</span> <span style="color: ${gradeColor}; font-weight: bold;">${soldat.grade}</span></li>
-                            <li><span>Niveau</span> <span>${soldat.niveau}</span></li>
-                            <li><span>Expérience</span> <span>${soldat.experience}</span></li>
-                            <hr>
-                            <li><span>Points de Vie</span> <span>${soldat.pointsDeVie}</span></li>
-                            <li><span>Attaque</span> <span>${soldat.attaque}</span></li>
-                            <li><span>Force</span> <span>${soldat.force}</span></li>
-                            <li><span>Constitution</span> <span>${soldat.constitution}</span></li>
-                            <li><span>Dextérité</span> <span>${soldat.dexterite}</span></li>
-                            <li><span>Vitesse</span> <span>${soldat.vitesse}</span></li>
-                            <li><span>Résistance</span> <span>${soldat.resistance}</span></li>
-                            <li><span>Précision</span> <span>${soldat.precision}</span></li>
-                            <hr>
-                            <li><span>Charisme</span> <span>${soldat.charisme}</span></li>
-                            <li><span>Intelligence</span> <span>${soldat.intelligence}</span></li>
-                            <li><span>Chance</span> <span>${soldat.chance}</span></li>
-                            <li><span>Fidélité</span> <span>${soldat.fidelite}</span></li>
-                            <li><span>Ambition</span> <span>${soldat.ambition}</span></li>
-                        </ul>
+                        <div class="zone items-zone modal-body" style="width: 450px; flex-shrink: 0; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 20px; font-size: 1em; text-shadow: none;">
+                            <ul style="padding-top: 20px;">
+                                <style>
+                                    .items-zone.modal-body li { font-size: 0.9em; padding: 3px 0; }
+                                    .items-zone.modal-body hr { margin: 8px 0; }
+                                </style>
+                                <li><span>Grade</span> <span style="color: ${gradeColor}; font-weight: bold;">${soldat.grade}</span></li>
+                                <li><span>Niveau</span> <span>${soldat.niveau}</span></li>
+                                <li><span>Expérience</span> <span>${soldat.experience}</span></li>
+                                <hr>
+                                <li><span>Points de Vie</span> <span>${soldat.pointsDeVie}</span></li>
+                                <li><span>Attaque</span> <span>${soldat.attaque}</span></li>
+                                <li><span>Force</span> <span>${soldat.force}</span></li>
+                                <li><span>Constitution</span> <span>${soldat.constitution}</span></li>
+                                <li><span>Dextérité</span> <span>${soldat.dexterite}</span></li>
+                                <li><span>Vitesse</span> <span>${soldat.vitesse}</span></li>
+                                <li><span>Résistance</span> <span>${soldat.resistance}</span></li>
+                                <li><span>Précision</span> <span>${soldat.precision}</span></li>
+                                <hr>
+                                <li><span>Charisme</span> <span>${soldat.charisme}</span></li>
+                                <li><span>Intelligence</span> <span>${soldat.intelligence}</span></li>
+                                <li><span>Chance</span> <span>${soldat.chance}</span></li>
+                                <li><span>Fidélité</span> <span>${soldat.fidelite}</span></li>
+                                <li><span>Ambition</span> <span>${soldat.ambition}</span></li>
+                            </ul>
                         </div>
                     `;
+
+                    // On applique le style flex au conteneur de la modale pour que les zones s'alignent
+                    modalContent.style.display = 'flex';
+                    modalContent.style.flexDirection = 'row';
 
                     // On rattache l'événement de fermeture au nouveau bouton
                     modalContent.querySelector('#modal-close-button').addEventListener('click', closeModal);

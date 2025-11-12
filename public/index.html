@@ -86,6 +86,7 @@
             justify-content: flex-start;
             padding: 1.5em;
             font-size: 0.9em;
+            background-color: #0d1a3a; /* Fond opaque bleu nuit */
         }
         .zone-b1 h2 { margin-top: 0; color: #ffc107; padding-bottom: 0.5em; width: 100%; display: flex; align-items: center; gap: 10px; }
         .zone-b1 ul { list-style-type: none; padding: 0; width: 100%; }
@@ -101,6 +102,8 @@
             border: none;
             box-shadow: none;
             overflow: auto; /* Permet de scroller si la grille est très grande */
+            align-items: flex-start; /* Force l'alignement horizontal à gauche */
+            justify-content: flex-start; /* Aligne le contenu (la grille) à gauche */
         }
 
         .zone-b3 {
@@ -109,6 +112,7 @@
             width: 25%;
             transform: translateX(100%);
             transition: transform 0.3s ease-in-out;
+            background-color: #0d1a3a; /* Fond opaque bleu nuit */
             z-index: 10;
         }
 
@@ -559,6 +563,31 @@
         @keyframes sparkle-fade {
             0% { opacity: 1; transform: scale(0.5); }
             100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        /* --- Styles pour les écrans plus petits (Responsive) --- */
+        @media (max-width: 768px) {
+            .zone-b1, .zone-b3 {
+                width: 85%; /* Les tiroirs prennent 85% de la largeur sur mobile */
+            }
+            /* On cache les barres de défilement sur mobile, le scroll tactile suffit */
+            ::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        /* --- Styles globaux pour les barres de défilement (visibles sur PC) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(2, 8, 24, 0.5); /* Fond sombre de la piste */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #00e5ff; /* Cyan lumineux */
+            border-radius: 10px;
+            box-shadow: 0 0 5px #00e5ff;
         }
 
     </style>

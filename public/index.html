@@ -96,6 +96,11 @@
             transition: margin 0.3s ease-in-out;
             flex-direction: column;
             text-align: center;
+            /* On prépare la zone pour la grille */
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            overflow: auto; /* Permet de scroller si la grille est très grande */
         }
 
         .zone-b3 {
@@ -167,6 +172,59 @@
         }
         .zone-c31, .zone-c32 { flex-grow: 1; }
 
+        /* --- Styles pour la grille hexagonale --- */
+        #hex-grid {
+            display: flex;
+            flex-direction: column;
+            padding: 20px; /* Un peu d'air autour de la grille */
+        }
+        .hex-row {
+            display: flex;
+        }
+        /* On superpose les lignes pour qu'elles s'emboîtent */
+        .hex-row:not(:first-child) {
+            margin-top: -8.66px; /* -(34.64px / 4) */
+        }
+        /* On décale les lignes paires */
+        .hex-row:nth-child(even) {
+            transform: translateX(20px); /* Doit être (largeur_hex / 2) */
+        }
+        .hex {
+            position: relative;
+            width: 40px;   /* Largeur de l'hexagone */
+            height: 34.64px;  /* Hauteur correcte pour un hexagone de 40px de large */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.5em; /* Texte plus petit pour les coordonnées */
+            font-weight: normal;
+            cursor: pointer;
+            color: rgba(0, 229, 255, 0.4);
+            transition: all 0.2s ease-in-out; /* Ajout de la transition pour le soulèvement */
+        }
+        .hex svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0; top: 0;
+            overflow: visible; /* Important pour que la bordure ne soit pas coupée */
+            pointer-events: none; /* Permet de cliquer sur le parent .hex */
+        }
+        .hex .hex-shape {
+            fill: #000000; /* Fond noir */
+            stroke: #00e5ff; /* Bordure bleu clair */
+            stroke-width: 1.5; /* Bordure fine */
+            transition: all 0.2s ease-in-out;
+        }
+        .hex:hover .hex-shape {
+            fill: #0d1a3a; /* Fond opaque bleu nuit au survol */
+            stroke-width: 2;
+            filter: drop-shadow(0 7px 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px #00e5ff); /* Ombre plus marquée et lueur plus intense */
+        }
+        .hex:hover {
+            transform: translateY(-4px); /* Soulèvement appliqué au conteneur entier */
+        }
+        
         /* --- Styles pour les tiroirs et les flèches --- */
         .drawer-trigger {
             position: absolute; top: 50%;
@@ -578,7 +636,7 @@
             const animationContainer = document.getElementById('summoning-animation-container');
             const summonCard = animationContainer.querySelector('.summon-card');
             const statsPanel = document.getElementById('drawer-left');
-
+            const hexGridContainer = document.getElementById('main-content');
             // Couleurs pour les GRADES
             const gradeColors = {
                 // Troupes
@@ -987,6 +1045,119 @@
                 }
             });
 
+            // --- 6. Génération de la grille hexagonale (Zone B2) ---
+            function createHexGrid(rows, cols) {
+                const grid = document.createElement('div');
+                grid.id = 'hex-grid';
+            
+                for (let i = 0; i < rows; i++) {
+                    const row = document.createElement('div');
+                    row.className = 'hex-row';
+                    const rowLetter = String.fromCharCode('A'.charCodeAt(0) + i);
+            
+                    for (let j = 0; j < cols; j++) {
+                        const hex = document.createElement('div');
+                        hex.className = 'hex';
+                        const hexId = `${rowLetter}${j + 1}`;
+                        hex.dataset.hexId = hexId;
+                        
+                        // Utilisation de SVG pour un rendu parfait de la bordure
+                        // Points calculés pour un hexagone de 40px de large
+                        hex.innerHTML = `
+                            <svg viewBox="0 0 40 34.64"><polygon class="hex-shape" points="20,0 40,8.66 40,25.98 20,34.64 0,25.98 0,8.66"></polygon></svg>
+                            <span style="position: relative; z-index: 1;">${hexId}</span>`;
+                        row.appendChild(hex);
+                    }
+                    grid.appendChild(row);
+                }
+                hexGridContainer.appendChild(grid);
+            }
+            
+            // On cache le contenu par défaut et on génère la grille
+            welcomeContent.style.display = 'none';
+            animationContainer.style.display = 'none';
+            createHexGrid(25, 50); // Crée une grille de 25 lignes par 50 colonnes
+        });
+    </script>
+</body>
+</html>
+                        <div class="zone items-zone modal-body" style="width: 450px; flex-shrink: 0; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 20px; font-size: 1em; text-shadow: none;">
+                            <ul style="padding-top: 20px;">
+                                <style>
+                                    .items-zone.modal-body li { font-size: 0.9em; padding: 3px 0; }
+                                    .items-zone.modal-body hr { margin: 8px 0; }
+                                </style>
+                                <li><span>Grade</span> <span style="color: ${gradeColor}; font-weight: bold;">${soldat.grade}</span></li>
+                                <li><span>Niveau</span> <span>${soldat.niveau}</span></li>
+                                <li><span>Expérience</span> <span>${soldat.experience}</span></li>
+                                <hr>
+                                <li><span>Points de Vie</span> <span>${soldat.pointsDeVie}</span></li>
+                                <li><span>Attaque</span> <span>${soldat.attaque}</span></li>
+                                <li><span>Force</span> <span>${soldat.force}</span></li>
+                                <li><span>Constitution</span> <span>${soldat.constitution}</span></li>
+                                <li><span>Dextérité</span> <span>${soldat.dexterite}</span></li>
+                                <li><span>Vitesse</span> <span>${soldat.vitesse}</span></li>
+                                <li><span>Résistance</span> <span>${soldat.resistance}</span></li>
+                                <li><span>Précision</span> <span>${soldat.precision}</span></li>
+                                <hr>
+                                <li><span>Charisme</span> <span>${soldat.charisme}</span></li>
+                                <li><span>Intelligence</span> <span>${soldat.intelligence}</span></li>
+                                <li><span>Chance</span> <span>${soldat.chance}</span></li>
+                                <li><span>Fidélité</span> <span>${soldat.fidelite}</span></li>
+                                <li><span>Ambition</span> <span>${soldat.ambition}</span></li>
+                            </ul>
+                        </div>
+                    `;
+
+                    // On applique le style flex au conteneur de la modale pour que les zones s'alignent
+                    modalContent.style.display = 'flex';
+                    modalContent.style.flexDirection = 'row';
+
+                    // On rattache l'événement de fermeture au nouveau bouton
+                    modalContent.querySelector('#modal-close-button').addEventListener('click', closeModal);
+                    openModal();
+                } catch (error) {
+                    console.error("Erreur lors de l'affichage de la popup:", error);
+                    alert(error.message);
+                }
+            });
+
+            // On cache les éléments de B2 qui ne sont pas la grille
+            // On affiche le message d'accueil et on cache l'animation par défaut
+            welcomeContent.style.display = 'block';
+            // --- 6. Génération de la grille hexagonale (Zone B2) ---
+            function createHexGrid(rows, cols) {
+                const grid = document.createElement('div');
+                grid.id = 'hex-grid';
+            
+                for (let i = 0; i < rows; i++) {
+                    const row = document.createElement('div');
+                    row.className = 'hex-row';
+                    const rowLetter = String.fromCharCode('A'.charCodeAt(0) + i);
+            
+                    for (let j = 0; j < cols; j++) {
+                        const hex = document.createElement('div');
+                        hex.className = 'hex';
+                        const hexId = `${rowLetter}${j + 1}`;
+                        hex.dataset.hexId = hexId;
+                        
+                        // Utilisation de SVG pour un rendu parfait de la bordure
+                        // Points calculés pour un hexagone de 40px de large
+                        hex.innerHTML = `
+                            <svg viewBox="0 0 40 34.64"><polygon class="hex-shape" points="20,0 40,17.32 20,34.64 0,17.32"></polygon></svg>
+                            <span style="position: relative; z-index: 1;">${hexId}</span>`;
+                        row.appendChild(hex);
+                    }
+                    grid.appendChild(row);
+                }
+                hexGridContainer.appendChild(grid);
+            }
+            
+            // On cache le contenu par défaut et on génère la grille
+            welcomeContent.style.display = 'none';
+            animationContainer.style.display = 'none';
+            
+            createHexGrid(25, 50); // Crée une grille de 25 lignes par 50 colonnes
         });
     </script>
 </body>

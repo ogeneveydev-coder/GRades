@@ -24,6 +24,9 @@ model User {
   personnage Personnage?
   soldats    Soldat[]
   summonLogs SummonLog[]
+
+  // Relation : Un utilisateur peut posséder plusieurs dalles
+  dallesPossedees Dalle[]
 }
 
 model Personnage {
@@ -116,6 +119,10 @@ model Soldat {
   raretePotentielle Rarete     @default(COMMUN)
   inventaire      Inventaire[]
   summonLogs      SummonLog[]
+
+  // Relation : Un soldat est positionné sur une dalle
+  dalleId String?
+  dalle   Dalle?  @relation(fields: [dalleId], references: [id])
 }
 
 model Prenom {
@@ -230,4 +237,33 @@ model SummonLog {
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+// NOUVEAU : Modèle pour les types de paysage
+model Paysage {
+  id         Int     @id @default(autoincrement())
+  nom        String  @unique // "désert", "forêt", "montagne", etc.
+  maxSoldats Int     @default(10) // Quantité max de soldats sur la dalle
+  maxObjets  Int     @default(5) // Quantité max d'objets au sol
+  vitesseMax Float   @default(1.0) // Modificateur de vitesse (1.0 = normal)
+
+  // Relation : Un type de paysage peut être utilisé par plusieurs dalles
+  dalles Dalle[]
+}
+
+// NOUVEAU : Modèle pour chaque dalle de la grille
+model Dalle {
+  id  String @id // Le nom de la dalle comme "A1", "B2" sera son identifiant unique
+  nom String @unique // On garde le nom pour pouvoir le requêter facilement
+
+  // Relation : La dalle a un type de paysage
+  paysageId Int
+  paysage   Paysage @relation(fields: [paysageId], references: [id])
+
+  // Relation : La dalle peut avoir un propriétaire (un utilisateur)
+  proprietaireId Int?
+  proprietaire   User? @relation(fields: [proprietaireId], references: [id])
+
+  // Relation : La dalle peut contenir plusieurs soldats
+  soldats Soldat[]
 }

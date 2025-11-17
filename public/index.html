@@ -244,28 +244,6 @@
             transform: translateY(-12px) scale(1.8); /* Agrandissement encore plus important */
         }
         
-        /* --- Styles spécifiques aux paysages des dalles --- */
-        .hex .hex-shape {
-            fill: #000000; /* Fond noir par défaut pour toutes les dalles */
-            stroke: #00e5ff; /* Bordure bleu clair */
-            stroke-width: 1.5; /* Bordure fine */
-            transition: all 0.2s ease-in-out;
-        }
-        .hex .tree-image {
-            position: absolute;
-            bottom: 5px; /* Remonte l'arbre de 5px par rapport à la base de la tuile */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120%; /* L'image est plus large que la tuile */
-            height: auto;
-            pointer-events: none; /* Permet de cliquer "à travers" l'image sur la tuile */
-            z-index: 3; /* S'assure que l'arbre est au-dessus de la forme SVG et du texte */
-            transition: transform 0.2s ease-in-out; /* Pour suivre le soulèvement de la tuile */
-        }
-        .hex[data-hex-id="G10"] .hex-shape {
-            fill: transparent; /* Rend le fond de la forme SVG transparent pour voir l'image */
-        }
-
         /* --- Styles pour les tiroirs et les flèches --- */
         .drawer-trigger {
             position: absolute; top: 50%;
@@ -1130,15 +1108,9 @@
                         const hexId = `${rowLetter}${j + 1}`;
                         hex.dataset.hexId = hexId;
                         
-                        // On ajoute l'arbre uniquement sur la dalle A1
-                        const treeImageHtml = (hexId === 'G10') 
-                            ? `<img src="/images/paysages/foret_hexagonale9.svg" class="tree-image" alt="Forêt">`
-                            : '';
-
                         hex.innerHTML = `
-                            ${treeImageHtml}
                             <svg viewBox="0 0 40 34.64"><polygon class="hex-shape" points="20,0 40,8.66 40,25.98 20,34.64 0,25.98 0,8.66"></polygon></svg>
-                            <span style="position: relative; z-index: 4;">${hexId}</span>`;
+                            <span style="position: relative; z-index: 1;">${hexId}</span>`;
 
                         // Ajout de l'événement de clic
                         hex.addEventListener('click', (e) => {

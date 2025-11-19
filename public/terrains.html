@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrains - Grades de l'Armée</title>
+    <link rel="stylesheet" href="terrains.css">
+    <style>
+        /* Styles spécifiques pour le tiroir de l'armée */
+        #army-summary {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: #EAEAEA;
+            font-size: 0.9em;
+        }
+        #army-summary h2 {
+            margin: 0 0 10px 0;
+            color: #ffc107; /* Jaune doré pour le titre */
+            text-align: center;
+            font-size: 1.5em;
+        }
+        .army-kpis {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .kpi .value { font-size: 1.8em; color: #00e5ff; }
+        .kpi .label { font-size: 0.8em; color: #aaa; }
+
+        .grade-breakdown { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex-grow: 1; }
+        .grade-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .grade-item img { height: 24px; flex-shrink: 0; }
+        .grade-info { flex-grow: 1; }
+        .grade-name { display: flex; justify-content: space-between; font-size: 0.9em; }
+        .progress-bar-container { height: 8px; background-color: rgba(0,0,0,0.3); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+        .progress-bar { height: 100%; width: 0%; border-radius: 4px; transition: width 0.5s ease-out; }
+
+        /* On réutilise les styles de la barre de défilement de la page principale */
+        .grade-breakdown::-webkit-scrollbar { width: 6px; }
+        .grade-breakdown::-webkit-scrollbar-track { background: transparent; }
+        .grade-breakdown::-webkit-scrollbar-thumb { background-color: #00e5ff; border-radius: 6px; box-shadow: 0 0 3px #00e5ff; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Zone A : en-tête sur toute la largeur -->
+        <div class="zone zone-a" id="top-bar">
+            <div class="nav-links">
+                <a href="/index.html" class="zone nav-tab">Accueil</a>
+                <a href="/essai.html" class="zone nav-tab">Liste</a>
+                <a href="/terrains.html" class="zone nav-tab">Terrains</a>
+                <a href="/admin.html" class="zone nav-tab">Administration</a>
+                <a href="/showBDD.html" class="zone nav-tab">BDD</a>
+            </div>
+            <div class="auth-links" id="auth-container">
+                <!-- Le contenu d'authentification sera injecté ici -->
+            </div>
+        </div>
+
+        <!-- Zone B : Contenu principal en 3 colonnes -->
+        <div class="zone-b">
+            <div class="zone zone-b1" id="drawer-left">
+                <div id="tile-details-content" style="padding: 20px; text-align: center; color: #EAEAEA;">Cliquez sur une tuile pour voir ses détails.</div>
+            </div>
+            <div class="zone zone-b2" id="main-content">
+                <!-- La grille sera générée ici par JavaScript -->
+            </div>
+            <div class="zone zone-b3" id="drawer-right">
+                <!-- Le résumé de l'armée sera injecté ici -->
+            </div>
+        </div>
+
+        <!-- Zone C : Pied de page vide pour cette page -->
+        <div class="zone-c" style="height: 20px;">
+        </div>
+
+        <!-- Flèches pour ouvrir les tiroirs -->
+        <button class="drawer-trigger" id="trigger-left" aria-label="Ouvrir le panneau de gauche">›</button>
+        <button class="drawer-trigger" id="trigger-right" aria-label="Ouvrir le panneau de droite">‹</button>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const hexGridContainer = document.getElementById('main-content');
+
+            const drawerLeft = document.getElementById('drawer-left');
+            const drawerRight = document.getElementById('drawer-right');
+            const triggerLeft = document.getElementById('trigger-left');
+            const triggerRight = document.getElementById('trigger-right');
+
+            let isLoggedIn = false;
+
+            // --- Gestion de l'authentification (copiée pour la cohérence) ---
+            const authContainer = document.getElementById('auth-container');
+            try {
+                const response = await fetch('/api/auth/status', { credentials: 'include' });
+                const data = await response.json();
+                if (data.loggedIn) {
+                    isLoggedIn = true;
+                    authContainer.innerHTML = `<div class="auth-info"><span style="margin-right: 15px;">${data.email}</span><a href="#" id="global-logout-btn" title="Déconnexion">&#9211;</a></div>`;
+                    authContainer.querySelector('#global-logout-btn').addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                        window.location.href = '/login.html';
+                    });
+                } else {
+                    authContainer.innerHTML = '<a href="/login.html">Connexion / Administration</a>';
+                }
+            } catch (error) {
+                authContainer.innerHTML = '<a href="/login.html">Connexion / Administration</a>';
+            }
+
+            const gradeColors = { // On récupère les couleurs pour les barres de progression
+                "Soldat": "#9E9E9E", "Soldat de 1ère classe": "#BDBDBD",
+                "Caporal": "#66BB6A", "Caporal-chef": "#4CAF50",
+                "Sergent": "#2E7D32", "Sergent-chef": "#1B5E20",
+                "Adjudant": "#42A5F5", "Adjudant-chef": "#1E88E5", "Major": "#0D47A1",
+                "Aspirant": "#FFEE58", "Sous-lieutenant": "#FFD600", "Lieutenant": "#FFAB00", "Capitaine": "#FF6D00",
+                "Commandant": "#E53935", "Lieutenant-colonel": "#C62828", "Colonel": "#B71C1C",
+                "Général de brigade": "#880E4F", "Maréchal": "#D500F9"
+            };
+
+            const gradePictos = { // On récupère les pictogrammes
+                "Soldat": "/images/galons/Army-FRA-OR-01.webp", "Soldat de 1ère classe": "/images/galons/Army-FRA-OR-02.webp",
+                "Caporal": "/images/galons/Army-FRA-OR-03.webp", "Caporal-chef": "/images/galons/Army-FRA-OR-04.webp",
+                "Sergent": "/images/galons/Army-FRA-OR-05.webp", "Sergent-chef": "/images/galons/Army-FRA-OR-06.webp",
+                "Adjudant": "/images/galons/Army-FRA-OR-08.webp", "Adjudant-chef": "/images/galons/Army-FRA-OR-09.webp", "Major": "/images/galons/Army-FRA-OR-09.webp",
+                "Aspirant": "/images/galons/Army-FRA-OF-D.webp", "Sous-lieutenant": "/images/galons/Army-FRA-OF-01.webp", "Lieutenant": "/images/galons/Army-FRA-OF-01.webp", "Capitaine": "/images/galons/Army-FRA-OF-02.webp",
+                "Commandant": "/images/galons/Army-FRA-OF-03.webp", "Lieutenant-colonel": "/images/galons/Army-FRA-OF-04.webp", "Colonel": "/images/galons/Army-FRA-OF-05.webp",
+                "Général de brigade": "/images/galons/Army-FRA-OF-06.webp", "Général de division": "/images/galons/Army-FRA-OF-07.webp", "Général de corps d'armée": "/images/galons/Army-FRA-OF-08.webp", "Général d'armée": "/images/galons/Army-FRA-OF-09.webp", "Maréchal": "/images/galons/Army-FRA-OF-10.webp"
+            };
+
+            // --- Chargement et affichage du résumé de l'armée ---
+            async function loadArmySummary() {
+                if (!isLoggedIn) {
+                    drawerRight.innerHTML = `<div id="army-summary"><h2>Mon Armée</h2><p style="text-align: center;">Connectez-vous pour voir votre armée.</p></div>`;
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/me/armee', { credentials: 'include' });
+                    if (!response.ok) throw new Error('Impossible de charger les données de l\'armée.');
+                    
+                    const army = await response.json();
+
+                    if (army.length === 0) {
+                        drawerRight.innerHTML = `<div id="army-summary"><h2>Mon Armée</h2><p style="text-align: center;">Aucun soldat invoqué pour le moment.</p></div>`;
+                        return;
+                    }
+
+                    // Calcul des statistiques
+                    const totalSoldiers = army.length;
+                    const totalLevels = army.reduce((sum, soldier) => sum + soldier.niveau, 0);
+                    const averageLevel = (totalLevels / totalSoldiers).toFixed(1);
+                    
+                    const gradeCounts = army.reduce((acc, soldier) => {
+                        acc[soldier.grade] = (acc[soldier.grade] || 0) + 1;
+                        return acc;
+                    }, {});
+
+                    // Tri des grades par ordre hiérarchique (en utilisant les couleurs comme référence d'ordre)
+                    const sortedGrades = Object.keys(gradeCounts).sort((a, b) => {
+                        const orderA = Object.keys(gradeColors).indexOf(a);
+                        const orderB = Object.keys(gradeColors).indexOf(b);
+                        return orderA - orderB;
+                    });
+
+                    // Construction du HTML
+                    let summaryHtml = `
+                        <div id="army-summary">
+                            <h2>Mon Armée</h2>
+                            <div class="army-kpis">
+                                <div class="kpi">
+                                    <div class="value">${totalSoldiers}</div>
+                                    <div class="label">Unités</div>
+                                </div>
+                                <div class="kpi">
+                                    <div class="value">${averageLevel}</div>
+                                    <div class="label">Niv. Moyen</div>
+                                </div>
+                            </div>
+                            <ul class="grade-breakdown">
+                    `;
+
+                    for (const grade of sortedGrades) {
+                        const count = gradeCounts[grade];
+                        const percentage = (count / totalSoldiers) * 100;
+                        summaryHtml += `
+                            <li class="grade-item">
+                                <img src="${gradePictos[grade] || '/images/grades/placeholder_grade.svg'}" alt="${grade}">
+                                <div class="grade-info">
+                                    <div class="grade-name"><span>${grade}</span><span>${count}</span></div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: ${percentage}%; background-color: ${gradeColors[grade] || '#ccc'};"></div></div>
+                                </div>
+                            </li>`;
+                    }
+
+                    summaryHtml += `</ul></div>`;
+                    drawerRight.innerHTML = summaryHtml;
+
+                } catch (error) {
+                    drawerRight.innerHTML = `<div id="army-summary"><h2>Mon Armée</h2><p style="text-align: center; color: #FF5555;">${error.message}</p></div>`;
+                }
+            }
+
+            await loadArmySummary();
+
+            /**
+             * Calcule la couleur moyenne d'une image.
+             * @param {string} imgUrl - L'URL de l'image.
+             * @param {function(object):void} callback - Fonction appelée avec la couleur {r, g, b}.
+             */
+            function getAverageColor(imgUrl, callback) {
+                const img = new Image();
+                // Les images sont sur le même domaine, pas besoin de crossOrigin
+                img.src = imgUrl;
+
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    let data;
+                    try {
+                        data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                    } catch (e) {
+                        console.error("Impossible de lire les données de l'image.", e);
+                        callback({ r: 0, g: 229, b: 255 }); // Couleur par défaut en cas d'erreur
+                        return;
+                    }
+
+                    let r = 0, g = 0, b = 0, count = 0;
+
+                    // On parcourt les pixels pour calculer la moyenne
+                    for (let i = 0; i < data.length; i += 4) {
+                        // On ne prend en compte que les pixels non transparents
+                        if (data[i + 3] > 0) {
+                            r += data[i];
+                            g += data[i + 1];
+                            b += data[i + 2];
+                            count++;
+                        }
+                    }
+
+                    callback({
+                        r: Math.floor(r / count),
+                        g: Math.floor(g / count),
+                        b: Math.floor(b / count)
+                    });
+                };
+                img.onerror = () => callback({ r: 0, g: 229, b: 255 }); // Couleur par défaut
+            }
+
+            // --- Génération de la grille hexagonale ---
+            function createHexGrid(rows, cols) {
+                const grid = document.createElement('div');
+                grid.id = 'hex-grid';
+
+                const landscapes = [
+                    ...Array.from({length: 4}, (_, i) => `/images/paysages/hex_desert${i + 1}.png`),
+                    ...Array.from({length: 3}, (_, i) => `/images/paysages/hex_water${i + 1}.png`),
+                    ...Array.from({length: 3}, (_, i) => `/images/paysages/hex_montagne${i + 1}.png`),
+                    ...Array.from({length: 4}, (_, i) => `/images/paysages/hex_foret${i + 1}.png`)
+                ];
+
+                function getRandomLandscape() {
+                    return landscapes[Math.floor(Math.random() * landscapes.length)];
+                }
+            
+                for (let i = 0; i < rows; i++) {
+                    const row = document.createElement('div');
+                    row.className = 'hex-row';
+                    const rowLetter = String.fromCharCode('A'.charCodeAt(0) + i);
+            
+                    for (let j = 0; j < cols; j++) {
+                        const hex = document.createElement('div');
+                        hex.className = 'hex';
+                        const hexId = `${rowLetter}${j + 1}`;
+                        hex.dataset.hexId = hexId;
+                        
+                        hex.innerHTML = `
+                            <div class="hex-outer"><div class="hex-inner"></div></div>
+                            <span style="position: relative; z-index: 1;">${hexId}</span>`;
+
+                        const randomImage = getRandomLandscape();
+                        hex.querySelector('.hex-inner').style.backgroundImage = `url('${randomImage}')`;
+
+                        hex.addEventListener('click', (e) => {
+                            const newSelectedHex = e.currentTarget;
+                            const currentSelectedHex = document.querySelector('.hex.selected');
+
+                            // Cas 1 : On clique sur une tuile déjà sélectionnée -> on la désélectionne
+                            if (currentSelectedHex === newSelectedHex) {
+                                newSelectedHex.classList.remove('selected');
+                                newSelectedHex.style.removeProperty('--glow-color');
+                                drawerLeft.innerHTML = '<div id="tile-details-content" style="padding: 20px; text-align: center; color: #EAEAEA;">Cliquez sur une tuile pour voir ses détails.</div>';
+                                drawerLeft.classList.remove('is-open');
+                                triggerLeft.innerHTML = '›';
+                                return; // On arrête ici
+                            }
+
+                            // Cas 2 : Une autre tuile était sélectionnée -> on la désélectionne
+                            if (currentSelectedHex) {
+                                currentSelectedHex.classList.remove('selected');
+                                currentSelectedHex.style.removeProperty('--glow-color');
+                            }
+
+                            // Cas 3 : On sélectionne la nouvelle tuile
+                            newSelectedHex.classList.add('selected');
+                            const bgImage = newSelectedHex.querySelector('.hex-inner').style.backgroundImage;
+                            const imageUrl = bgImage.slice(5, -2);
+                            
+                            getAverageColor(imageUrl, (color) => {
+                                const glowColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)`;
+                                newSelectedHex.style.setProperty('--glow-color', glowColor);
+                            });
+
+                            displayTileDetails(newSelectedHex);
+
+                            if (drawerRight.classList.contains('is-open')) {
+                                drawerRight.classList.remove('is-open');
+                                triggerRight.innerHTML = '‹';
+                            }
+                        });
+
+                        hex.addEventListener('mouseover', (e) => {
+                            const hoveredHex = e.currentTarget;
+                            // Si la tuile est déjà sélectionnée, sa couleur est déjà définie, on ne fait rien.
+                            if (hoveredHex.classList.contains('selected')) return;
+
+                            const bgImage = hoveredHex.querySelector('.hex-inner').style.backgroundImage;
+                            const imageUrl = bgImage.slice(5, -2);
+                            
+                            getAverageColor(imageUrl, (color) => {
+                                const glowColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)`;
+                                hoveredHex.style.setProperty('--glow-color', glowColor);
+                            });
+                        });
+
+                        hex.addEventListener('mouseout', (e) => {
+                            const hoveredHex = e.currentTarget;
+                            // On ne retire la couleur que si la tuile n'est pas sélectionnée.
+                            if (!hoveredHex.classList.contains('selected')) {
+                                hoveredHex.style.removeProperty('--glow-color');
+                            }
+                        });
+
+                        row.appendChild(hex);
+                    }
+                    grid.appendChild(row);
+                }
+                hexGridContainer.appendChild(grid);
+            }
+            
+            createHexGrid(25, 50); // Crée une grille de 25 lignes par 50 colonnes
+
+            // --- Gestion des tiroirs ---
+            const largeScreenBreakpoint = 1200; // Seuil en pixels pour un grand écran
+
+            function closeAllDrawers() {
+                drawerLeft.classList.remove('is-open');
+                drawerRight.classList.remove('is-open');
+                triggerLeft.innerHTML = '›';
+                triggerRight.innerHTML = '‹';
+            }
+
+            triggerLeft.addEventListener('click', () => {
+                const isLargeScreen = window.innerWidth >= largeScreenBreakpoint;
+                const wasOpen = drawerLeft.classList.contains('is-open');
+                if (!isLargeScreen) closeAllDrawers();
+                drawerLeft.classList.toggle('is-open');
+                triggerLeft.innerHTML = drawerLeft.classList.contains('is-open') ? '‹' : '›';
+            });
+
+            triggerRight.addEventListener('click', () => {
+                const isLargeScreen = window.innerWidth >= largeScreenBreakpoint;
+                const wasOpen = drawerRight.classList.contains('is-open');
+                if (!isLargeScreen) closeAllDrawers();
+                drawerRight.classList.toggle('is-open');
+                triggerRight.innerHTML = drawerRight.classList.contains('is-open') ? '‹' : '›';
+            });
+        });
+    </script>
+</body>
+</html>

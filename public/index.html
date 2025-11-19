@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - Grades de l'Armée</title>
     <style>
+        /* Styles spécifiques pour le tiroir de l'armée */
+        #army-summary {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: #EAEAEA;
+            font-size: 0.9em;
+        }
+        #army-summary h2 {
+            margin: 0 0 10px 0;
+            color: #ffc107; /* Jaune doré pour le titre */
+            text-align: center;
+            font-size: 1.5em;
+        }
+        .army-kpis {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .kpi .value { font-size: 1.8em; color: #00e5ff; }
+        .kpi .label { font-size: 0.8em; color: #aaa; }
+
+        .grade-breakdown { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex-grow: 1; }
+        .grade-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .grade-item img { height: 24px; flex-shrink: 0; }
+        .grade-info { flex-grow: 1; }
+        .grade-name { display: flex; justify-content: space-between; font-size: 0.9em; }
+        .progress-bar-container { height: 8px; background-color: rgba(0,0,0,0.3); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+        .progress-bar { height: 100%; width: 0%; border-radius: 4px; transition: width 0.5s ease-out; }
+
+        /* On réutilise les styles de la barre de défilement de la page principale */
+        .grade-breakdown::-webkit-scrollbar { width: 6px; }
+        .grade-breakdown::-webkit-scrollbar-track { background: transparent; }
+        .grade-breakdown::-webkit-scrollbar-thumb { background-color: #00e5ff; border-radius: 6px; box-shadow: 0 0 3px #00e5ff; }
+
+
         /* --- Configuration générale --- */
         html, body {
             margin: 0;
@@ -608,6 +648,10 @@
             box-shadow: 0 0 5px #00e5ff;
         }
 
+        .zone-c1::-webkit-scrollbar { width: 6px; }
+        .zone-c1::-webkit-scrollbar-track { background: transparent; }
+        .zone-c1::-webkit-scrollbar-thumb { background-color: #00e5ff; border-radius: 6px; box-shadow: 0 0 3px #00e5ff; }
+
     </style>
 </head>
 <body>
@@ -616,6 +660,7 @@
         <div class="zone zone-a" id="top-bar">
             <div class="nav-links">
                 <a href="/essai.html" class="zone nav-tab">Liste</a>
+                <a href="/terrains.html" class="zone nav-tab">Terrains</a>
                 <a href="/admin.html" class="zone nav-tab">Administration</a>
                 <a href="/showBDD.html" class="zone nav-tab">BDD</a>
             </div>
@@ -630,10 +675,7 @@
                 <!-- Les statistiques du personnage seront injectées ici -->
             </div>
             <div class="zone zone-b2" id="main-content">
-                <div id="welcome-content" style="display: none;">
-                    <h1>ACCUEIL</h1>
-                    <p>Bienvenue sur l'application de gestion des grades de l'armée.</p>
-                </div>
+                <div id="welcome-content" style="display: none;"></div>
             </div>
             <div id="summoning-animation-container">
                 <div class="summon-card">
@@ -643,7 +685,7 @@
                     </div>
                 </div>
             </div>
-            <div class="zone zone-b3" id="drawer-right">B3</div>
+            <div class="zone zone-b3" id="drawer-right"></div>
         </div>
 
         <!-- Zone C : Pied de page en 3 zones -->
@@ -678,13 +720,10 @@
             const drawerRight = document.getElementById('drawer-right');
             const mainButton = document.getElementById('main-action-button');
             const logZone = document.getElementById('log-zone');
-            const mainContent = document.getElementById('main-content');
             const welcomeContent = document.getElementById('welcome-content');
             const animationContainer = document.getElementById('summoning-animation-container');
             const summonCard = animationContainer.querySelector('.summon-card');
             const statsPanel = document.getElementById('drawer-left');
-            const hexGridContainer = document.getElementById('main-content');
-            // Couleurs pour les GRADES
             const gradeColors = {
                 // Troupes
                 "Soldat": "#9E9E9E",
@@ -827,8 +866,85 @@
                 statsPanel.innerHTML = '<h2>Personnage</h2><p>Connectez-vous pour voir vos statistiques.</p>';
             }
 
+            // --- Chargement et affichage du résumé de l'armée (Zone B3) ---
+            const gradePictos = { // On récupère les pictogrammes
+                "Soldat": "/images/galons/Army-FRA-OR-01.webp", "Soldat de 1ère classe": "/images/galons/Army-FRA-OR-02.webp",
+                "Caporal": "/images/galons/Army-FRA-OR-03.webp", "Caporal-chef": "/images/galons/Army-FRA-OR-04.webp",
+                "Sergent": "/images/galons/Army-FRA-OR-05.webp", "Sergent-chef": "/images/galons/Army-FRA-OR-06.webp",
+                "Adjudant": "/images/galons/Army-FRA-OR-08.webp", "Adjudant-chef": "/images/galons/Army-FRA-OR-09.webp", "Major": "/images/galons/Army-FRA-OR-09.webp",
+                "Aspirant": "/images/galons/Army-FRA-OF-D.webp", "Sous-lieutenant": "/images/galons/Army-FRA-OF-01.webp", "Lieutenant": "/images/galons/Army-FRA-OF-01.webp", "Capitaine": "/images/galons/Army-FRA-OF-02.webp",
+                "Commandant": "/images/galons/Army-FRA-OF-03.webp", "Lieutenant-colonel": "/images/galons/Army-FRA-OF-04.webp", "Colonel": "/images/galons/Army-FRA-OF-05.webp",
+                "Général de brigade": "/images/galons/Army-FRA-OF-06.webp", "Général de division": "/images/galons/Army-FRA-OF-07.webp", "Général de corps d'armée": "/images/galons/Army-FRA-OF-08.webp", "Général d'armée": "/images/galons/Army-FRA-OF-09.webp", "Maréchal": "/images/galons/Army-FRA-OF-10.webp"
+            };
+
+            async function loadArmySummary() {
+                if (!isLoggedIn) {
+                    drawerRight.innerHTML = `<div id="army-summary"><h2>Mon Armée</h2><p style="text-align: center;">Connectez-vous pour voir votre armée.</p></div>`;
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/me/armee', { credentials: 'include' });
+                    if (!response.ok) throw new Error('Impossible de charger les données de l\'armée.');
+                    
+                    const army = await response.json();
+
+                    if (army.length === 0) {
+                        drawerRight.innerHTML = `<div id="army-summary"><h2>Mon Armée</h2><p style="text-align: center;">Aucun soldat invoqué pour le moment.</p></div>`;
+                        return;
+                    }
+
+                    // Calcul des statistiques
+                    const totalSoldiers = army.length;
+                    const totalLevels = army.reduce((sum, soldier) => sum + soldier.niveau, 0);
+                    const averageLevel = (totalLevels / totalSoldiers).toFixed(1);
+                    
+                    const gradeCounts = army.reduce((acc, soldier) => {
+                        acc[soldier.grade] = (acc[soldier.grade] || 0) + 1;
+                        return acc;
+                    }, {});
+
+                    const sortedGrades = Object.keys(gradeCounts).sort((a, b) => {
+                        const orderA = Object.keys(gradeColors).indexOf(a);
+                        const orderB = Object.keys(gradeColors).indexOf(b);
+                        return orderA - orderB;
+                    });
+
+                    let summaryHtml = `
+                        <div id="army-summary">
+                            <h2>Mon Armée</h2>
+                            <div class="army-kpis">
+                                <div class="kpi"><div class="value">${totalSoldiers}</div><div class="label">Unités</div></div>
+                                <div class="kpi"><div class="value">${averageLevel}</div><div class="label">Niv. Moyen</div></div>
+                            </div>
+                            <ul class="grade-breakdown">`;
+
+                    for (const grade of sortedGrades) {
+                        const count = gradeCounts[grade];
+                        const percentage = (count / totalSoldiers) * 100;
+                        summaryHtml += `
+                            <li class="grade-item">
+                                <img src="${gradePictos[grade] || '/images/grades/placeholder_grade.svg'}" alt="${grade}">
+                                <div class="grade-info">
+                                    <div class="grade-name"><span>${grade}</span><span>${count}</span></div>
+                                    <div class="progress-bar-container"><div class="progress-bar" style="width: ${percentage}%; background-color: ${gradeColors[grade] || '#ccc'};"></div></div>
+                                </div>
+                            </li>`;
+                    }
+
+                    summaryHtml += `</ul></div>`;
+                    drawerRight.innerHTML = summaryHtml;
+
+                } catch (error) {
+                    drawerRight.innerHTML = `<div id="army-summary"><h2>Mon Armée</h2><p style="text-align: center; color: #FF5555;">${error.message}</p></div>`;
+                }
+            }
+
             // On charge les logs après avoir vérifié la connexion
             await loadLogsFromDatabase();
+
+            // On charge le résumé de l'armée
+            await loadArmySummary();
 
             // --- 3. Gestion des tiroirs (Zone B) ---
             const largeScreenBreakpoint = 1200; // Seuil en pixels pour un grand écran
@@ -1051,7 +1167,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="zone items-zone modal-body" style="width: 450px; flex-shrink: 0; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 20px; font-size: 1em; text-shadow: none;">
+                        <div class="items-zone modal-body" style="width: 450px; flex-shrink: 0; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 20px; font-size: 1em; text-shadow: none;">
                             <ul style="padding-top: 20px;">
                                 <style>
                                     .items-zone.modal-body li { font-size: 0.9em; padding: 3px 0; }
@@ -1092,53 +1208,8 @@
                 }
             });
 
-            // --- 6. Génération de la grille hexagonale (Zone B2) ---
-            function createHexGrid(rows, cols) {
-                const grid = document.createElement('div');
-                grid.id = 'hex-grid';
-            
-                for (let i = 0; i < rows; i++) {
-                    const row = document.createElement('div');
-                    row.className = 'hex-row';
-                    const rowLetter = String.fromCharCode('A'.charCodeAt(0) + i);
-            
-                    for (let j = 0; j < cols; j++) {
-                        const hex = document.createElement('div');
-                        hex.className = 'hex';
-                        const hexId = `${rowLetter}${j + 1}`;
-                        hex.dataset.hexId = hexId;
-                        
-                        hex.innerHTML = `
-                            <svg viewBox="0 0 40 34.64"><polygon class="hex-shape" points="20,0 40,8.66 40,25.98 20,34.64 0,25.98 0,8.66"></polygon></svg>
-                            <span style="position: relative; z-index: 1;">${hexId}</span>`;
-
-                        // Ajout de l'événement de clic
-                        hex.addEventListener('click', (e) => {
-                            const clickedHex = e.currentTarget;
-                            const isAlreadySelected = clickedHex.classList.contains('selected');
-
-                            // On retire la classe 'selected' de l'hexagone précédemment sélectionné
-                            const currentSelected = document.querySelector('.hex.selected');
-                            if (currentSelected) {
-                                currentSelected.classList.remove('selected');
-                            }
-                            // Si l'hexagone cliqué n'était pas déjà sélectionné, on le sélectionne.
-                            if (!isAlreadySelected) {
-                                clickedHex.classList.add('selected');
-                            }
-                        });
-
-                        row.appendChild(hex);
-                    }
-                    grid.appendChild(row);
-                }
-                hexGridContainer.appendChild(grid);
-            }
-            
-            // On cache le contenu par défaut et on génère la grille
-            welcomeContent.style.display = 'none';
             animationContainer.style.display = 'none';
-            createHexGrid(25, 50); // Crée une grille de 25 lignes par 50 colonnes
+            welcomeContent.style.display = 'block';
         });
     </script>
 </body>

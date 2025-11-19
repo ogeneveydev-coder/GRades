@@ -1,0 +1,239 @@
+/* --- Configuration générale --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    height: 100%;
+    overflow: hidden; /* Empêche le défilement */
+    background-color: #020818; /* Fond bleu très sombre, presque noir */
+    color: #EAEAEA;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative; /* Contexte de positionnement pour les flèches */
+}
+
+/* --- Style commun à toutes les zones --- */
+.zone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em; /* Taille de police par défaut */
+    font-weight: bold;
+    color: #00e5ff; /* Cyan lumineux */
+    background-color: rgba(0, 100, 150, 0.1); /* Fond bleu très léger et transparent */
+    border: 1px solid rgba(0, 229, 255, 0.3); /* Bordure cyan semi-transparente */
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) inset; /* Lueur intérieure */
+    border-radius: 8px; /* Coins légèrement arrondis */
+    box-sizing: border-box;
+}
+
+/* --- Zone A (Haut) --- */
+.zone-a {
+    height: 45px; /* Hauteur réduite */
+    flex-shrink: 0;
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+    padding: 0 20px;
+    font-size: 1em;
+    align-items: flex-end; /* Aligne les onglets en bas */
+    border-bottom: 1px solid rgba(0, 229, 255, 0.3); /* Ligne de séparation */
+    background-color: transparent; /* Fond transparent pour la zone A */
+    box-shadow: none; /* Pas d'ombre intérieure */
+    border-top: none; border-left: none; border-right: none; /* Uniquement la bordure du bas */
+}
+.nav-links {
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+}
+.nav-tab {
+    padding: 8px 18px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    margin-right: 5px;
+}
+.zone-a .auth-links { margin-left: auto; align-self: center; } /* Pousse l'authentification à droite */
+.zone-a .auth-info a { font-size: 1.5em; }
+
+/* --- Zone B (Milieu) --- */
+.zone-b {
+    display: flex;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.zone-b1 {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 25%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 30; /* Doit être supérieur au z-index des lignes de la grille */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1.5em;
+    font-size: 0.9em;
+    background-color: #0d1a3a; /* Fond opaque bleu nuit */
+}
+
+.zone-b2 {
+    flex-grow: 1;
+    transition: margin 0.3s ease-in-out;
+    flex-direction: column;
+    text-align: center;
+    /* On prépare la zone pour la grille */
+    background: none; /* On supprime totalement le fond */
+    border: none; /* On supprime la bordure */
+    box-shadow: none; /* On supprime l'ombre */
+    overflow: auto; /* Permet de scroller si la grille est grande */
+    position: relative; /* Contexte de positionnement pour l'animation */
+    align-items: flex-start; /* Force l'alignement horizontal à gauche */
+    justify-content: flex-start; /* Aligne le contenu (la grille) à gauche */
+}
+
+.zone-b3 {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 25%;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    background-color: #0d1a3a;
+    z-index: 30; /* Doit être supérieur au z-index des lignes de la grille */
+}
+
+/* --- Zone C (Bas) --- */
+.zone-c {
+    display: flex;
+    height: 80px;
+    flex-shrink: 0;
+    background-color: transparent;
+    padding: 5px;
+    gap: 5px;
+}
+
+/* --- Styles pour la grille hexagonale --- */
+#hex-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 20px; /* Un peu d'air autour de la grille */
+}
+.hex-row {
+    display: flex;
+    position: relative; /* Crée un contexte d'empilement pour la ligne */
+}
+.hex-row:has(.hex:hover) {
+    z-index: 10; /* La ligne survolée passe au-dessus des autres */
+}
+.hex-row:has(.hex.selected) {
+    z-index: 11; /* La ligne sélectionnée a la priorité absolue et passe au-dessus de tout */
+}
+/* On superpose les lignes pour qu'elles s'emboîtent */
+.hex-row:not(:first-child) {
+    margin-top: -8.66px; /* -(34.64px / 4) */
+}
+/* On décale les lignes paires */
+.hex-row:nth-child(even) {
+    transform: translateX(20px); /* Doit être (largeur_hex / 2) */
+}
+.hex {
+    position: relative;
+    width: 40px;   /* Largeur de l'hexagone */
+    height: 34.64px;  /* Hauteur correcte pour un hexagone de 40px de large */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.5em; /* Texte plus petit pour les coordonnées */
+    font-weight: normal;
+    cursor: pointer;
+    color: rgba(0, 229, 255, 0.4);
+    overflow: visible; /* Permet à l'image de l'arbre de déborder */
+    transition: all 0.2s ease-in-out; /* Ajout de la transition pour le soulèvement */
+    z-index: 1; /* Contexte d'empilement de base */
+}
+
+/* On utilise ::before sur .hex pour créer l'épaisseur 3D */
+.hex::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--glow-color, rgba(0, 229, 255, 0.6)); /* Couleur de la lueur, modifiable par JS */
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    opacity: 0; /* Invisible par défaut */
+    filter: blur(1.5px); /* Ajoute un effet de flou pour la lueur */
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    z-index: -1; /* On le place derrière tout le reste */
+}
+
+/* Div extérieure (la bordure) */
+.hex-outer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00e5ff; /* La couleur de notre bordure */
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Div intérieure (l'image) */
+.hex-inner {
+    position: absolute;
+    /* On la décale de 1.5px sur chaque côté pour créer la bordure */
+    top: 0.5px; left: 0.5px;
+    right: 0.5px; bottom: 0.5px;
+    background-size: cover;
+    background-position: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Effets au survol OU à la sélection */
+.hex:hover,
+.hex.selected {
+    transform: translateY(-5px); /* Soulèvement de la tuile */
+    z-index: 2; /* Passe au-dessus des voisins */
+}
+
+/* Effet 3D et lueur au survol */
+.hex:hover .hex-outer,
+.hex.selected .hex-outer {
+    filter: drop-shadow(0 12px 7px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px #00e5ff);
+}
+
+/* On rend l'épaisseur visible au survol et on la décale */
+.hex:hover::before {
+    opacity: 1; /* On rend l'épaisseur visible au survol */
+    transform: translateY(5px); /* On la décale vers le bas de la même valeur que le soulèvement */
+}
+
+.hex.selected {
+    transform: translateY(-12px) scale(2.2); /* Agrandissement encore plus important */
+}
+/* On gère aussi l'effet pour la tuile sélectionnée */
+.hex.selected::before {
+    opacity: 1;
+    transform: translateY(5.45px); /* On ajuste le décalage pour compenser le nouvel agrandissement (12px / 2.2) */
+}
+
+/* --- Styles pour les tiroirs et les flèches --- */
+.drawer-trigger {
+    position: absolute; top: 50%;
+    transform: translateY(-50%); 
+    background-color: rgba(0, 229, 255, 0.1);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    padding: 15px 5px; cursor: pointer; z-index: 40; /* Doit être supérieur au z-index des tiroirs */
+    font-size: 1.2em; border-radius: 0 5px 5px 0;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+.drawer-trigger:hover { background-color: rgba(0, 229, 255, 0.2); box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
+#trigger-left { left: 0; }
+#trigger-right { right: 5px; border-radius: 5px 0 0 5px; }
+.is-open { transform: translateX(0) !important; }

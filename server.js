@@ -206,6 +206,24 @@ app.get('/api/me/personnage', isAuthenticated, async (req, res) => {
   }
 });
 
+// Nouvelle route pour récupérer tous les soldats de l'utilisateur connecté
+app.get('/api/me/armee', isAuthenticated, async (req, res) => {
+  try {
+    // On utilise directement l'ID de l'utilisateur stocké dans la session
+    // car les soldats sont liés à l'utilisateur, pas au personnage.
+    const soldats = await prisma.soldat.findMany({
+      where: {
+        userId: req.session.userId
+      }
+    });
+    res.json(soldats);
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'armée :", error);
+    res.status(500).json({ error: "Erreur interne du serveur." });
+  }
+});
+
+
 // Route pour récupérer tous les utilisateurs
 app.get('/api/users', isAuthenticated, async (req, res) => {
   try {
